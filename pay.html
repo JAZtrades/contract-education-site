@@ -54,6 +54,24 @@
         <p><strong>Name:</strong> <span id="apptName"></span></p>
         <p><strong>Email:</strong> <span id="apptEmail"></span></p>
         <p><strong>Date &amp; Time:</strong> <span id="apptDate"></span></p>
+        <!-- Agreement section -->
+        <section class="agreement-section">
+          <h3>Coaching Agreement</h3>
+          <div class="agreement-box">
+            <p><strong>Purpose:</strong> This agreement outlines the private crypto‑coaching arrangement between John Zarcaro ("Educator") and you ("Client").</p>
+            <p><strong>Scope of Services:</strong> The Educator will provide up to nine hours of tailored instruction. Sessions may be divided into one‑hour blocks or combined into longer sessions. The final session may extend past nine hours at the Educator’s discretion to ensure all topics are covered.</p>
+            <p><strong>Delivery:</strong> Sessions are delivered via Discord, Zoom or in person as mutually agreed.</p>
+            <p><strong>Fees &amp; Payment:</strong> Tuition is $2,500 USD. A $1,250 non‑refundable deposit is due before your first session, with the remaining $1,250 due before your final session.</p>
+            <p><strong>Educational Content:</strong> Topics include secure storage using hardware wallets, exchange onboarding/offboarding, private keys, seed phrases and security best practices, market cycles, token categories, technical and fundamental analysis, research tools, DeFi, staking and commentary on current projects.</p>
+            <p><strong>Disclaimers:</strong> All information is provided for educational purposes. The Educator is not a financial advisor, accountant or attorney. No results are guaranteed and you are solely responsible for all investment decisions. Cryptocurrency markets are speculative and volatile. Always perform your own research and consult professionals.</p>
+            <p><strong>Acknowledgment:</strong> By checking the boxes below you confirm you have read, understood and agree to these terms.</p>
+          </div>
+          <div class="agreement-checkboxes">
+            <label><input type="checkbox" id="ack1" /> I have read and agree to the coaching agreement.</label><br />
+            <label><input type="checkbox" id="ack2" /> I understand this is educational information and not financial advice.</label>
+          </div>
+        </section>
+
         <h3>Choose Payment Amount</h3>
         <form id="paymentOptions">
           <label>
@@ -67,8 +85,8 @@
         </form>
         <h3>Payment Methods</h3>
         <p>Select a payment option below to complete your transaction. You will be redirected to a secure checkout page.</p>
-        <!-- Placeholder payment links; replace with your own links or integrate a payment SDK -->
-        <a id="payLink" class="btn-primary" href="#">Pay with Card / Apple Pay</a>
+        <!-- Payment link; disabled until agreement boxes checked -->
+        <a id="payLink" class="btn-primary" href="#" disabled>Pay with Card / Apple Pay</a>
         <div class="spacer"></div>
         <div id="cashAppPlaceholder">
           <p>Cash App Pay is available through Square's Web Payments SDK. Implement it here by following the
@@ -84,19 +102,51 @@
   </footer>
   <script>
     // Set the payment link according to the selected amount (example only)
+    // Provide test payment links using Stripe's test mode. Replace these with your
+    // own live payment links when you're ready to accept real payments. See
+    // https://www.cjav.dev/articles/pass-data-through-stripe-payment-links for details.
     const paymentLinks = {
-  1250: 'https://buy.stripe.com/test_dR6bLT5Ckaz2fWoeVZ',
-  2500: 'https://buy.stripe.com/test_8wM8zHe8Qaz2dOg8xA'
-};
-
-
+      // Deposit ($1,250) – points to a Stripe test payment link
+      1250: 'https://buy.stripe.com/test_dR6bLT5Ckaz2fWoeVZ',
+      // Full payment ($2,500) – points to another Stripe test payment link
+      2500: 'https://buy.stripe.com/test_8wM8zHe8Qaz2dOg8xA'
+    };
     function updatePayLink() {
       const amount = document.querySelector('input[name="amount"]:checked').value;
       const link = paymentLinks[amount];
       const payButton = document.getElementById('payLink');
       payButton.setAttribute('href', link || '#');
     }
-    document.getElementById('paymentOptions').addEventListener('change', updatePayLink);
+
+    // Enable or disable the payment button based on agreement checkboxes
+    function updatePayButton() {
+      const payButton = document.getElementById('payLink');
+      const ack1 = document.getElementById('ack1');
+      const ack2 = document.getElementById('ack2');
+      if (ack1 && ack2) {
+        const enabled = ack1.checked && ack2.checked;
+        if (enabled) {
+          payButton.removeAttribute('disabled');
+        } else {
+          payButton.setAttribute('disabled', 'disabled');
+        }
+      }
+    }
+
+    document.getElementById('paymentOptions').addEventListener('change', () => {
+      updatePayLink();
+    });
+    // Attach listeners to agreement checkboxes
+    document.addEventListener('DOMContentLoaded', () => {
+      const ack1 = document.getElementById('ack1');
+      const ack2 = document.getElementById('ack2');
+      if (ack1 && ack2) {
+        ack1.addEventListener('change', updatePayButton);
+        ack2.addEventListener('change', updatePayButton);
+        updatePayButton();
+      }
+    });
+    // Initialize payment link on load
     updatePayLink();
   </script>
 </body>
