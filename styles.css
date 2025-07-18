@@ -49,20 +49,47 @@ nav a {
   background-color: #4a5568;
 }
 
-.hero {
-  background-color: #e6f0fa;
-  padding: 2rem 0;
-  text-align: center;
-}
-.hero h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+
+/*
+ * Hero section for the landing page
+ * Use a full‑width background image with an overlay to create a
+ * laid‑back, surfer vibe. The overlay helps text stand out on top
+ * of the image without sacrificing legibility. Height is set to
+ * roughly 80% of the viewport to give the image room to breathe.
+ */
+.hero-image {
+  position: relative;
+  height: 80vh;
+  background-image: url('assets/hero.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
 }
 
-.hero p {
-  font-size: 1.1rem;
-  max-width: 640px;
-  margin: 0.5rem auto;
+/* semi‑transparent overlay inside hero for contrast */
+.hero-image .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 80%;
+}
+.hero-image h1 {
+  font-size: 2.5rem;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+.hero-image p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Override default hero styles used previously */
+.hero {
+  display: none;
 }
 
 .details {
@@ -114,6 +141,32 @@ nav a {
 .payment-section a.btn-primary {
   display: inline-block;
   margin-top: 0.5rem;
+}
+
+/* Agreement section styling */
+.agreement-section {
+  margin: 2rem 0;
+}
+
+/* Box to contain long contract text with scroll */
+.agreement-box {
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: #f7fafc;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.agreement-checkboxes {
+  margin-bottom: 1rem;
+}
+
+/* Disable pay button when agreement unchecked */
+.btn-primary[disabled] {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .admin-section {
