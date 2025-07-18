@@ -13,11 +13,24 @@
       const calendarEl = document.getElementById('calendar');
       // load appointments from localStorage
       const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-      const events = appointments.map((appt) => ({
-        title: `${appt.name} (${appt.status})`,
-        start: appt.datetime,
-        allDay: false
-      }));
+      const events = appointments.map((appt) => {
+        // Determine event color based on payment status
+        let color;
+        if (appt.status === 'Paid in Full') {
+          color = '#48bb78'; // green for fully paid
+        } else if (appt.status === 'Deposit Paid') {
+          color = '#ed8936'; // orange for deposit paid
+        } else {
+          color = '#a0aec0'; // grey for pending/other
+        }
+        return {
+          title: `${appt.name} (${appt.status})`,
+          start: appt.datetime,
+          allDay: false,
+          backgroundColor: color,
+          borderColor: color
+        };
+      });
       const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         headerToolbar: {
