@@ -24,8 +24,27 @@
       const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
       const idx = appointments.findIndex((a) => String(a.id) === String(appointmentId));
       if (idx >= 0) {
-        appointments[idx].status = 'Paid';
+        // Determine the amount paid from a temporary value saved before redirecting to Square.
+        const rawAmt = localStorage.getItem('currentPaymentAmount');
+        const amountPaid = rawAmt ? parseFloat(rawAmt) : 0;
+        // Update the appointment with payment details
+        appointments[idx].amountPaid = amountPaid;
+        // Set status based on whether the full tuition has been paid
+        if (amountPaid >= 2500) {
+          appointments[idx].status = 'Paid in Full';
+        } else if (amountPaid > 0) {
+          appointments[idx].status = 'Deposit Paid';
+        } else {
+          appointments[idx].status = 'Paid';
+        }
+        // Record the date/time when payment was marked as complete
+        appointments[idx].paymentDate = new Date().toISOString();
+        // Calculate any remaining balance due (tuition is 2500)
+        appointments[idx].amountDue = 2500 - amountPaid;
+        // Persist updated appointments back to localStorage
         localStorage.setItem('appointments', JSON.stringify(appointments));
+        // Remove the temporary payment amount since it has been consumed
+        localStorage.removeItem('currentPaymentAmount');
       }
     }
 
@@ -113,6 +132,8 @@
     };
     function updatePayLink() {
       const amount = document.querySelector('input[name="amount"]:checked').value;
+      // Persist the selected payment amount so it can be recorded once the client returns from checkout
+      localStorage.setItem('currentPaymentAmount', amount);
       const link = paymentLinks[amount];
       const payButton = document.getElementById('payLink');
       payButton.setAttribute('href', link || '#');

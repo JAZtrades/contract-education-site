@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Chart.js for revenue chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script defer>
+    // When the page loads, build the dashboard using appointment data from localStorage
+    document.addEventListener('DOMContentLoaded', function () {
+      const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      const tableBody = document.getElementById('dashboardTableBody');
+      const totalRevenueEl = document.getElementById('totalRevenue');
+
+      // Initialize revenue calculations
+      let totalRevenue = 0;
+      const monthlyRevenue = new Array(12).fill(0);
+      const currentYear = new Date().getFullYear();
+
+      // Populate table rows and compute revenue aggregates
+      appointments.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+      appointments.forEach((appt) => {
+        const paid = parseFloat(appt.amountPaid) || 0;
+        totalRevenue += paid;
+        const apptDate = new Date(appt.datetime);
+        if (apptDate.getFullYear() === currentYear) {
+          monthlyRevenue[apptDate.getMonth()] += paid;
+        }
+        // Compute balance due for each appointment (if not already stored)
+        const balance = 2500 - paid;
+        // Build a table row for this appointment
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${appt.name}</td>
+          <td><a href="mailto:${appt.email}">${appt.email}</a></td>
+          <td>${new Date(appt.datetime).toLocaleString()}</td>
+          <td>$${paid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td>$${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td>${appt.status || 'Pending'}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      // Display total revenue for the current year
+      totalRevenueEl.textContent = '$' + totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      // Build revenue chart
+      const ctx = document.getElementById('revenueChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+          datasets: [{
+            label: 'Revenue ($)',
+            data: monthlyRevenue,
+            borderColor: '#2b6cb0',
+            backgroundColor: 'rgba(43, 108, 176, 0.2)',
+            tension: 0.25,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Month'
+              }
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Revenue ($)'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Monthly Revenue (Current Year)'
+            }
+          }
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Business Dashboard</h1>
+      <nav>
+        <a href="index.html" class="btn-secondary">Home</a>
+        <a href="calendar.html" class="btn-secondary">Calendar</a>
+        <a href="admin-payments.html" class="btn-secondary">Admin Table</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="admin-section">
+      <div class="container">
+        <h2>Financial Overview</h2>
+        <p>Total Revenue (Current Year): <strong id="totalRevenue">$0.00</strong></p>
+        <div style="height: 300px; margin-bottom: 2rem;">
+          <canvas id="revenueChart"></canvas>
+        </div>
+        <h2>Client Payment Details</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Date & Time</th>
+              <th>Amount Paid</th>
+              <th>Balance Due</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="dashboardTableBody">
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 JAZtrades. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
