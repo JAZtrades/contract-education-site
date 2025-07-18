@@ -85,9 +85,11 @@
   <script>
     // Set the payment link according to the selected amount (example only)
     const paymentLinks = {
-      1250: 'YOUR_PAYMENT_LINK_FOR_DEPOSIT',
-      2500: 'YOUR_PAYMENT_LINK_FOR_FULL_PAYMENT'
-    };
+  1250: 'https://buy.stripe.com/test_dR6bLT5Ckaz2fWoeVZ',
+  2500: 'https://buy.stripe.com/test_8wM8zHe8Qaz2dOg8xA'
+};
+
+
     function updatePayLink() {
       const amount = document.querySelector('input[name="amount"]:checked').value;
       const link = paymentLinks[amount];
