@@ -60,7 +60,8 @@ nav a {
 .hero-image {
   position: relative;
   height: 80vh;
-  background-image: url('assets/hero.png');
+  /* updated to reference hero.png directly at repository root */
+  background-image: url('hero.png');
   background-size: cover;
   background-position: center;
   display: flex;
