@@ -16,6 +16,7 @@
 
       // Initialize revenue calculations
       let totalRevenue = 0;
+      let totalOutstanding = 0;
       const monthlyRevenue = new Array(12).fill(0);
       const currentYear = new Date().getFullYear();
 
@@ -23,13 +24,21 @@
       appointments.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
       appointments.forEach((appt) => {
         const paid = parseFloat(appt.amountPaid) || 0;
+        // accumulate revenue (money actually collected)
         totalRevenue += paid;
         const apptDate = new Date(appt.datetime);
         if (apptDate.getFullYear() === currentYear) {
           monthlyRevenue[apptDate.getMonth()] += paid;
         }
-        // Compute balance due for each appointment (if not already stored)
-        const balance = 2500 - paid;
+        // Compute balance due for each appointment. Prefer the stored amountDue if available.
+        let balance;
+        if (typeof appt.amountDue !== 'undefined' && appt.amountDue !== null) {
+          balance = parseFloat(appt.amountDue);
+        } else {
+          balance = 2500 - paid;
+        }
+        // accumulate outstanding balance
+        totalOutstanding += balance;
         // Build a table row for this appointment
         const tr = document.createElement('tr');
         tr.innerHTML = `
@@ -43,8 +52,12 @@
         tableBody.appendChild(tr);
       });
 
-      // Display total revenue for the current year
+      // Display total revenue and outstanding balance for the current year
       totalRevenueEl.textContent = '$' + totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const outstandingEl = document.getElementById('totalOutstanding');
+      if (outstandingEl) {
+        outstandingEl.textContent = '$' + totalOutstanding.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
 
       // Build revenue chart
       const ctx = document.getElementById('revenueChart').getContext('2d');
@@ -109,6 +122,7 @@
       <div class="container">
         <h2>Financial Overview</h2>
         <p>Total Revenue (Current Year): <strong id="totalRevenue">$0.00</strong></p>
+        <p>Total Outstanding Balance: <strong id="totalOutstanding">$0.00</strong></p>
         <div style="height: 300px; margin-bottom: 2rem;">
           <canvas id="revenueChart"></canvas>
         </div>

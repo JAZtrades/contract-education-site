@@ -10,14 +10,21 @@
       const tableBody = document.getElementById('dataBody');
       tableBody.innerHTML = '';
       const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      // sort by datetime
       appointments.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
       appointments.forEach((appt) => {
+        const paid = parseFloat(appt.amountPaid) || 0;
+        const balance = appt.amountDue !== undefined ? parseFloat(appt.amountDue) : (2500 - paid);
+        const paymentDate = appt.paymentDate ? new Date(appt.paymentDate).toLocaleDateString() : '';
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${appt.name}</td>
           <td>${appt.email}</td>
           <td>${new Date(appt.datetime).toLocaleString()}</td>
-          <td>${appt.status}</td>
+          <td>$${paid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td>$${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+          <td>${paymentDate}</td>
+          <td>${appt.status || 'Pending'}</td>
         `;
         tableBody.appendChild(tr);
       });
@@ -46,6 +53,9 @@
               <th>Name</th>
               <th>Email</th>
               <th>Date &amp; Time</th>
+              <th>Amount Paid</th>
+              <th>Balance Due</th>
+              <th>Payment Date</th>
               <th>Status</th>
             </tr>
           </thead>
