@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment &amp; Appointment Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer>
+    function renderTable() {
+      const tableBody = document.getElementById('dataBody');
+      tableBody.innerHTML = '';
+      const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      appointments.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+      appointments.forEach((appt) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${appt.name}</td>
+          <td>${appt.email}</td>
+          <td>${new Date(appt.datetime).toLocaleString()}</td>
+          <td>${appt.status}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', renderTable);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Admin Dashboard</h1>
+      <nav>
+        <a href="index.html" class="btn-secondary">Home</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="admin-section">
+      <div class="container">
+        <h2>Appointments &amp; Payments</h2>
+        <p>This page lists all scheduled sessions and payment statuses. Only the Educator should access this page.</p>
+        <button class="btn-secondary" onclick="renderTable()">Refresh Data</button>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Date &amp; Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="dataBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 JAZtrades. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
