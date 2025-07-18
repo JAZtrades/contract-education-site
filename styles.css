@@ -22,7 +22,13 @@ header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  /* Prevent wrapping so the Home button stays on the same row as the title even on small screens */
+  flex-wrap: nowrap;
+}
+
+/* Push navigation links (e.g., Home) to the far right of the header on all screen sizes */
+header nav {
+  margin-left: auto;
 }
 header h1 {
   font-size: 1.5rem;
