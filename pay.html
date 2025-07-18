@@ -123,14 +123,16 @@
       const payButton = document.getElementById('payLink');
       const ack1 = document.getElementById('ack1');
       const ack2 = document.getElementById('ack2');
-      if (ack1 && ack2) {
-        const enabled = ack1.checked && ack2.checked;
-        if (enabled) {
-          payButton.removeAttribute('disabled');
-        } else {
-          payButton.setAttribute('disabled', 'disabled');
-        }
-      }
+          if (ack1 && ack2) {
+            const enabled = ack1.checked && ack2.checked;
+            if (enabled) {
+              payButton.removeAttribute('disabled');
+            } else {
+              payButton.setAttribute('disabled', 'disabled');
+            }
+            // Always update the payment link whenever the checkbox state changes
+            updatePayLink();
+          }
     }
 
     document.getElementById('paymentOptions').addEventListener('change', () => {
