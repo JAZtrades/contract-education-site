@@ -106,10 +106,10 @@
     // own live payment links when you're ready to accept real payments. See
     // https://www.cjav.dev/articles/pass-data-through-stripe-payment-links for details.
     const paymentLinks = {
-      // Deposit ($1,250) – points to a Stripe test payment link
-      1250: 'https://buy.stripe.com/test_dR6bLT5Ckaz2fWoeVZ',
-      // Full payment ($2,500) – points to another Stripe test payment link
-      2500: 'https://buy.stripe.com/test_8wM8zHe8Qaz2dOg8xA'
+      // Deposit ($1,250) – link to Square payment page
+      1250: 'https://square.link/u/N4nw7soc',
+      // Full payment ($2,500) – link to Square payment page
+      2500: 'https://square.link/u/Fda75oDg'
     };
     function updatePayLink() {
       const amount = document.querySelector('input[name="amount"]:checked').value;
