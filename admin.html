@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal – JAZtrades</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #0a2740;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #031e2f;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #00aaff;
+        }
+        nav a {
+            color: #00aaff;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        #login-container,
+        #admin-container {
+            padding: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background-color: #062b45;
+            color: #fff;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #00aaff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0090e0;
+        }
+        /* Section styling */
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #00aaff;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>JAZtrades Admin Portal</h1>
+        <nav id="nav-links" class="hidden">
+            <a href="#dashboard" onclick="showSection('dashboard')">Dashboard</a>
+            <a href="#payments" onclick="showSection('payments')">Payments</a>
+            <a href="#calendar" onclick="showSection('calendar')">Calendar</a>
+            <a href="#appointments" onclick="showSection('appointments')">New Appointments</a>
+            <a href="#paypage" onclick="showSection('paypage')">Pay Page</a>
+        </nav>
+    </header>
+
+    <div id="login-container">
+        <h2>Admin Login</h2>
+        <p>Please enter your credentials to access the admin portal.</p>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter password">
+        </div>
+        <button onclick="login()">Login</button>
+        <p id="login-error" style="color:#ff4d4d; display:none;">Invalid username or password.</p>
+    </div>
+
+    <div id="admin-container" class="hidden">
+        <section id="dashboard-section" class="section">
+            <h2>Business Dashboard</h2>
+            <iframe src="dashboard.html"></iframe>
+        </section>
+        <section id="payments-section" class="section">
+            <h2>Payments Tracker</h2>
+            <iframe src="admin-payments.html"></iframe>
+        </section>
+        <section id="calendar-section" class="section">
+            <h2>Appointment Calendar</h2>
+            <iframe src="calendar.html"></iframe>
+        </section>
+        <section id="appointments-section" class="section">
+            <h2>Schedule New Appointments</h2>
+            <iframe src="schedule.html"></iframe>
+        </section>
+        <section id="paypage-section" class="section">
+            <h2>Pay Page</h2>
+            <iframe src="pay.html"></iframe>
+        </section>
+    </div>
+
+    <script>
+        // Hard-coded credentials - change these to secure values
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'password123';
+
+        function login() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            if (user === ADMIN_USERNAME && pass === ADMIN_PASSWORD) {
+                // Hide login and show admin container and nav links
+                document.getElementById('login-container').classList.add('hidden');
+                document.getElementById('admin-container').classList.remove('hidden');
+                document.getElementById('nav-links').classList.remove('hidden');
+                // Scroll to top when first logged in
+                window.location.hash = '#dashboard';
+                showSection('dashboard');
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+
+        function showSection(section) {
+            // Hide all sections
+            const sections = ['dashboard', 'payments', 'calendar', 'appointments', 'paypage'];
+            sections.forEach(id => {
+                document.getElementById(id + '-section').style.display = 'none';
+            });
+            // Show selected section
+            document.getElementById(section + '-section').style.display = 'block';
+            // Adjust scroll to top of section
+            window.location.hash = '#' + section;
+        }
+
+        // If user revisits and already authenticated (session), you can implement persistent login here using sessionStorage/localStorage.
+        // For now, session persistence is not implemented for simplicity.
+    </script>
+</body>
+</html>
