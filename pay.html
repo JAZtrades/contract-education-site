@@ -269,32 +269,48 @@
           ack3.disabled = false;
           updatePayButton();
         }
-      }
-      // When the user clicks the DocuSign link, note that the signing session has started.
-      if (docusignLink && ack3) {
-        docusignLink.addEventListener('click', () => {
-          // Use sessionStorage to persist the state across tabs; this flag indicates a signing session began.
-          try {
-            sessionStorage.setItem('docusignStarted', 'true');
-          } catch (e) {
-            // ignore storage errors (e.g., disabled cookies)
+        // If the user previously initiated signing (persisted in localStorage), enable the checkbox on load.
+        try {
+          const startedFlag = localStorage.getItem('docusignStarted');
+          if (startedFlag === 'true') {
+            ack3.disabled = false;
           }
-        });
-        // When the page regains focus after the user has navigated away (presumably to DocuSign), enable the checkbox.
-        window.addEventListener('focus', () => {
-          try {
-            const started = sessionStorage.getItem('docusignStarted');
-            if (started === 'true' && ack3.disabled) {
-              ack3.disabled = false;
-            }
-          } catch (e) {
-            // ignore storage errors
-            if (ack3.disabled) {
-              ack3.disabled = false;
-            }
-          }
-        });
+        } catch (e) {
+          // ignore storage errors
+        }
       }
+        // When the user clicks the DocuSign link, note that the signing session has started
+        // and immediately enable the completion checkbox. Relying solely on a focus event
+        // proved unreliable on some devices; enabling the box on click provides a simpler
+        // workflow where the user must click the DocuSign link before being able to
+        // acknowledge completion.
+        if (docusignLink && ack3) {
+          docusignLink.addEventListener('click', () => {
+            try {
+              localStorage.setItem('docusignStarted', 'true');
+            } catch (e) {
+              // ignore storage errors (e.g., disabled cookies)
+            }
+            // Enable the completion checkbox so the user can mark it after signing.
+            ack3.disabled = false;
+          });
+          // Preserve the previous focus handler to enable the checkbox if the user returns
+          // to the page after navigating away (e.g., closing DocuSign). If the box is
+          // still disabled but the started flag exists, enable it.
+          window.addEventListener('focus', () => {
+            try {
+              const started = localStorage.getItem('docusignStarted');
+              if (started === 'true' && ack3.disabled) {
+                ack3.disabled = false;
+              }
+            } catch (e) {
+              // ignore storage errors; fall back to enabling the box on focus.
+              if (ack3.disabled) {
+                ack3.disabled = false;
+              }
+            }
+          });
+        }
     });
 
     function setupSignature(fieldIdPrefix, radioName) {
