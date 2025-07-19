@@ -89,14 +89,17 @@
             <label><input type="checkbox" id="ack1" /> I have read and agree to the services agreement.</label><br />
             <label><input type="checkbox" id="ack2" /> I understand this information is for educational purposes only and not financial advice.</label><br />
             <!-- Participants must confirm they have completed the DocuSign signature before paying -->
-            <label><input type="checkbox" id="ack3" /> I have completed the electronic signature via DocuSign.</label>
+            <!-- The DocuSign completion acknowledgment checkbox is disabled by default.
+                 It will be enabled once the user returns to this page after initiating the DocuSign signing session. -->
+            <label><input type="checkbox" id="ack3" disabled /> I have completed the electronic signature via DocuSign.</label>
           </div>
 
           <!-- DocuSign link: clients will be redirected to DocuSign to sign this agreement electronically -->
           <div class="docusign-link">
             <p>
-              <!-- Use the live PowerForm URL from DocuSign (na4 subdomain) -->
-              <a href="https://na4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ab91a672-2822-4a87-acf3-9b579c2ac4d5" target="_blank" class="btn-secondary">
+              <!-- Use the live PowerForm URL from DocuSign (na4 subdomain).
+                   The link has an id so we can attach an event listener that notes when the user starts the signing session. -->
+              <a id="docusignLink" href="https://na4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ab91a672-2822-4a87-acf3-9b579c2ac4d5" target="_blank" class="btn-secondary">
                 Click here to review and sign this agreement via DocuSign
               </a>
             </p>
@@ -248,6 +251,51 @@
         updatePayLink();
       }
     }
+
+    // Once the DOM is ready, set up logic to manage the DocuSign completion acknowledgment checkbox.
+    document.addEventListener('DOMContentLoaded', () => {
+      const docusignLink = document.getElementById('docusignLink');
+      const ack3 = document.getElementById('ack3');
+      // If a DocuSign completion checkbox exists, we will manage its state.
+      if (ack3) {
+        // Ensure the box is disabled until we have evidence that the user has started a DocuSign session.
+        ack3.disabled = true;
+        // Read URL parameters to see if DocuSign signals completion. PowerForms append status parameters.
+        const params = new URLSearchParams(window.location.search);
+        const statusParam = params.get('event') || params.get('status') || params.get('signed');
+        if (statusParam && /complete/i.test(statusParam)) {
+          // Auto-check and enable the checkbox if status indicates completion.
+          ack3.checked = true;
+          ack3.disabled = false;
+          updatePayButton();
+        }
+      }
+      // When the user clicks the DocuSign link, note that the signing session has started.
+      if (docusignLink && ack3) {
+        docusignLink.addEventListener('click', () => {
+          // Use sessionStorage to persist the state across tabs; this flag indicates a signing session began.
+          try {
+            sessionStorage.setItem('docusignStarted', 'true');
+          } catch (e) {
+            // ignore storage errors (e.g., disabled cookies)
+          }
+        });
+        // When the page regains focus after the user has navigated away (presumably to DocuSign), enable the checkbox.
+        window.addEventListener('focus', () => {
+          try {
+            const started = sessionStorage.getItem('docusignStarted');
+            if (started === 'true' && ack3.disabled) {
+              ack3.disabled = false;
+            }
+          } catch (e) {
+            // ignore storage errors
+            if (ack3.disabled) {
+              ack3.disabled = false;
+            }
+          }
+        });
+      }
+    });
 
     function setupSignature(fieldIdPrefix, radioName) {
       const block = document.getElementById(fieldIdPrefix + 'Block');
