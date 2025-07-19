@@ -75,19 +75,59 @@
         <p><strong>Date &amp; Time:</strong> <span id="apptDate"></span></p>
         <!-- Agreement section -->
         <section class="agreement-section">
-          <h3>Coaching Agreement</h3>
+          <h3>Services Agreement</h3>
           <div class="agreement-box">
-            <p><strong>Purpose:</strong> This agreement outlines the private crypto‑coaching arrangement between CryptoBossMan, operating under the brand JAZ Trades (the "Educator"), and you (the "Client").</p>
-            <p><strong>Scope of Services:</strong> The Educator will provide up to nine hours of tailored instruction. Sessions may be divided into one‑hour blocks or combined into longer sessions. The final session may extend past nine hours at the Educator’s discretion to ensure all topics are covered.</p>
-            <p><strong>Delivery:</strong> Sessions are delivered via Discord, Zoom or in person as mutually agreed.</p>
-            <p><strong>Fees &amp; Payment:</strong> Tuition is $2,500 USD. A $1,250 non‑refundable deposit is due before your first session, with the remaining $1,250 due before your final session.</p>
-            <p><strong>Educational Content:</strong> Topics include secure storage using hardware wallets, exchange onboarding/offboarding, private keys, seed phrases and security best practices, market cycles, token categories, technical and fundamental analysis, research tools, DeFi, staking and commentary on current projects.</p>
-            <p><strong>Disclaimers:</strong> All information is provided for educational purposes. The Educator is not a financial advisor, accountant or attorney. No results are guaranteed and you are solely responsible for all investment decisions. Cryptocurrency markets are speculative and volatile. Always perform your own research and consult professionals.</p>
-            <p><strong>Acknowledgment:</strong> By checking the boxes below you confirm you have read, understood and agree to these terms.</p>
+            <p><strong>1. Identification of Parties:</strong> This agreement is made between [Your Name] ("Service Provider") and [Participant Name] ("Participant").</p>
+            <p><strong>2. Services to be Provided:</strong> The Service Provider will assist the Participant in navigating centralized and decentralized exchanges, provide guidance on securely storing cryptocurrencies using hardware wallets, hot wallets, paper wallets and cold storage options, and instruct on VPNs and other security practices. Up to five instructional sessions will be provided, each lasting up to three hours.</p>
+            <p><strong>3. Services Specifically Excluded:</strong> Services related to evaluating or recommending investments or investment strategies are excluded.</p>
+            <p><strong>4. Consideration:</strong> The Participant agrees to pay $2,500 for the services under this agreement, payable on [Date]. Additional charges of $250 per meeting apply after the 5th meeting, with a maximum duration of three hours per meeting.</p>
+            <p><strong>5. Important Disclosure:</strong> During the meetings, information about Bitcoin and other cryptocurrencies may be discussed. Such information is based solely on the Service Provider’s opinion and does not constitute financial or investment advice. The Participant is responsible for conducting their own research and deciding which cryptocurrencies to invest in.</p>
+            <p><strong>6. Disclaimer:</strong> The Service Provider is not a licensed financial advisor, investment advisor, or broker-dealer. No information or instruction provided during the meetings constitutes financial or investment advice. Investing in Bitcoin and other cryptocurrencies carries significant risks. The Participant should consult a licensed professional for financial, investment, or legal advice.</p>
+            <p><strong>7. Effective Date:</strong> The effective date of this agreement will be [Date].</p>
+            <p><strong>Acknowledgment:</strong> By checking the boxes below you confirm you have read, understood and agree to these terms and understand that all content is educational in nature and not financial advice.</p>
           </div>
           <div class="agreement-checkboxes">
-            <label><input type="checkbox" id="ack1" /> I have read and agree to the coaching agreement.</label><br />
-            <label><input type="checkbox" id="ack2" /> I understand this is educational information and not financial advice.</label>
+            <label><input type="checkbox" id="ack1" /> I have read and agree to the services agreement.</label><br />
+            <label><input type="checkbox" id="ack2" /> I understand this information is for educational purposes only and not financial advice.</label>
+          </div>
+          <div class="signature-section">
+            <h4>Signatures</h4>
+            <div class="signature-block" id="initialsBlock">
+              <p><strong>Participant Initials:</strong></p>
+              <label><input type="radio" name="initialType" value="type" checked /> Type</label>
+              <label><input type="radio" name="initialType" value="draw" /> Draw</label>
+              <div class="signature-input">
+                <input type="text" id="initialsTyped" placeholder="Type your initials" />
+              </div>
+              <div class="signature-pad" style="display: none;">
+                <canvas id="initialsCanvas" width="300" height="100" style="border: 1px solid #ccc;"></canvas><br />
+                <button type="button" id="clearInitials">Clear</button>
+              </div>
+            </div>
+            <div class="signature-block" id="providerBlock">
+              <p><strong>Service Provider Signature:</strong> [Your Name]</p>
+              <label><input type="radio" name="providerType" value="type" checked /> Type</label>
+              <label><input type="radio" name="providerType" value="draw" /> Draw</label>
+              <div class="signature-input">
+                <input type="text" id="providerTyped" placeholder="Type service provider signature" />
+              </div>
+              <div class="signature-pad" style="display: none;">
+                <canvas id="providerCanvas" width="300" height="100" style="border: 1px solid #ccc;"></canvas><br />
+                <button type="button" id="clearProvider">Clear</button>
+              </div>
+            </div>
+            <div class="signature-block" id="participantBlock">
+              <p><strong>Participant Signature:</strong> [Participant Name]</p>
+              <label><input type="radio" name="participantType" value="type" checked /> Type</label>
+              <label><input type="radio" name="participantType" value="draw" /> Draw</label>
+              <div class="signature-input">
+                <input type="text" id="participantTyped" placeholder="Type your signature" />
+              </div>
+              <div class="signature-pad" style="display: none;">
+                <canvas id="participantCanvas" width="300" height="100" style="border: 1px solid #ccc;"></canvas><br />
+                <button type="button" id="clearParticipant">Clear</button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -96,7 +136,7 @@
           <label>
             <input type="radio" name="amount" value="1250" checked />
             Deposit – $1,250
-          </label><br/>
+          </label><br />
           <label>
             <input type="radio" name="amount" value="2500" />
             Pay in full – $2,500
@@ -104,12 +144,11 @@
         </form>
         <h3>Payment Methods</h3>
         <p>Select a payment option below to complete your transaction. You will be redirected to a secure checkout page.</p>
-        <!-- Payment link; disabled until agreement boxes checked -->
-        <a id="payLink" class="btn-primary" href="#" disabled>Pay with Card / Apple Pay</a>
+        <!-- Payment link; disabled until agreement boxes checked and signatures complete -->
+        <a id="payLink" class="btn-primary" href="#" disabled>Pay with Card / Apple&nbsp;Pay</a>
         <div class="spacer"></div>
         <div id="cashAppPlaceholder">
-          <p>Cash App Pay is available through Square's Web Payments SDK. Implement it here by following the
-            official documentation.</p>
+          <p>Cash&nbsp;App Pay is available through Square's Web Payments SDK. Implement it here by following the official documentation.</p>
         </div>
       </div>
     </section>
@@ -120,18 +159,15 @@
     </div>
   </footer>
   <script>
-    // Set the payment link according to the selected amount (example only)
-    // Provide test payment links using Stripe's test mode. Replace these with your
-    // own live payment links when you're ready to accept real payments. See
-    // https://www.cjav.dev/articles/pass-data-through-stripe-payment-links for details.
+    // Set the payment link according to the selected amount
     const paymentLinks = {
-      // Deposit ($1,250) – link to Square payment page
       1250: 'https://square.link/u/N4nw7soc',
-      // Full payment ($2,500) – link to Square payment page
       2500: 'https://square.link/u/Fda75oDg'
     };
+
     function updatePayLink() {
-      const amount = document.querySelector('input[name="amount"]:checked').value;
+      const amountRadio = document.querySelector('input[name="amount"]:checked');
+      const amount = amountRadio ? amountRadio.value : '';
       // Persist the selected payment amount so it can be recorded once the client returns from checkout
       localStorage.setItem('currentPaymentAmount', amount);
       const link = paymentLinks[amount];
@@ -139,38 +175,153 @@
       payButton.setAttribute('href', link || '#');
     }
 
-    // Enable or disable the payment button based on agreement checkboxes
+    function isCanvasBlank(canvas) {
+      const ctx = canvas.getContext('2d');
+      const pixelBuffer = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
+      return !pixelBuffer.some((color) => color !== 0);
+    }
+
+    function validateSignatures() {
+      // Participant initials
+      const initTypeRadio = document.querySelector('input[name="initialType"]:checked');
+      if (initTypeRadio) {
+        if (initTypeRadio.value === 'type') {
+          if (!document.getElementById('initialsTyped').value.trim()) return false;
+        } else {
+          const initCanvas = document.getElementById('initialsCanvas');
+          if (isCanvasBlank(initCanvas)) return false;
+        }
+      }
+      // Service provider signature
+      const provTypeRadio = document.querySelector('input[name="providerType"]:checked');
+      if (provTypeRadio) {
+        if (provTypeRadio.value === 'type') {
+          if (!document.getElementById('providerTyped').value.trim()) return false;
+        } else {
+          const provCanvas = document.getElementById('providerCanvas');
+          if (isCanvasBlank(provCanvas)) return false;
+        }
+      }
+      // Participant signature
+      const partTypeRadio = document.querySelector('input[name="participantType"]:checked');
+      if (partTypeRadio) {
+        if (partTypeRadio.value === 'type') {
+          if (!document.getElementById('participantTyped').value.trim()) return false;
+        } else {
+          const partCanvas = document.getElementById('participantCanvas');
+          if (isCanvasBlank(partCanvas)) return false;
+        }
+      }
+      return true;
+    }
+
     function updatePayButton() {
       const payButton = document.getElementById('payLink');
       const ack1 = document.getElementById('ack1');
       const ack2 = document.getElementById('ack2');
-          if (ack1 && ack2) {
-            const enabled = ack1.checked && ack2.checked;
-            if (enabled) {
-              payButton.removeAttribute('disabled');
-            } else {
-              payButton.setAttribute('disabled', 'disabled');
-            }
-            // Always update the payment link whenever the checkbox state changes
-            updatePayLink();
-          }
+      if (ack1 && ack2) {
+        const enabled = ack1.checked && ack2.checked && validateSignatures();
+        if (enabled) {
+          payButton.removeAttribute('disabled');
+        } else {
+          payButton.setAttribute('disabled', 'disabled');
+        }
+        updatePayLink();
+      }
     }
 
-    document.getElementById('paymentOptions').addEventListener('change', () => {
-      updatePayLink();
-    });
-    // Attach listeners to agreement checkboxes
-    document.addEventListener('DOMContentLoaded', () => {
-      const ack1 = document.getElementById('ack1');
-      const ack2 = document.getElementById('ack2');
-      if (ack1 && ack2) {
-        ack1.addEventListener('change', updatePayButton);
-        ack2.addEventListener('change', updatePayButton);
+    function setupSignature(fieldIdPrefix, radioName) {
+      const block = document.getElementById(fieldIdPrefix + 'Block');
+      if (!block) return;
+      const typedDiv = block.querySelector('.signature-input');
+      const padDiv = block.querySelector('.signature-pad');
+      const typedInput = typedDiv ? typedDiv.querySelector('input') : null;
+      const canvas = padDiv ? padDiv.querySelector('canvas') : null;
+      const clearBtn = padDiv ? padDiv.querySelector('button') : null;
+      const radios = document.querySelectorAll('input[name="' + radioName + '"]');
+
+      function toggle() {
+        const selected = document.querySelector('input[name="' + radioName + '"]:checked').value;
+        const typeSelected = selected === 'type';
+        if (typedDiv) typedDiv.style.display = typeSelected ? 'block' : 'none';
+        if (padDiv) padDiv.style.display = typeSelected ? 'none' : 'block';
         updatePayButton();
       }
+      radios.forEach((r) => {
+        r.addEventListener('change', toggle);
+      });
+      toggle();
+
+      if (typedInput) {
+        typedInput.addEventListener('input', updatePayButton);
+      }
+      if (canvas) {
+        let drawing = false;
+        const ctx = canvas.getContext('2d');
+        canvas.addEventListener('mousedown', (e) => {
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(e.offsetX, e.offsetY);
+        });
+        canvas.addEventListener('mousemove', (e) => {
+          if (!drawing) return;
+          ctx.lineTo(e.offsetX, e.offsetY);
+          ctx.stroke();
+        });
+        window.addEventListener('mouseup', () => {
+          if (drawing) {
+            drawing = false;
+            updatePayButton();
+          }
+        });
+        // Touch events for mobile
+        canvas.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          const rect = canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+          e.preventDefault();
+          if (!drawing) return;
+          const rect = canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+          ctx.stroke();
+        });
+        window.addEventListener('touchend', () => {
+          if (drawing) {
+            drawing = false;
+            updatePayButton();
+          }
+        });
+      }
+      if (clearBtn && canvas) {
+        clearBtn.addEventListener('click', () => {
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          updatePayButton();
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const paymentOptions = document.getElementById('paymentOptions');
+      if (paymentOptions) {
+        paymentOptions.addEventListener('change', updatePayLink);
+      }
+      const ack1 = document.getElementById('ack1');
+      const ack2 = document.getElementById('ack2');
+      if (ack1) ack1.addEventListener('change', updatePayButton);
+      if (ack2) ack2.addEventListener('change', updatePayButton);
+      setupSignature('initials', 'initialType');
+      setupSignature('provider', 'providerType');
+      setupSignature('participant', 'participantType');
+      updatePayLink();
+      updatePayButton();
     });
-    // Initialize payment link on load
-    updatePayLink();
   </script>
 </body>
 </html>
