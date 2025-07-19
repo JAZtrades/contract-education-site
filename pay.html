@@ -77,8 +77,8 @@
         <section class="agreement-section">
           <h3>Services Agreement</h3>
           <div class="agreement-box">
-            <p><strong>1. Identification of Parties:</strong> This agreement is made between [Your Name] ("Service Provider") and [Participant Name] ("Participant").</p>
-            <p><strong>2. Services to be Provided:</strong> The Service Provider will assist the Participant in navigating centralized and decentralized exchanges, provide guidance on securely storing cryptocurrencies using hardware wallets, hot wallets, paper wallets and cold storage options, and instruct on VPNs and other security practices. Up to five instructional sessions will be provided, each lasting up to three hours.</p>
+            <p><strong>1. Identification of Parties:</strong> This agreement is made between John Zarcaro ("Service Provider") and [Participant Name] ("Participant").</p>
+            <p><strong>2. Services to be Provided:</strong> (a) The Service Provider will assist the Participant in navigating centralized and decentralized exchanges, including how to buy, sell and exchange cryptocurrencies safely. (b) The Service Provider will provide guidance on securely storing cryptocurrencies using various methods such as hardware wallets (e.g., Ledgers), hot wallets, paper wallets and cold storage options. (c) The Service Provider will instruct the Participant on obtaining and using VPNs, along with other security practices, to ensure the safety of online activities related to cryptocurrency. (d) The Service Provider will provide up to nine (9) instructional sessions lasting approximately one (1) hour each, unless otherwise agreed. The Participant may choose to schedule fewer or additional sessions as needed.</p>
             <p><strong>3. Services Specifically Excluded:</strong> Services related to evaluating or recommending investments or investment strategies are excluded.</p>
             <p><strong>4. Consideration:</strong> The Participant agrees to pay $2,500 for the services under this agreement, payable on [Date]. Additional charges of $250 per meeting apply after the 5th meeting, with a maximum duration of three hours per meeting.</p>
             <p><strong>5. Important Disclosure:</strong> During the meetings, information about Bitcoin and other cryptocurrencies may be discussed. Such information is based solely on the Service Provider’s opinion and does not constitute financial or investment advice. The Participant is responsible for conducting their own research and deciding which cryptocurrencies to invest in.</p>
@@ -89,7 +89,18 @@
             <label><input type="checkbox" id="ack1" /> I have read and agree to the services agreement.</label><br />
             <label><input type="checkbox" id="ack2" /> I understand this information is for educational purposes only and not financial advice.</label>
           </div>
-          <div class="signature-section">
+
+          <!-- DocuSign link: clients will be redirected to DocuSign to sign this agreement electronically -->
+          <div class="docusign-link">
+            <p>
+              <a href="https://nq4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ab91a672-2822-4a87-acf3-9b579c2ac4d5" target="_blank" class="btn-secondary">
+                Click here to review and sign this agreement via DocuSign
+              </a>
+            </p>
+          </div>
+
+          <!-- Hide the legacy signature section now that signatures are captured via DocuSign -->
+          <div class="signature-section" style="display:none;">
             <h4>Signatures</h4>
             <div class="signature-block" id="initialsBlock">
               <p><strong>Participant Initials:</strong></p>
@@ -222,7 +233,9 @@
       const ack1 = document.getElementById('ack1');
       const ack2 = document.getElementById('ack2');
       if (ack1 && ack2) {
-        const enabled = ack1.checked && ack2.checked && validateSignatures();
+        // Enable the payment button once both agreement checkboxes are checked.
+        // Signatures are now collected via DocuSign, so we no longer require on‑page signatures.
+        const enabled = ack1.checked && ack2.checked;
         if (enabled) {
           payButton.removeAttribute('disabled');
         } else {
