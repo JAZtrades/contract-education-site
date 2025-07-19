@@ -87,13 +87,16 @@
             <p><strong>Acknowledgment:</strong> By checking the boxes below you confirm you have read, understood and agree to these terms and understand that all content is educational in nature and not financial advice.</p>
           <div class="agreement-checkboxes">
             <label><input type="checkbox" id="ack1" /> I have read and agree to the services agreement.</label><br />
-            <label><input type="checkbox" id="ack2" /> I understand this information is for educational purposes only and not financial advice.</label>
+            <label><input type="checkbox" id="ack2" /> I understand this information is for educational purposes only and not financial advice.</label><br />
+            <!-- Participants must confirm they have completed the DocuSign signature before paying -->
+            <label><input type="checkbox" id="ack3" /> I have completed the electronic signature via DocuSign.</label>
           </div>
 
           <!-- DocuSign link: clients will be redirected to DocuSign to sign this agreement electronically -->
           <div class="docusign-link">
             <p>
-              <a href="https://nq4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ab91a672-2822-4a87-acf3-9b579c2ac4d5" target="_blank" class="btn-secondary">
+              <!-- Use the live PowerForm URL from DocuSign (na4 subdomain) -->
+              <a href="https://na4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ab91a672-2822-4a87-acf3-9b579c2ac4d5" target="_blank" class="btn-secondary">
                 Click here to review and sign this agreement via DocuSign
               </a>
             </p>
@@ -233,9 +236,10 @@
       const ack1 = document.getElementById('ack1');
       const ack2 = document.getElementById('ack2');
       if (ack1 && ack2) {
-        // Enable the payment button once both agreement checkboxes are checked.
-        // Signatures are now collected via DocuSign, so we no longer require on‑page signatures.
-        const enabled = ack1.checked && ack2.checked;
+        // Retrieve the third acknowledgment checkbox (completion of DocuSign)
+        const ack3 = document.getElementById('ack3');
+        // Enable the payment button only when all acknowledgments are checked.
+        const enabled = ack1.checked && ack2.checked && (ack3 ? ack3.checked : false);
         if (enabled) {
           payButton.removeAttribute('disabled');
         } else {
@@ -331,6 +335,8 @@
       const ack2 = document.getElementById('ack2');
       if (ack1) ack1.addEventListener('change', updatePayButton);
       if (ack2) ack2.addEventListener('change', updatePayButton);
+      const ack3 = document.getElementById('ack3');
+      if (ack3) ack3.addEventListener('change', updatePayButton);
       setupSignature('initials', 'initialType');
       setupSignature('provider', 'providerType');
       setupSignature('participant', 'participantType');
