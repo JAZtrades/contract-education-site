@@ -412,7 +412,15 @@
       setupSignature('participant', 'participantType');
       updatePayLink();
       updatePayButton();
-    });
-  </script>
+        });
+</script>
+<script>
+const currentDate = new Date().toLocaleDateString();
+document.querySelectorAll('p').forEach(p => {
+  p.innerHTML = p.innerHTML.replace(/\[Date\]/g, currentDate);
+});
+</script>
 </body>
 </html>
+
+  
