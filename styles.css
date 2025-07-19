@@ -209,3 +209,28 @@ footer {
 .spacer {
   height: 1rem;
 }
+/* Bitcoin vibe: overlay and orange text for pages using hero.png background */
+body[style*="hero.png"] {
+  /* dark overlay effect for background image to improve readability */
+  background-color: rgba(0, 0, 0, 0.6);
+  background-blend-mode: multiply;
+  color: #F7931A;
+}
+
+/* Links on hero pages should also be orange */
+body[style*="hero.png"] a {
+  color: #F7931A;
+}
+
+/* Primary and secondary buttons on hero pages with orange background */
+body[style*="hero.png"] .btn-primary,
+body[style*="hero.png"] .btn-secondary {
+  color: #fff;
+  border-color: #F7931A;
+  background-color: #F7931A;
+}
+
+body[style*="hero.png"] .btn-primary:hover,
+body[style*="hero.png"] .btn-secondary:hover {
+  background-color: #d67200;
+}
