@@ -1,1 +1,416 @@
-Forbidden. Calls to this URL via the terminal is not allowed. To save the url contents to the container, open the url in the computer tool, right click anywhere, and click "Save As...".
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Your Payment</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer>
+    // Display appointment details and update payment status
+    function loadAppointment() {
+      const appointmentId = localStorage.getItem('currentAppointmentId');
+      if (!appointmentId) return;
+      const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      const appt = appointments.find((a) => String(a.id) === String(appointmentId));
+      if (!appt) return;
+      document.getElementById('apptName').textContent = appt.name;
+      document.getElementById('apptEmail').textContent = appt.email;
+      document.getElementById('apptDate').textContent = new Date(appt.datetime).toLocaleString();
+    }
+
+    // Save payment status when user returns from payment link (mock example)
+    function markPaid() {
+      const appointmentId = localStorage.getItem('currentAppointmentId');
+      const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+      const idx = appointments.findIndex((a) => String(a.id) === String(appointmentId));
+      if (idx >= 0) {
+        // Determine the amount paid from a temporary value saved before redirecting to Square.
+        const rawAmt = localStorage.getItem('currentPaymentAmount');
+        const amountPaid = rawAmt ? parseFloat(rawAmt) : 0;
+        // Update the appointment with payment details
+        appointments[idx].amountPaid = amountPaid;
+        // Set status based on whether the full tuition has been paid
+        if (amountPaid >= 2500) {
+          appointments[idx].status = 'Paid in Full';
+        } else if (amountPaid > 0) {
+          appointments[idx].status = 'Deposit Paid';
+        } else {
+          appointments[idx].status = 'Paid';
+        }
+        // Record the date/time when payment was marked as complete
+        appointments[idx].paymentDate = new Date().toISOString();
+        // Calculate any remaining balance due (tuition is 2500)
+        appointments[idx].amountDue = 2500 - amountPaid;
+        // Persist updated appointments back to localStorage
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        // Remove the temporary payment amount since it has been consumed
+        localStorage.removeItem('currentPaymentAmount');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAppointment();
+      // check if URL contains paid flag
+      if (window.location.search.includes('paid=1')) {
+        markPaid();
+      }
+    });
+  </script>
+</head>
+<!--
+  Apply the hero background used on the homepage to the payment page.
+  The background image spans the entire page and does not repeat.
+-->
+<body style="background-image: url('hero.png'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <header>
+    <div class="container">
+      <h1>Complete Your Payment</h1>
+      <nav>
+        <a href="index.html" class="btn-secondary">Home</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="payment-section">
+      <div class="container">
+        <h2>Your Appointment</h2>
+        <p><strong>Name:</strong> <span id="apptName"></span></p>
+        <p><strong>Email:</strong> <span id="apptEmail"></span></p>
+        <p><strong>Date &amp; Time:</strong> <span id="apptDate"></span></p>
+        <!-- Agreement section -->
+        <section class="agreement-section">
+          <h3>Services Agreement</h3>
+          <div class="agreement-box">
+            <p><strong>1. Identification of Parties:</strong> This agreement is made between John Zarcaro ("Service Provider") and [Participant Name] ("Participant").</p>
+            <p><strong>2. Services to be Provided:</strong> (a) The Service Provider will assist the Participant in navigating centralized and decentralized exchanges, including how to buy, sell and exchange cryptocurrencies safely. (b) The Service Provider will provide guidance on securely storing cryptocurrencies using various methods such as hardware wallets (e.g., Ledgers), hot wallets, paper wallets and cold storage options. (c) The Service Provider will instruct the Participant on obtaining and using VPNs, along with other security practices, to ensure the safety of online activities related to cryptocurrency. (d) The Service Provider will provide up to nine (9) instructional sessions lasting approximately one (1) hour each, unless otherwise agreed. The Participant may choose to schedule fewer or additional sessions as needed.</p>
+            <p><strong>3. Services Specifically Excluded:</strong> Services related to evaluating or recommending investments or investment strategies are excluded.</p>
+            <p><strong>4. Consideration:</strong> The Participant agrees to pay $2,500 for the services under this agreement, payable on [Date]. Additional charges of $250 per meeting apply after the 5th meeting, with a maximum duration of three hours per meeting.</p>
+            <p><strong>5. Important Disclosure:</strong> During the meetings, information about Bitcoin and other cryptocurrencies may be discussed. Such information is based solely on the Service Provider’s opinion and does not constitute financial or investment advice. The Participant is responsible for conducting their own research and deciding which cryptocurrencies to invest in.</p>
+            <p><strong>6. Disclaimer:</strong> The Service Provider is not a licensed financial advisor, investment advisor, or broker-dealer. No information or instruction provided during the meetings constitutes financial or investment advice. Investing in Bitcoin and other cryptocurrencies carries significant risks. The Participant should consult a licensed professional for financial, investment, or legal advice.</p>
+            <p><strong>7. Effective Date:</strong> The effective date of this agreement will be [Date].</p>
+            <p><strong>Acknowledgment:</strong> By checking the boxes below you confirm you have read, understood and agree to these terms and understand that all content is educational in nature and not financial advice.</p>
+          <div class="agreement-checkboxes">
+            <label><input type="checkbox" id="ack1" /> I have read and agree to the services agreement.</label><br />
+            <label><input type="checkbox" id="ack2" /> I understand this information is for educational purposes only and not financial advice.</label><br />
+            <!-- Participants must confirm they have completed the DocuSign signature before paying -->
+            <!-- The DocuSign completion acknowledgment checkbox is disabled by default.
+                 It will be enabled once the user returns to this page after initiating the DocuSign signing session. -->
+            <label><input type="checkbox" id="ack3" disabled /> I have completed the electronic signature via DocuSign.</label>
+          </div>
+
+          <!-- DocuSign link: clients will be redirected to DocuSign to sign this agreement electronically -->
+          <div class="docusign-link">
+            <p>
+              <!-- Use the live PowerForm URL from DocuSign (na4 subdomain).
+                   The link has an id so we can attach an event listener that notes when the user starts the signing session. -->
+              <a id="docusignLink" href="https://na4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ab91a672-2822-4a87-acf3-9b579c2ac4d5" target="_blank" class="btn-secondary">
+                Click here to review and sign this agreement via DocuSign
+              </a>
+            </p>
+          </div>
+
+          <!-- Hide the legacy signature section now that signatures are captured via DocuSign -->
+          <div class="signature-section" style="display:none;">
+            <h4>Signatures</h4>
+            <div class="signature-block" id="initialsBlock">
+              <p><strong>Participant Initials:</strong></p>
+              <label><input type="radio" name="initialType" value="type" checked /> Type</label>
+              <label><input type="radio" name="initialType" value="draw" /> Draw</label>
+              <div class="signature-input">
+                <input type="text" id="initialsTyped" placeholder="Type your initials" />
+              </div>
+              <div class="signature-pad" style="display: none;">
+                <canvas id="initialsCanvas" width="300" height="100" style="border: 1px solid #ccc;"></canvas><br />
+                <button type="button" id="clearInitials">Clear</button>
+              </div>
+            </div>
+            <div class="signature-block" id="providerBlock">
+              <!-- Pre-fill the service provider signature so the provider does not need to sign each time -->
+              <p><strong>Service Provider Signature:</strong> John Zarcaro</p>
+              <label><input type="radio" name="providerType" value="type" checked /> Type</label>
+              <label><input type="radio" name="providerType" value="draw" /> Draw</label>
+              <div class="signature-input">
+                <!-- Automatically populate the provider signature field with the provider’s full name -->
+                <input type="text" id="providerTyped" value="John Zarcaro" placeholder="Type service provider signature" />
+              </div>
+              <div class="signature-pad" style="display: none;">
+                <canvas id="providerCanvas" width="300" height="100" style="border: 1px solid #ccc;"></canvas><br />
+                <button type="button" id="clearProvider">Clear</button>
+              </div>
+            </div>
+            <div class="signature-block" id="participantBlock">
+              <p><strong>Participant Signature:</strong> [Participant Name]</p>
+              <label><input type="radio" name="participantType" value="type" checked /> Type</label>
+              <label><input type="radio" name="participantType" value="draw" /> Draw</label>
+              <div class="signature-input">
+                <input type="text" id="participantTyped" placeholder="Type your signature" />
+              </div>
+              <div class="signature-pad" style="display: none;">
+                <canvas id="participantCanvas" width="300" height="100" style="border: 1px solid #ccc;"></canvas><br />
+                <button type="button" id="clearParticipant">Clear</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </section>
+
+        <h3>Choose Payment Amount</h3>
+        <form id="paymentOptions">
+          <label>
+            <input type="radio" name="amount" value="1250" checked />
+            Deposit – $1,250
+          </label><br />
+          <label>
+            <input type="radio" name="amount" value="2500" />
+            Pay in full – $2,500
+          </label>
+        </form>
+        <h3>Payment Methods</h3>
+        <p>Select a payment option below to complete your transaction. You will be redirected to a secure checkout page.</p>
+        <!-- Payment link; disabled until agreement boxes checked and signatures complete -->
+        <a id="payLink" class="btn-primary" href="#" disabled>Pay with Card / Apple&nbsp;Pay</a>
+        <div class="spacer"></div>
+        <div id="cashAppPlaceholder">
+          <p>Cash&nbsp;App Pay is available through Square's Web Payments SDK. Implement it here by following the official documentation.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 JAZtrades. All rights reserved.</p>
+    </div>
+  </footer>
+  <script>
+    // Set the payment link according to the selected amount
+    const paymentLinks = {
+      1250: 'https://square.link/u/N4nw7soc',
+      2500: 'https://square.link/u/Fda75oDg'
+    };
+
+    function updatePayLink() {
+      const amountRadio = document.querySelector('input[name="amount"]:checked');
+      const amount = amountRadio ? amountRadio.value : '';
+      // Persist the selected payment amount so it can be recorded once the client returns from checkout
+      localStorage.setItem('currentPaymentAmount', amount);
+      const link = paymentLinks[amount];
+      const payButton = document.getElementById('payLink');
+      payButton.setAttribute('href', link || '#');
+    }
+
+    function isCanvasBlank(canvas) {
+      const ctx = canvas.getContext('2d');
+      const pixelBuffer = new Uint32Array(ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer);
+      return !pixelBuffer.some((color) => color !== 0);
+    }
+
+    function validateSignatures() {
+      // Participant initials
+      const initTypeRadio = document.querySelector('input[name="initialType"]:checked');
+      if (initTypeRadio) {
+        if (initTypeRadio.value === 'type') {
+          if (!document.getElementById('initialsTyped').value.trim()) return false;
+        } else {
+          const initCanvas = document.getElementById('initialsCanvas');
+          if (isCanvasBlank(initCanvas)) return false;
+        }
+      }
+      // Service provider signature
+      const provTypeRadio = document.querySelector('input[name="providerType"]:checked');
+      if (provTypeRadio) {
+        if (provTypeRadio.value === 'type') {
+          if (!document.getElementById('providerTyped').value.trim()) return false;
+        } else {
+          const provCanvas = document.getElementById('providerCanvas');
+          if (isCanvasBlank(provCanvas)) return false;
+        }
+      }
+      // Participant signature
+      const partTypeRadio = document.querySelector('input[name="participantType"]:checked');
+      if (partTypeRadio) {
+        if (partTypeRadio.value === 'type') {
+          if (!document.getElementById('participantTyped').value.trim()) return false;
+        } else {
+          const partCanvas = document.getElementById('participantCanvas');
+          if (isCanvasBlank(partCanvas)) return false;
+        }
+      }
+      return true;
+    }
+
+    function updatePayButton() {
+      const payButton = document.getElementById('payLink');
+      const ack1 = document.getElementById('ack1');
+      const ack2 = document.getElementById('ack2');
+      if (ack1 && ack2) {
+        // Retrieve the third acknowledgment checkbox (completion of DocuSign)
+        const ack3 = document.getElementById('ack3');
+        // Enable the payment button only when all acknowledgments are checked.
+        const enabled = ack1.checked && ack2.checked && (ack3 ? ack3.checked : false);
+        if (enabled) {
+          payButton.removeAttribute('disabled');
+        } else {
+          payButton.setAttribute('disabled', 'disabled');
+        }
+        updatePayLink();
+      }
+    }
+
+    // Once the DOM is ready, set up logic to manage the DocuSign completion acknowledgment checkbox.
+    document.addEventListener('DOMContentLoaded', () => {
+      const docusignLink = document.getElementById('docusignLink');
+      const ack3 = document.getElementById('ack3');
+      // If a DocuSign completion checkbox exists, we will manage its state.
+      if (ack3) {
+        // Ensure the box is disabled until we have evidence that the user has started a DocuSign session.
+        ack3.disabled = true;
+        // Read URL parameters to see if DocuSign signals completion. PowerForms append status parameters.
+        const params = new URLSearchParams(window.location.search);
+        const statusParam = params.get('event') || params.get('status') || params.get('signed');
+        if (statusParam && /complete/i.test(statusParam)) {
+          // Auto-check and enable the checkbox if status indicates completion.
+          ack3.checked = true;
+          ack3.disabled = false;
+          updatePayButton();
+        }
+        // If the user previously initiated signing (persisted in localStorage), enable the checkbox on load.
+        try {
+          const startedFlag = localStorage.getItem('docusignStarted');
+          if (startedFlag === 'true') {
+            ack3.disabled = false;
+          }
+        } catch (e) {
+          // ignore storage errors
+        }
+      }
+        // When the user clicks the DocuSign link, note that the signing session has started
+        // and immediately enable the completion checkbox. Relying solely on a focus event
+        // proved unreliable on some devices; enabling the box on click provides a simpler
+        // workflow where the user must click the DocuSign link before being able to
+        // acknowledge completion.
+        if (docusignLink && ack3) {
+          docusignLink.addEventListener('click', () => {
+            try {
+              localStorage.setItem('docusignStarted', 'true');
+            } catch (e) {
+              // ignore storage errors (e.g., disabled cookies)
+            }
+            // Enable the completion checkbox so the user can mark it after signing.
+            ack3.disabled = false;
+          });
+          // Preserve the previous focus handler to enable the checkbox if the user returns
+          // to the page after navigating away (e.g., closing DocuSign). If the box is
+          // still disabled but the started flag exists, enable it.
+          window.addEventListener('focus', () => {
+            try {
+              const started = localStorage.getItem('docusignStarted');
+              if (started === 'true' && ack3.disabled) {
+                ack3.disabled = false;
+              }
+            } catch (e) {
+              // ignore storage errors; fall back to enabling the box on focus.
+              if (ack3.disabled) {
+                ack3.disabled = false;
+              }
+            }
+          });
+        }
+    });
+
+    function setupSignature(fieldIdPrefix, radioName) {
+      const block = document.getElementById(fieldIdPrefix + 'Block');
+      if (!block) return;
+      const typedDiv = block.querySelector('.signature-input');
+      const padDiv = block.querySelector('.signature-pad');
+      const typedInput = typedDiv ? typedDiv.querySelector('input') : null;
+      const canvas = padDiv ? padDiv.querySelector('canvas') : null;
+      const clearBtn = padDiv ? padDiv.querySelector('button') : null;
+      const radios = document.querySelectorAll('input[name="' + radioName + '"]');
+
+      function toggle() {
+        const selected = document.querySelector('input[name="' + radioName + '"]:checked').value;
+        const typeSelected = selected === 'type';
+        if (typedDiv) typedDiv.style.display = typeSelected ? 'block' : 'none';
+        if (padDiv) padDiv.style.display = typeSelected ? 'none' : 'block';
+        updatePayButton();
+      }
+      radios.forEach((r) => {
+        r.addEventListener('change', toggle);
+      });
+      toggle();
+
+      if (typedInput) {
+        typedInput.addEventListener('input', updatePayButton);
+      }
+      if (canvas) {
+        let drawing = false;
+        const ctx = canvas.getContext('2d');
+        canvas.addEventListener('mousedown', (e) => {
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(e.offsetX, e.offsetY);
+        });
+        canvas.addEventListener('mousemove', (e) => {
+          if (!drawing) return;
+          ctx.lineTo(e.offsetX, e.offsetY);
+          ctx.stroke();
+        });
+        window.addEventListener('mouseup', () => {
+          if (drawing) {
+            drawing = false;
+            updatePayButton();
+          }
+        });
+        // Touch events for mobile
+        canvas.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          const rect = canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+          e.preventDefault();
+          if (!drawing) return;
+          const rect = canvas.getBoundingClientRect();
+          const touch = e.touches[0];
+          ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+          ctx.stroke();
+        });
+        window.addEventListener('touchend', () => {
+          if (drawing) {
+            drawing = false;
+            updatePayButton();
+          }
+        });
+      }
+      if (clearBtn && canvas) {
+        clearBtn.addEventListener('click', () => {
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          updatePayButton();
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const paymentOptions = document.getElementById('paymentOptions');
+      if (paymentOptions) {
+        paymentOptions.addEventListener('change', updatePayLink);
+      }
+      const ack1 = document.getElementById('ack1');
+      const ack2 = document.getElementById('ack2');
+      if (ack1) ack1.addEventListener('change', updatePayButton);
+      if (ack2) ack2.addEventListener('change', updatePayButton);
+      const ack3 = document.getElementById('ack3');
+      if (ack3) ack3.addEventListener('change', updatePayButton);
+      setupSignature('initials', 'initialType');
+      setupSignature('provider', 'providerType');
+      setupSignature('participant', 'participantType');
+      updatePayLink();
+      updatePayButton();
+    });
+  </script>
+</body>
+</html>
