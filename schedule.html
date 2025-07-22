@@ -29,8 +29,18 @@
             body: formData
           });
           if (response.ok) {
+            // Store appointment details in localStorage so pay.html can update payment status
+            const appointment = {
+              meeting_name: name,
+              email: email,
+              meeting_date: datetime
+            };
+            try {
+              localStorage.setItem('appointment', JSON.stringify(appointment));
+            } catch (e) {
+              console.warn('Unable to store appointment in localStorage', e);
+            }
             // Redirect to payment page after successful submission
-            // After a successful appointment submission, send the user to pay.html
             window.location.href = 'pay.html';
           } else {
             alert('Error submitting schedule. Please try again.');
