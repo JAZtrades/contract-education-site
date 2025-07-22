@@ -6,33 +6,39 @@
   <title>Schedule Your Session</title>
   <link rel="stylesheet" href="styles.css" />
   <script defer>
-    // Form submission handler: store appointment and redirect to payment page
-    function handleSubmit(event) {
-      event.preventDefault();
-      const name = document.getElementById('clientName').value.trim();
-      const email = document.getElementById('clientEmail').value.trim();
-      const datetime = document.getElementById('sessionDatetime').value;
-      if (!name || !email || !datetime) {
-        alert('Please complete all fields.');
-        return;
-      }
-      const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
-      const appointment = {
-        id: Date.now(),
-        name,
-        email,
-        datetime,
-        status: 'Pending',
-      };
-      appointments.push(appointment);
-      localStorage.setItem('appointments', JSON.stringify(appointments));
-      // Save the current appointment ID for payment reference
-      localStorage.setItem('currentAppointmentId', appointment.id);
-      // Redirect to payment page
-      window.location.href = 'pay.html';
-    }
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('scheduleForm').addEventListener('submit', handleSubmit);
+      const form = document.getElementById('scheduleForm');
+      form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const name = document.getElementById('clientName').value.trim();
+        const email = document.getElementById('clientEmail').value.trim();
+        const datetime = document.getElementById('sessionDatetime').value;
+        if (!name || !email || !datetime) {
+          alert('Please complete all fields.');
+          return;
+        }
+        // Prepare data to send to backend API
+        const formData = new FormData();
+        formData.append('meeting_name', name);
+        formData.append('email', email);
+        formData.append('meeting_date', datetime);
+
+        try {
+          const response = await fetch('https://cryptoboss-api.onrender.com/api/schedule', {
+            method: 'POST',
+            body: formData
+          });
+          if (response.ok) {
+            // Redirect to thank you page after successful submission
+            window.location.href = 'thanks.html';
+          } else {
+            alert('Error submitting schedule. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          alert('Error submitting schedule. Please try again.');
+        }
+      });
     });
   </script>
 </head>
@@ -60,15 +66,15 @@
         <form id="scheduleForm" class="form">
           <div class="form-group">
             <label for="clientName">Name</label>
-            <input type="text" id="clientName" name="clientName" required />
+            <input type="text" id="clientName" name="meeting_name" required />
           </div>
           <div class="form-group">
             <label for="clientEmail">Email</label>
-            <input type="email" id="clientEmail" name="clientEmail" required />
+            <input type="email" id="clientEmail" name="email" required />
           </div>
           <div class="form-group">
             <label for="sessionDatetime">Preferred Date &amp; Time</label>
-            <input type="datetime-local" id="sessionDatetime" name="sessionDatetime" required />
+            <input type="datetime-local" id="sessionDatetime" name="meeting_date" required />
           </div>
           <button type="submit" class="btn-primary">Continue to Payment</button>
         </form>
