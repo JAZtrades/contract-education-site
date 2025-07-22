@@ -1,236 +1,149 @@
-/* Global styles */
+/* Common styling for the static website */
+
+/* Reset default margin/padding and define base font */
 body {
+  font-family: Arial, sans-serif;
+  background: #f2f4f8;
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.5;
-  color: #2d3748;
-  background-color: #f7fafc;
+  padding: 0;
+  color: #333;
 }
 
+/* Constrain the main content to a centered container */
 .container {
-  max-width: 960px;
+  width: 90%;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
+/* Header bar styling */
 header {
-  background-color: #2b6cb0;
+  background: #0a1f44; /* deep navy inspired by JAZtrades branding */
   color: #fff;
-  padding: 1rem 0;
-}
-header .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* Prevent wrapping so the Home button stays on the same row as the title even on small screens */
-  flex-wrap: nowrap;
+  padding: 15px 0;
 }
 
-/* Push navigation links (e.g., Home) to the far right of the header on all screen sizes */
-header nav {
-  margin-left: auto;
-}
 header h1 {
-  font-size: 1.5rem;
   margin: 0;
+  font-size: 24px;
+  display: inline-block;
 }
-nav a {
-  margin-left: 1rem;
+
+header nav {
+  float: right;
+}
+
+header nav a {
+  color: #fff;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-}
-.btn-primary {
-  background-color: #2b6cb0;
-  color: #fff;
-}
-.btn-primary:hover {
-  background-color: #2c5282;
-}
-.btn-secondary {
-  background-color: #718096;
-  color: #fff;
-}
-.btn-secondary:hover {
-  background-color: #4a5568;
-}
-
-
-/*
- * Hero section for the landing page
- * Use a full‑width background image with an overlay to create a
- * laid‑back, surfer vibe. The overlay helps text stand out on top
- * of the image without sacrificing legibility. Height is set to
- * roughly 80% of the viewport to give the image room to breathe.
- */
-.hero-image {
-  position: relative;
-  height: 80vh;
-  /* updated to reference hero.png directly at repository root */
-  background-image: url('hero.png');
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-}
-
-/* semi‑transparent overlay inside hero for contrast */
-.hero-image .overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
-  max-width: 80%;
-}
-.hero-image h1 {
-  font-size: 2.5rem;
-  margin: 0 0 1rem;
-  line-height: 1.2;
-}
-.hero-image p {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Override default hero styles used previously */
-.hero {
-  display: none;
-}
-
-.details {
-  padding: 2rem 0;
-}
-.details h3 {
-  margin-top: 1.5rem;
-  color: #2b6cb0;
-}
-.details ul {
-  list-style-type: disc;
-  margin-left: 1.5rem;
-}
-
-.form-section {
-  padding: 2rem 0;
-}
-.form {
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.form-group {
-  margin-bottom: 1rem;
-}
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
+  margin-left: 20px;
   font-weight: bold;
 }
-.form-group input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #cbd5e0;
-  border-radius: 4px;
-  font-size: 1rem;
+
+header nav a:hover {
+  text-decoration: underline;
 }
 
-.payment-section {
-  padding: 2rem 0;
+/* Main content panel */
+main {
+  background: #fff;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.payment-section h2 {
-  color: #2b6cb0;
-}
-.payment-section form {
-  margin-bottom: 1rem;
-}
-.payment-section a.btn-primary {
+
+/* Buttons */
+.btn-primary {
   display: inline-block;
-  margin-top: 0.5rem;
-}
-
-/* Agreement section styling */
-.agreement-section {
-  margin: 2rem 0;
-}
-
-/* Box to contain long contract text with scroll */
-.agreement-box {
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: #f7fafc;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
+  padding: 10px 16px;
+  background: #007bff;
+  color: #fff;
+  border: none;
   border-radius: 4px;
-  margin-bottom: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.agreement-checkboxes {
-  margin-bottom: 1rem;
+.btn-primary:hover {
+  background: #0056b3;
 }
 
-/* Disable pay button when agreement unchecked */
-.btn-primary[disabled] {
-  opacity: 0.6;
-  pointer-events: none;
+.btn-secondary {
+  display: inline-block;
+  padding: 8px 14px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.admin-section {
-  padding: 2rem 0;
-}
-.admin-section table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-.admin-section th, .admin-section td {
-  padding: 0.75rem;
-  border: 1px solid #e2e8f0;
-  text-align: left;
-}
-.admin-section th {
-  background-color: #ebf8ff;
-  color: #2b6cb0;
+.btn-secondary:hover {
+  background: #fff;
+  color: #0a1f44;
 }
 
-.calendar-section {
-  padding: 2rem 0;
-}
-
+/* Footer styling */
 footer {
-  background-color: #2b6cb0;
+  background: #0a1f44;
   color: #fff;
+  padding: 15px 0;
   text-align: center;
-  padding: 1rem 0;
-  margin-top: 2rem;
+  margin-top: 20px;
 }
 
-.spacer {
-  height: 1rem;
-}
-/* Bitcoin vibe: overlay and orange text for pages using hero.png background */
-body[style*="hero.png"] {
-  /* dark overlay effect for background image to improve readability */
-  background-color: rgba(0, 0, 0, 0.6);
-  background-blend-mode: multiply;
-  color: #F7931A;
+/* Form elements */
+.form {
+  margin-top: 20px;
 }
 
-/* Links on hero pages should also be orange */
-body[style*="hero.png"] a {
-  color: #F7931A;
+.form-group {
+  margin-bottom: 15px;
 }
 
-/* Primary and secondary buttons on hero pages with orange background */
-body[style*="hero.png"] .btn-primary,
-body[style*="hero.png"] .btn-secondary {
-  color: #fff;
-  border-color: #F7931A;
-  background-color: #F7931A;
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-body[style*="hero.png"] .btn-primary:hover,
-body[style*="hero.png"] .btn-secondary:hover {
-  background-color: #d67200;
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="datetime-local"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Section spacing */
+section {
+  margin-bottom: 20px;
+}
+
+/* Agreement and details sections */
+.agreement-section,
+.signature-section,
+.payment-options,
+.confirmation-section,
+.appointment-details {
+  margin-top: 20px;
+}
+
+.agreement-section ul,
+.payment-options ul {
+  list-style: disc;
+  margin-left: 20px;
+}
+
+/* Payment link style inside the payment page */
+.payment-options .btn-primary {
+  margin-top: 10px;
 }

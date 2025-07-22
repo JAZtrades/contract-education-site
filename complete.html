@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Complete</title>
+  <!-- Common styles for a consistent JAZtrades look -->
+  <link rel="stylesheet" href="styles.css" />
+  <script defer>
+    // When the page loads, attach a handler to the Done button. This will
+    // notify the backend that payment is complete for the appointment stored
+    // in localStorage. After confirmation, local storage is cleared.
+    document.addEventListener('DOMContentLoaded', () => {
+      const data = localStorage.getItem('appointment');
+      if (!data) {
+        return;
+      }
+      const appointment = JSON.parse(data);
+      const doneBtn = document.getElementById('doneButton');
+      if (doneBtn) {
+        doneBtn.addEventListener('click', async () => {
+          const formData = new FormData();
+          formData.append('meeting_name', appointment.meeting_name);
+          formData.append('meeting_date', appointment.meeting_date);
+          formData.append('email', appointment.email);
+          try {
+            const res = await fetch('https://cryptoboss-api.onrender.com/api/confirm_payment', {
+              method: 'POST',
+              body: formData
+            });
+            if (res.ok) {
+              alert('Payment confirmed! Your booking is now complete.');
+              // Clean up local storage and redirect to thank you page or home
+              localStorage.removeItem('appointment');
+              window.location.href = 'index.html';
+            } else {
+              alert('Unable to confirm payment. Please contact support.');
+            }
+          } catch (e) {
+            alert('Network error while confirming payment');
+          }
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Payment Completed</h1>
+      <nav>
+        <a href="index.html" class="btn-secondary">Home</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <main>
+      <section style="text-align:center; margin-top: 40px;">
+        <!-- A check mark to visually indicate success -->
+        <div style="font-size: 64px; color: #28a745; margin-bottom: 20px;">&#10004;</div>
+        <h2>Your payment has been submitted</h2>
+        <p>Thank you for your payment. Click the button below to finalize your booking and return home.</p>
+        <button id="doneButton" class="btn-primary">Done</button>
+      </section>
+    </main>
+  </div>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 JAZtrades. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

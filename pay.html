@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Complete Your Payment</title>
+  <!-- Use the common styles file for consistent look and feel -->
   <link rel="stylesheet" href="styles.css" />
   <script defer>
     // When the page loads, populate the appointment details from localStorage and
@@ -47,7 +48,8 @@
   </script>
 </head>
 <body>
-  <header class="contract-header">
+  <!-- Header with a right-aligned home link -->
+  <header>
     <div class="container">
       <h1>Complete Your Payment</h1>
       <nav>
@@ -55,7 +57,8 @@
       </nav>
     </div>
   </header>
-  <main class="payment-main">
+  <div class="container">
+    <main>
     <section class="appointment-details">
       <h2>Your Appointment</h2>
       <p><strong>Name:</strong> <span id="appName"></span></p>
@@ -87,13 +90,15 @@
       </ul>
       <h3>Payment Methods</h3>
       <p>Select a payment option below to complete your transaction. You will be redirected to a secure checkout page.</p>
-      <p><a href="https://square.link/u/your-payment-link" target="_blank" class="btn-primary">Pay with Card / Apple Pay</a></p>
+      <!-- Replace `your-payment-link` with your actual Square payment link. The `redirect_url` parameter ensures
+           the client returns to your site after completing payment. -->
+      <p><a href="https://square.link/u/your-payment-link?redirect_url=https://cryptobossman.com/complete.html" target="_blank" class="btn-primary">Pay with Card / Apple Pay</a></p>
     </section>
-    <section class="confirmation-section">
-      <button id="confirmPayment" class="btn-primary">I've completed my payment</button>
-    </section>
-  </main>
-  <footer class="contract-footer">
+    <!-- The confirmation button has been moved to the new complete.html page. Clients will be redirected
+         there after payment and can confirm their payment at that time. -->
+    </main>
+  </div>
+  <footer>
     <div class="container">
       <p>&copy; 2025 JAZtrades. All rights reserved.</p>
     </div>
