@@ -4,10 +4,17 @@
 /* Reset default margin/padding and define base font */
 body {
   font-family: 'Montserrat', Arial, sans-serif;
-  background: linear-gradient(to bottom,#e0f7fa,#f2f4f8);
+  /* starry night (top) and ocean gradient (bottom) */
+  background-image:
+    radial-gradient(#ffffff44 1px, transparent 1px),
+    linear-gradient(to bottom, #0a1f44 0%, #0a1f44 40%, #e0f7fa 40%, #f2f4f8 100%);
+  background-size: 3px 3px, 100% 100%;
+  background-repeat: repeat, no-repeat;
+  background-position: top left, top left;
   margin: 0;
   padding: 0;
   color: #333;
+  --rocket-pos: 10%;
 }
 
 /* Constrain the main content to a centered container */
@@ -196,4 +203,70 @@ section {
 /* Display rocket and surfer emojis */
 .rocket-surfer::before {
   content: "\1F680\1F3C4"; /* rocket and surfer emojis */
+}
+
+/* Rocket scene progression classes */
+.scene-1 { --rocket-pos: 20%; }
+.scene-2 { --rocket-pos: 40%; }
+.scene-3 { --rocket-pos: 60%; }
+.scene-final { --rocket-pos: 80%; }
+
+/* Rocket scene icon */
+.rocket-scene-icon {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: var(--rocket-pos);
+  font-size: 80px;
+  color: #f7931a;
+  z-index: 1000;
+}
+
+
+/* New starry sky and rocket-surfer background */
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+  /* Top star field with two radial gradients and bottom ocean gradient */
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 2%, transparent 5%) 0 0/5px 5px repeat,
+    radial-gradient(circle at 70% 30%, rgba(255,255,255,0.8) 0%, transparent 4%) 0 0/6px 6px repeat,
+    linear-gradient(to bottom, #001f3f 0%, #001f3f 50%, #005f73 70%, #f2f4f8 100%);
+  margin: 0;
+  padding: 0;
+  color: #333;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Variables to control rocket position per page */
+:root {
+  --rocket-pos: 20%;
+}
+
+/* Scene classes to position the rocket differently on each page */
+.scene-1 { --rocket-pos: 70%; }
+.scene-2 { --rocket-pos: 50%; }
+.scene-3 { --rocket-pos: 30%; }
+.scene-final { --rocket-pos: 10%; }
+
+/* Central rocket-surfer icon displayed on all pages */
+.rocket-scene-icon {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: var(--rocket-pos);
+  font-size: 80px;
+  z-index: 1001;
+  animation: rocket-sway 6s infinite ease-in-out;
+  color: #f7931a;
+}
+
+.rocket-scene-icon::before {
+  content: '🏄‍♂️ 🚀 ₿';
+}
+
+/* Gentle sway animation for the rocket-surfer */
+@keyframes rocket-sway {
+  0%, 100% { transform: translate(-50%, 0) rotate(-5deg); }
+  50% { transform: translate(-50%, -10px) rotate(5deg); }
 }
