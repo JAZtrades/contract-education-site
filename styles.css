@@ -181,3 +181,19 @@ section {
   max-width: 600px;
   margin: 0 auto 20px;
 }
+
+
+/* Rocket surfer decorative element */
+.rocket-surfer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 64px;
+  color: #f7931a;
+  z-index: 1000;
+}
+
+/* Display rocket and surfer emojis */
+.rocket-surfer::before {
+  content: "\1F680\1F3C4"; /* rocket and surfer emojis */
+}
