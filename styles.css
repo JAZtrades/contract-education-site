@@ -73,31 +73,17 @@ body::before {
   gap: 12px;
   color: var(--white);
   text-decoration: none;
+  min-width: 0;
 }
 
 .brand img {
-  width: 54px;
-  height: 54px;
+  width: min(265px, 48vw);
+  height: auto;
   object-fit: contain;
   filter: drop-shadow(0 0 12px rgba(168,85,247,.42));
 }
 
-.brand-wide img { width: 76px; height: 76px; }
-.brand strong {
-  display: block;
-  font-family: 'Cinzel', serif;
-  letter-spacing: .04em;
-  font-size: 1.12rem;
-  line-height: 1;
-}
-.brand small {
-  display: block;
-  color: var(--gold);
-  font-size: .68rem;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  margin-top: 6px;
-}
+.brand span { display: none; }
 
 .nav-links {
   display: flex;
@@ -149,7 +135,7 @@ body::before {
 
 .hero-copy { padding: 38px 0 70px; }
 .hero-logo {
-  width: min(620px, 100%);
+  width: min(720px, 100%);
   display: block;
   margin: 0 0 20px;
   filter: drop-shadow(0 0 18px rgba(168,85,247,.32)) drop-shadow(0 0 28px rgba(246,200,95,.12));
@@ -540,8 +526,7 @@ p { line-height: 1.75; }
   .container { width: min(100% - 26px, 1180px); }
   .nav-links { width: 100%; overflow-x: auto; padding-bottom: 10px; }
   .nav-links a { white-space: nowrap; }
-  .brand-wide img { width: 58px; height: 58px; }
-  .brand small { display: none; }
+  .brand img { width: min(230px, 72vw); }
   .hero-dark { padding-top: 34px; }
   .hero-copy { padding-bottom: 40px; }
   .btn { width: 100%; }
