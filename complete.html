@@ -3,81 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payment Complete</title>
-  <!-- Common styles for a consistent JAZtrades look -->
+  <title>Next Steps | John Zarcaro Cryptocurrency Educator</title>
+  <meta name="description" content="Next steps after payment or appointment confirmation." />
   <link rel="stylesheet" href="styles.css" />
-  <script defer>
-    // When the page loads, attach a handler to the Done button. This will
-    // notify the backend that payment is complete for the appointment stored
-    // in localStorage. After confirmation, local storage is cleared.
-    document.addEventListener('DOMContentLoaded', () => {
-      const data = localStorage.getItem('appointment');
-      if (!data) {
-        return;
-      }
-      const appointment = JSON.parse(data);
-      const doneBtn = document.getElementById('doneButton');
-      if (doneBtn) {
-        doneBtn.addEventListener('click', async () => {
-          const formData = new FormData();
-          formData.append('meeting_name', appointment.meeting_name);
-          formData.append('meeting_date', appointment.meeting_date);
-          formData.append('email', appointment.email);
-          try {
-            const res = await fetch('https://cryptoboss-api.onrender.com/api/confirm_payment', {
-              method: 'POST',
-              body: formData
-            });
-            if (res.ok) {
-              alert('Payment confirmed! Your booking is now complete.');
-              // Clean up local storage and redirect to thank you page or home
-              localStorage.removeItem('appointment');
-              window.location.href = 'index.html';
-            } else {
-              alert('Unable to confirm payment. Please contact support.');
-            }
-          } catch (e) {
-            alert('Network error while confirming payment');
-          }
-        });
-      }
-    });
-  </script>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>Payment Completed</h1>
-      <nav>
-        <a href="index.html" class="btn-secondary">Home</a>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="John Zarcaro home">
+        <img src="assets/logo.svg" alt="John Zarcaro Cryptocurrency Educator logo" />
+        <span><strong>John Zarcaro</strong><small>Cryptocurrency Educator</small></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#services">Services</a>
+        <a href="contract.html">Agreement</a>
+        <a class="nav-cta" href="schedule.html">Start Here</a>
       </nav>
     </div>
   </header>
-  <div class="container">
-    <main>
-      <section style="text-align:center; margin-top: 40px;">
-        <!-- A check mark to visually indicate success -->
-        <div style="font-size: 64px; color: #28a745; margin-bottom: 20px;">&#10004;</div>
-        <h2>Your payment has been submitted</h2>
-        <p>Thank you for your payment. Click the button below to finalize your booking and return home.</p>
-        <button id="doneButton" class="btn-primary">Done</button>
-      </section>
-    </main>
-  </div>
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 JAZtrades. All rights reserved.</p>
-    </div>
-  </
-    </footer>
 
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-            document.body.classList.add('scene-final');
-                document.body.insertAdjacentHTML('afterbegin', '<div class="rocket-scene-icon"></div>');
-          });
-    </script>
-  
-    <div class="rocket-surfer"></div>
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow">Next steps</p>
+        <h1>Appointment Confirmation</h1>
+        <p>Use this page after a client has signed the scope agreement and completed payment through your chosen payment system.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content-panel">
+        <h2>What happens next?</h2>
+        <p>After the signed agreement and required payment are received, John confirms the appointment date, meeting format, and educational topics.</p>
+        <p>Before the session, the client should prepare questions and make sure they can access any accounts or devices they personally control. John will not request passwords, private keys, recovery phrases, authentication codes, or control of funds.</p>
+        <div class="btn-row">
+          <a class="btn primary" href="index.html">Return Home</a>
+          <a class="btn secondary" href="contract.html">View Agreement</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p>
+      <p><a href="index.html">Home</a> · <a href="contract.html">Scope Agreement</a></p>
+    </div>
+  </footer>
 </body>
 </html>
