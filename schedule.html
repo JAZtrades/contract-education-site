@@ -3,100 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Schedule Your Session</title>
+  <title>Start Here | John Zarcaro Cryptocurrency Educator</title>
+  <meta name="description" content="Request an introductory conversation with John Zarcaro for private cryptocurrency education and digital asset safety." />
   <link rel="stylesheet" href="styles.css" />
-  <script defer>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('scheduleForm');
-      form.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        const name = document.getElementById('clientName').value.trim();
-        const email = document.getElementById('clientEmail').value.trim();
-        const datetime = document.getElementById('sessionDatetime').value;
-        if (!name || !email || !datetime) {
-          alert('Please complete all fields.');
-          return;
-        }
-        // Prepare data to send to backend API
-        const formData = new FormData();
-        formData.append('meeting_name', name);
-        formData.append('email', email);
-        formData.append('meeting_date', datetime);
-
-        try {
-          const response = await fetch('https://cryptoboss-api.onrender.com/api/schedule', {
-            method: 'POST',
-            body: formData
-          });
-          if (response.ok) {
-            // Store appointment details in localStorage so pay.html can update payment status
-            const appointment = {
-              meeting_name: name,
-              email: email,
-              meeting_date: datetime
-            };
-            try {
-              localStorage.setItem('appointment', JSON.stringify(appointment));
-            } catch (e) {
-              console.warn('Unable to store appointment in localStorage', e);
-            }
-            // Redirect to payment page after successful submission
-            window.location.href = 'pay.html';
-          } else {
-            alert('Error submitting schedule. Please try again.');
-          }
-        } catch (error) {
-          console.error('Error submitting form:', error);
-          alert('Error submitting schedule. Please try again.');
-        }
-      });
-    });
-  </script>
 </head>
-<!--
-  Apply the hero background used on the homepage to this page as well.
-  The background image spans the entire page and does not repeat.
--->
-<body class"scene-2">
- 
-    <div class="rocket-scene-icon"></div>
-  <header>
-    <div class="container">
-      <h1>Schedule Your Session</h1>
-      <nav>
-        <a href="index.html" class="btn-secondary">Home</a>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="John Zarcaro home">
+        <img src="assets/logo.svg" alt="John Zarcaro Cryptocurrency Educator logo" />
+        <span><strong>John Zarcaro</strong><small>Cryptocurrency Educator</small></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#services">Services</a>
+        <a href="index.html#scope">Scope</a>
+        <a href="contract.html">Agreement</a>
+        <a class="nav-cta" href="schedule.html">Start Here</a>
       </nav>
     </div>
   </header>
+
   <main>
-    <section class="form-section">
+    <section class="page-hero">
       <div class="container">
-        <h2>Select a Date &amp; Time</h2>
-        <p>
-          To begin, please provide your name, email and preferred session date/time.
-          You will be asked to complete payment on the next page.
-        </p>
-        <form id="scheduleForm" class="form">
-          <div class="form-group">
-            <label for="clientName">Name</label>
-            <input type="text" id="clientName" name="meeting_name" required />
+        <p class="eyebrow">Start here</p>
+        <h1>Request an Intro Call</h1>
+        <p>Use this page as the first step before payment. The client should understand the service, review the scope agreement, sign it, and then pay once the appointment is confirmed.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container contact-card">
+        <div class="content-panel">
+          <h2>Contact / Fit Call Request</h2>
+          <p>Replace the placeholder email below with your business email or booking link when you are ready to launch.</p>
+          <div class="input-list">
+            <label>Name
+              <input type="text" placeholder="Client name" />
+            </label>
+            <label>Email
+              <input type="email" placeholder="Client email" />
+            </label>
+            <label>Interested Service
+              <select>
+                <option>Private Education Session — $249</option>
+                <option>Complete Education Package — $799</option>
+                <option>Custom Cryptocurrency Education Service</option>
+              </select>
+            </label>
+            <label>What do you want help understanding?
+              <textarea placeholder="Wallets, exchanges, Bitcoin, scam prevention, staking, security, etc."></textarea>
+            </label>
           </div>
-          <div class="form-group">
-            <label for="clientEmail">Email</label>
-            <input type="email" id="clientEmail" name="email" required />
+          <p class="notice">This static form does not submit yet. Connect it later to Formspree, Google Forms, Square Appointments, Calendly, or your own backend.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="mailto:your-email@example.com?subject=Intro%20Call%20Request%20-%20Cryptocurrency%20Education">Email John</a>
+            <a class="btn secondary" href="contract.html">Review Scope Agreement</a>
           </div>
-          <div class="form-group">
-            <label for="sessionDatetime">Preferred Date &amp; Time</label>
-            <input type="datetime-local" id="sessionDatetime" name="meeting_date" required />
-          </div>
-          <button type="submit" class="btn-primary">Continue to Payment</button>
-        </form>
+        </div>
+
+        <aside class="content-panel">
+          <h3>Recommended client flow</h3>
+          <p><strong>1.</strong> Short intro conversation.</p>
+          <p><strong>2.</strong> Client reviews the scope agreement.</p>
+          <p><strong>3.</strong> Client signs before payment.</p>
+          <p><strong>4.</strong> Payment is collected and appointment is confirmed.</p>
+          <p><strong>5.</strong> Session begins with client controlling all accounts, devices, credentials, and transactions.</p>
+        </aside>
       </div>
     </section>
   </main>
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 JAZtrades. All rights reserved.</p>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p>
+      <p><a href="index.html">Home</a> · <a href="contract.html">Scope Agreement</a></p>
     </div>
   </footer>
 </body>
