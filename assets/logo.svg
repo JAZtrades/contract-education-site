@@ -1,64 +1,70 @@
-<svg width="1700" height="430" viewBox="0 0 1700 430" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<svg width="2200" height="520" viewBox="0 0 2200 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">John Zarcaro Cryptocurrency Educator for the Digital Age</title>
-  <desc id="desc">A premium purple, silver, and digital-gold logo with a Bitcoin coin above an open book and the words John Zarcaro Cryptocurrency Educator for the Digital Age.</desc>
+  <desc id="desc">Futuristic cryptocurrency education logo with a Bitcoin coin, open book, and full text that reads John Zarcaro Cryptocurrency Educator for the Digital Age.</desc>
   <defs>
-    <linearGradient id="gold" x1="95" y1="30" x2="315" y2="325" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF0B9"/>
-      <stop offset="0.35" stop-color="#F7C85C"/>
-      <stop offset="0.72" stop-color="#B77915"/>
-      <stop offset="1" stop-color="#FFF3C8"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="2200" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#050408"/>
+      <stop offset="0.52" stop-color="#0D0618"/>
+      <stop offset="1" stop-color="#050408"/>
     </linearGradient>
-    <linearGradient id="purple" x1="55" y1="95" x2="330" y2="330" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#A855F7"/>
-      <stop offset="0.43" stop-color="#5B21B6"/>
-      <stop offset="1" stop-color="#1F0D38"/>
+    <linearGradient id="purple" x1="90" y1="55" x2="430" y2="430" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C084FC"/>
+      <stop offset="0.48" stop-color="#6D28D9"/>
+      <stop offset="1" stop-color="#1D0B33"/>
     </linearGradient>
     <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
       <stop stop-color="#FFFFFF"/>
-      <stop offset="0.42" stop-color="#BFC0C9"/>
-      <stop offset="0.75" stop-color="#70717A"/>
-      <stop offset="1" stop-color="#F4F4F7"/>
+      <stop offset="0.34" stop-color="#D9D9E2"/>
+      <stop offset="0.72" stop-color="#8B8C99"/>
+      <stop offset="1" stop-color="#FFFFFF"/>
     </linearGradient>
-    <radialGradient id="coin" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(205 118) rotate(90) scale(76)">
-      <stop stop-color="#FFF5C9"/>
-      <stop offset="0.48" stop-color="#F7C85C"/>
+    <radialGradient id="coin" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(270 156) rotate(90) scale(88)">
+      <stop stop-color="#FFF8D7"/>
+      <stop offset="0.45" stop-color="#F6C85F"/>
       <stop offset="1" stop-color="#8D5800"/>
     </radialGradient>
-    <filter id="glow" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#A855F7" flood-opacity="0.55"/>
-      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#000000" flood-opacity="0.65"/>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="170%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#A855F7" flood-opacity="0.72"/>
+      <feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#000000" flood-opacity="0.72"/>
     </filter>
-    <filter id="textShadow" x="-5%" y="-30%" width="110%" height="160%">
-      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000000" flood-opacity="0.55"/>
+    <filter id="textGlow" x="-8%" y="-40%" width="116%" height="190%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#A855F7" flood-opacity="0.36"/>
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000000" flood-opacity="0.62"/>
     </filter>
   </defs>
 
-  <rect width="1700" height="430" fill="#050408"/>
+  <rect width="2200" height="520" rx="18" fill="url(#bg)"/>
+  <rect x="18" y="18" width="2164" height="484" rx="12" stroke="#6D28D9" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M35 420C450 335 785 335 1115 420C1436 502 1780 492 2165 388" stroke="#6D28D9" stroke-opacity="0.28" stroke-width="3"/>
 
   <g filter="url(#glow)">
-    <path d="M205 25L315 75V167C315 238 270 299 205 334C140 299 95 238 95 167V75L205 25Z" fill="url(#purple)" stroke="url(#silver)" stroke-width="8"/>
-    <path d="M205 48L292 88V166C292 225 258 276 205 306C152 276 118 225 118 166V88L205 48Z" fill="#10071F" stroke="#A855F7" stroke-width="4"/>
-    <path d="M58 201C105 187 153 195 199 237V331C156 294 108 281 58 298V201Z" fill="url(#purple)" stroke="url(#silver)" stroke-width="7"/>
-    <path d="M352 201C305 187 257 195 211 237V331C254 294 302 281 352 298V201Z" fill="url(#purple)" stroke="url(#silver)" stroke-width="7"/>
-    <path d="M82 224C121 216 155 223 193 251" stroke="#E8E4F0" stroke-width="5" stroke-linecap="round"/>
-    <path d="M328 224C289 216 255 223 217 251" stroke="#E8E4F0" stroke-width="5" stroke-linecap="round"/>
-    <path d="M82 267C122 258 157 267 193 291" stroke="#7C3AED" stroke-width="4" stroke-linecap="round"/>
-    <path d="M328 267C288 258 253 267 217 291" stroke="#7C3AED" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="205" cy="121" r="70" fill="url(#coin)" stroke="#FFF2B5" stroke-width="5"/>
-    <circle cx="205" cy="121" r="54" fill="none" stroke="#6E4300" stroke-width="4" opacity="0.55"/>
-    <text x="166" y="160" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="900" fill="#140900" stroke="#140900" stroke-width="7">₿</text>
-    <text x="166" y="160" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="900" fill="#FFF2B5">₿</text>
-    <path d="M205 337L187 319H223L205 337Z" fill="#7C3AED" stroke="#D9D9E2" stroke-width="2"/>
+    <path d="M270 30L412 96V205C412 295 356 374 270 421C184 374 128 295 128 205V96L270 30Z" fill="url(#purple)" stroke="url(#silver)" stroke-width="9"/>
+    <path d="M270 58L382 110V205C382 275 339 336 270 374C201 336 158 275 158 205V110L270 58Z" fill="#10071F" stroke="#A855F7" stroke-width="4"/>
+
+    <path d="M72 250C136 229 199 241 259 296V427C203 379 139 362 72 385V250Z" fill="#45228F" stroke="url(#silver)" stroke-width="8"/>
+    <path d="M468 250C404 229 341 241 281 296V427C337 379 401 362 468 385V250Z" fill="#45228F" stroke="url(#silver)" stroke-width="8"/>
+    <path d="M105 282C158 269 202 282 252 318" stroke="#F8F5FF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M435 282C382 269 338 282 288 318" stroke="#F8F5FF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M105 342C158 328 204 342 252 374" stroke="#C084FC" stroke-width="5" stroke-linecap="round"/>
+    <path d="M435 342C382 328 336 342 288 374" stroke="#C084FC" stroke-width="5" stroke-linecap="round"/>
+
+    <circle cx="270" cy="158" r="86" fill="url(#coin)" stroke="#FFF2B5" stroke-width="6"/>
+    <circle cx="270" cy="158" r="65" fill="none" stroke="#6E4300" stroke-width="5" opacity="0.55"/>
+    <text x="220" y="207" font-family="Arial, Helvetica, sans-serif" font-size="136" font-weight="900" fill="#140900" stroke="#140900" stroke-width="8">₿</text>
+    <text x="220" y="207" font-family="Arial, Helvetica, sans-serif" font-size="136" font-weight="900" fill="#FFF2B5">₿</text>
   </g>
 
-  <g filter="url(#textShadow)">
-    <text x="410" y="152" font-family="Cinzel, Times New Roman, serif" font-size="90" font-weight="600" letter-spacing="2" fill="url(#silver)">John Zarcaro</text>
-    <line x1="410" y1="202" x2="475" y2="202" stroke="#A855F7" stroke-width="3"/>
-    <text x="500" y="214" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="9" fill="#C084FC">CRYPTOCURRENCY EDUCATOR</text>
-    <line x1="1068" y1="202" x2="1145" y2="202" stroke="#A855F7" stroke-width="3"/>
-    <line x1="438" y1="250" x2="738" y2="250" stroke="#6D28D9" stroke-width="2" opacity="0.85"/>
-    <circle cx="765" cy="250" r="8" fill="#A855F7" stroke="#F8F5FF" stroke-width="2"/>
-    <line x1="792" y1="250" x2="1092" y2="250" stroke="#6D28D9" stroke-width="2" opacity="0.85"/>
-    <text x="500" y="312" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="18" fill="#F6C85F">FOR THE DIGITAL AGE</text>
+  <g filter="url(#textGlow)">
+    <text x="560" y="176" font-family="Cinzel, Georgia, serif" font-size="112" font-weight="700" letter-spacing="2" fill="url(#silver)">John Zarcaro</text>
+
+    <line x1="565" y1="235" x2="650" y2="235" stroke="#A855F7" stroke-width="5"/>
+    <text x="685" y="250" font-family="Inter, Arial, Helvetica, sans-serif" font-size="42" font-weight="900" letter-spacing="9" textLength="760" lengthAdjust="spacingAndGlyphs" fill="#D8B4FE">CRYPTOCURRENCY EDUCATOR</text>
+    <line x1="1485" y1="235" x2="1570" y2="235" stroke="#A855F7" stroke-width="5"/>
+
+    <line x1="625" y1="304" x2="925" y2="304" stroke="#6D28D9" stroke-width="3" opacity="0.9"/>
+    <circle cx="958" cy="304" r="9" fill="#A855F7" stroke="#F8F5FF" stroke-width="3"/>
+    <line x1="991" y1="304" x2="1291" y2="304" stroke="#6D28D9" stroke-width="3" opacity="0.9"/>
+
+    <text x="690" y="378" font-family="Inter, Arial, Helvetica, sans-serif" font-size="42" font-weight="800" letter-spacing="13" textLength="730" lengthAdjust="spacingAndGlyphs" fill="#F6C85F">FOR THE DIGITAL AGE</text>
   </g>
 </svg>
