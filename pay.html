@@ -3,109 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Complete Your Payment</title>
-  <!-- Use the common styles file for consistent look and feel -->
+  <title>Agreement & Payment Process | John Zarcaro</title>
+  <meta name="description" content="Payment process for John Zarcaro cryptocurrency education services." />
   <link rel="stylesheet" href="styles.css" />
-  <script defer>
-    // When the page loads, populate the appointment details from localStorage and
-    // attach a click handler to the payment confirmation button. This allows
-    // the backend to update payment status once the client has completed their
-    // checkout on the external payment processor.
-    document.addEventListener('DOMContentLoaded', () => {
-      const data = localStorage.getItem('appointment');
-      if (!data) {
-        return;
-      }
-      const appointment = JSON.parse(data);
-      document.getElementById('appName').textContent = appointment.meeting_name;
-      document.getElementById('appEmail').textContent = appointment.email;
-      document.getElementById('appDate').textContent = appointment.meeting_date;
-      const btn = document.getElementById('confirmPayment');
-      if (btn) {
-        btn.addEventListener('click', async () => {
-          const formData = new FormData();
-          formData.append('meeting_name', appointment.meeting_name);
-          formData.append('meeting_date', appointment.meeting_date);
-          formData.append('email', appointment.email);
-          try {
-            const res = await fetch('https://cryptoboss-api.onrender.com/api/confirm_payment', {
-              method: 'POST',
-              body: formData
-            });
-            if (res.ok) {
-              alert('Payment confirmed! Thank you.');
-              // Optionally clear appointment data
-              localStorage.removeItem('appointment');
-            } else {
-              alert('Unable to confirm payment. Please contact support.');
-            }
-          } catch (e) {
-            alert('Network error while confirming payment');
-          }
-        });
-      }
-    });
-  </script>
 </head>
-<body class="scene-3">
-    <div class="rocket-scene-icon"></div>
-
-  <!-- Header with a right-aligned home link -->
-  <header>
-    <div class="container">
-      <h1>Complete Your Payment</h1>
-      <nav>
-        <a href="index.html" class="btn-secondary">Home</a>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="John Zarcaro home">
+        <img src="assets/logo.svg" alt="John Zarcaro Cryptocurrency Educator logo" />
+        <span><strong>John Zarcaro</strong><small>Cryptocurrency Educator</small></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#services">Services</a>
+        <a href="contract.html">Agreement</a>
+        <a class="nav-cta" href="schedule.html">Start Here</a>
       </nav>
     </div>
   </header>
-  <div class="container">
-    <main>
-    <section class="appointment-details">
-      <h2>Your Appointment</h2>
-      <p><strong>Name:</strong> <span id="appName"></span></p>
-      <p><strong>Email:</strong> <span id="appEmail"></span></p>
-      <p><strong>Date &amp; Time:</strong> <span id="appDate"></span></p>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow">Before payment</p>
+        <h1>Agreement & Payment Process</h1>
+        <p>This page intentionally does not collect payment until your real Square, invoice, or appointment workflow is connected.</p>
+      </div>
     </section>
-    <section class="agreement-section">
-      <h3>Services Agreement</h3>
-      <p>1. Identification of Parties: This agreement is made between John Zarcaro ("Service Provider") and you ("Participant").</p>
-      <p>2. Services to be Provided: (a) Guidance on buying, selling and exchanging cryptocurrencies safely; (b) Secure storage practices with hardware wallets and other methods; (c) Advice on VPNs and other security practices; (d) Up to nine one-hour instructional sessions, with the option to schedule additional sessions as needed.</p>
-      <p>3. Services Specifically Excluded: No investment or financial advice will be provided.</p>
-      <p>4. Consideration: The Participant agrees to pay $2,500 for the services under this agreement. A non‑refundable deposit of $1,250 reserves your spot, with the balance due prior to your final session.</p>
-      <p>5. Disclaimer: Information provided is for educational purposes only and does not constitute financial advice. Investing in cryptocurrencies carries risk. Always perform your own research.</p>
+
+    <section class="section">
+      <div class="container content-panel">
+        <h2>Recommended Process</h2>
+        <p><strong>Step 1:</strong> Client requests an intro call and selects the service that best fits their educational needs.</p>
+        <p><strong>Step 2:</strong> Client reviews and signs the Scope of Services Agreement.</p>
+        <p><strong>Step 3:</strong> Provider sends a Square invoice, Square checkout link, or other approved payment method.</p>
+        <p><strong>Step 4:</strong> Appointment is confirmed after the signed agreement and required payment are received.</p>
+        <p><strong>Step 5:</strong> During the session, Client maintains sole control of accounts, devices, funds, credentials, and transactions.</p>
+        <div class="btn-row">
+          <a class="btn primary" href="contract.html">Review Agreement</a>
+          <a class="btn secondary" href="schedule.html">Request Intro Call</a>
+        </div>
+      </div>
     </section>
-    <section class="signature-section">
-      <h3>Acknowledgment</h3>
-      <p>
-        <input type="checkbox" id="agreeTerms"> I have read and agree to the services agreement.<br />
-        <input type="checkbox" id="agreeEducation"> I understand this information is for educational purposes only.<br />
-        <input type="checkbox" id="agreeDocuSign"> I have completed the electronic signature via DocuSign.
-      </p>
-      <!-- Updated DocuSign link to point directly to the Services Agreement PowerForm.  -->
-      <p><a href="https://na4.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=7f1edd3b-2ea5-4a26-9caa-948c1240bc3d&amp;env=na4&amp;acct=83f32f57-ab5b-43aa-bb2a-2b940ad99bf5&amp;v=2" target="_blank">Click here to review and sign this agreement via DocuSign</a></p>
-    </section>
-    <section class="payment-options">
-      <h3>Choose Payment Amount</h3>
-      <ul>
-        <li>Deposit – $1,250</li>
-        <li>Pay in full – $2,500</li>
-      </ul>
-      <h3>Payment Methods</h3>
-      <p>Select a payment option below to complete your transaction. You will be redirected to a secure checkout page.</p>
-      <!-- Replace `your-payment-link` with your actual Square payment link. The `redirect_url` parameter ensures
-           the client returns to your site after completing payment. -->
-      <!-- Update the Square payment URL with the actual deposit link. The `redirect_url` ensures the
-           client is sent back to your site after checkout completes. -->
-      <p><a href="https://square.link/u/5I1YjhXf?redirect_url=https://cryptobossman.com/complete.html" target="_blank" class="btn-primary">Pay with Card / Apple Pay</a></p>
-    </section>
-    <!-- The confirmation button has been moved to the new complete.html page. Clients will be redirected
-         there after payment and can confirm their payment at that time. -->
-    </main>
-  </div>
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 JAZtrades. All rights reserved.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p>
+      <p><a href="index.html">Home</a> · <a href="contract.html">Scope Agreement</a></p>
     </div>
   </footer>
 </body>
