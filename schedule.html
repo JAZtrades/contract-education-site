@@ -7,7 +7,7 @@
   <meta name="description" content="Request an intro call for private cryptocurrency education with John Zarcaro.">
   <link rel="stylesheet" href="styles.css?v=8">
   <style>
-    .lead-form{display:grid;gap:16px;margin-top:22px}.form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.form-field label{display:block;font-weight:800;color:#2c2136;margin:0 0 7px}.form-field input,.form-field select,.form-field textarea{width:100%;box-sizing:border-box;border:1px solid rgba(109,40,217,.22);border-radius:14px;padding:14px 15px;font:inherit;background:#fff;color:#20142a;outline:none;box-shadow:0 8px 22px rgba(31,20,50,.04)}.form-field textarea{min-height:150px;resize:vertical}.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:#6d28d9;box-shadow:0 0 0 4px rgba(109,40,217,.12)}.privacy-note{font-size:.92rem;color:#665b72;margin:4px 0 0}.form-status{display:none;padding:14px 16px;border-radius:14px;font-weight:800}.form-status.success{display:block;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.26);color:#166534}.form-status.error{display:block;background:rgba(220,38,38,.09);border:1px solid rgba(220,38,38,.24);color:#991b1b}.hp-field{position:absolute;left:-5000px;opacity:0}.submit-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.submit-row .btn{border:0;cursor:pointer}.submit-row .btn:disabled{opacity:.68;cursor:not-allowed}@media(max-width:760px){.form-row{grid-template-columns:1fr}}
+    .lead-form{display:grid;gap:16px;margin-top:22px}.form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.form-field label{display:block;font-weight:800;color:#2c2136;margin:0 0 7px}.form-field input,.form-field select,.form-field textarea{width:100%;box-sizing:border-box;border:1px solid rgba(109,40,217,.22);border-radius:14px;padding:14px 15px;font:inherit;background:#fff;color:#20142a;outline:none;box-shadow:0 8px 22px rgba(31,20,50,.04)}.form-field textarea{min-height:150px;resize:vertical}.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:#6d28d9;box-shadow:0 0 0 4px rgba(109,40,217,.12)}.privacy-note{font-size:.92rem;color:#665b72;margin:4px 0 0}.hp-field{position:absolute;left:-5000px;opacity:0}.submit-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.submit-row .btn{border:0;cursor:pointer}@media(max-width:760px){.form-row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -23,23 +23,22 @@
       <div class="container">
         <p class="eyebrow">Start Here</p>
         <h1>Request an Intro Call</h1>
-        <p>Send a quick message about what you want help understanding.</p>
+        <p>Submit the form below and it will go through Web3Forms.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container contact-card">
         <div class="content-panel call-panel">
-          <h2>Send a quick message</h2>
-          <p>Fill this out and I’ll get an email notification with your contact details and what you want help understanding.</p>
-
-          <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+          <h2>Intro Call Request Form</h2>
+          <p>This is a real form submission. It does not open Gmail or your email app.</p>
 
           <form id="lead-form" class="lead-form" action="https://api.web3forms.com/submit" method="POST">
             <input type="hidden" name="access_key" value="b8163483-293e-453d-b365-e01dbeae1ffd">
             <input type="hidden" name="subject" value="New Intro Call Request - John Zarcaro Crypto Education">
             <input type="hidden" name="from_name" value="John Zarcaro Website">
-            <input type="hidden" name="page" value="Start Here">
+            <input type="hidden" name="redirect" value="https://jaztrades.github.io/contract-education-site/thank-you.html">
+            <input type="hidden" name="form_source" value="Start Here page">
             <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off">
 
             <div class="form-row">
@@ -83,7 +82,7 @@
             <p class="privacy-note">Educational services only. Do not send passwords, seed phrases, private keys, or sensitive account information.</p>
 
             <div class="submit-row">
-              <button id="submit-button" class="btn primary" type="submit">Send Request</button>
+              <button class="btn primary" type="submit">Submit Intro Call Request</button>
               <a class="btn ghost" href="index.html#services">View Services</a>
             </div>
           </form>
@@ -91,59 +90,15 @@
 
         <aside class="content-panel next-step-panel">
           <h3>The simple flow</h3>
-          <p><strong>1.</strong> You send the request.</p>
-          <p><strong>2.</strong> I review what you need help with.</p>
-          <p><strong>3.</strong> We have a quick intro conversation.</p>
-          <p><strong>4.</strong> If it makes sense, we schedule a private education session.</p>
+          <p><strong>1.</strong> You submit the form.</p>
+          <p><strong>2.</strong> Web3Forms receives the submission.</p>
+          <p><strong>3.</strong> The request gets sent to the connected business inbox.</p>
+          <p><strong>4.</strong> I follow up to schedule the intro call.</p>
         </aside>
       </div>
     </section>
   </main>
 
   <footer class="site-footer"><div class="container footer-grid"><p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p><p><a href="index.html">Home</a> · <a href="contract.html">Client Agreement</a></p></div></footer>
-
-  <script>
-    const form = document.getElementById('lead-form');
-    const statusBox = document.getElementById('form-status');
-    const submitButton = document.getElementById('submit-button');
-
-    form.addEventListener('submit', async function (event) {
-      event.preventDefault();
-      statusBox.className = 'form-status';
-      statusBox.textContent = '';
-      submitButton.disabled = true;
-      submitButton.textContent = 'Sending...';
-
-      const formData = new FormData(form);
-      const payload = Object.fromEntries(formData);
-
-      try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          form.reset();
-          statusBox.className = 'form-status success';
-          statusBox.textContent = 'Request sent. I’ll review it and follow up soon.';
-        } else {
-          throw new Error(result.message || 'The form could not be submitted.');
-        }
-      } catch (error) {
-        statusBox.className = 'form-status error';
-        statusBox.textContent = 'Something went wrong. Please try again, or email me directly.';
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = 'Send Request';
-      }
-    });
-  </script>
 </body>
 </html>
