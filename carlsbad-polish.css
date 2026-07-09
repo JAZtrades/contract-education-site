@@ -1,0 +1,222 @@
+/* Carlsbad-inspired polish layer: deeper purple, black, white, and gold. */
+:root {
+  --black: #030105;
+  --ink: #09000f;
+  --panel: #12001f;
+  --panel-2: #210038;
+  --purple-dark: #250047;
+  --purple: #4b0082;
+  --purple-bright: #6f2dbd;
+  --purple-soft: #c3a4ff;
+  --gold: #f3c75b;
+  --gold-deep: #b6841c;
+  --paper-warm: #fbf8ff;
+  --paper-text: #21142f;
+  --soft-text: #5f536b;
+  --line: rgba(75, 0, 130, .18);
+  --shadow-purple: 0 0 38px rgba(75, 0, 130, .34);
+  --shadow-gold: 0 0 34px rgba(243, 199, 91, .22);
+  --card-shadow: 0 22px 58px rgba(37, 0, 71, .13);
+}
+
+body {
+  background:
+    radial-gradient(circle at 82% 6%, rgba(111, 45, 189, .34), transparent 30rem),
+    radial-gradient(circle at 16% 0%, rgba(243, 199, 91, .14), transparent 24rem),
+    linear-gradient(135deg, #030105 0%, #140022 44%, #060208 100%);
+}
+
+body::before {
+  opacity: .13;
+  background-image:
+    linear-gradient(90deg, rgba(243,199,91,.12) 1px, transparent 1px),
+    linear-gradient(rgba(195,164,255,.15) 1px, transparent 1px);
+}
+
+.site-header {
+  background: rgba(7, 0, 12, .94);
+  border-top-color: rgba(243,199,91,.34);
+  border-bottom-color: rgba(195,164,255,.42);
+  box-shadow: 0 14px 38px rgba(0,0,0,.28);
+}
+
+.brand img {
+  filter: drop-shadow(0 0 13px rgba(111,45,189,.58)) drop-shadow(0 0 8px rgba(243,199,91,.12));
+}
+
+.nav-links a:hover { color: var(--gold); }
+.nav-links .nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid rgba(243,199,91,.42);
+  border-radius: 999px;
+  background: rgba(243,199,91,.09);
+  box-shadow: 0 0 18px rgba(243,199,91,.10);
+}
+.nav-links .nav-cta::after { display: none; }
+
+.hero-dark,
+.page-hero {
+  background:
+    radial-gradient(circle at 82% 36%, rgba(111,45,189,.48), transparent 24rem),
+    radial-gradient(circle at 18% 18%, rgba(243,199,91,.12), transparent 22rem),
+    linear-gradient(180deg, rgba(5,1,8,.98), rgba(28,0,47,.96));
+  border-bottom-color: rgba(243,199,91,.32);
+}
+
+.hero-dark h1,
+.page-hero h1 {
+  text-shadow: 0 16px 42px rgba(0,0,0,.4);
+}
+
+.btn.primary,
+.purple-btn {
+  background: linear-gradient(135deg, #3a006b 0%, #5b1299 52%, #7b35c7 100%);
+  border-color: rgba(243,199,91,.42);
+  box-shadow: 0 18px 42px rgba(75,0,130,.28), 0 0 20px rgba(243,199,91,.12);
+}
+.btn.primary:hover,
+.purple-btn:hover {
+  box-shadow: 0 20px 46px rgba(75,0,130,.36), 0 0 24px rgba(243,199,91,.18);
+}
+.btn.secondary {
+  border-color: rgba(75,0,130,.20);
+  box-shadow: 0 12px 30px rgba(37,0,71,.08);
+}
+
+.trust-strip span,
+.badge {
+  border: 1px solid rgba(243,199,91,.22);
+}
+.badge {
+  background: rgba(75,0,130,.08);
+  color: #4b0082;
+}
+
+.feature-band {
+  background: linear-gradient(135deg, #050107 0%, #180027 100%);
+  border-bottom-color: rgba(243,199,91,.32);
+}
+.feature-icon {
+  border-color: rgba(243,199,91,.66);
+  color: var(--gold);
+  background: rgba(75,0,130,.20);
+}
+
+.card,
+.booking-card,
+.about-proof-card,
+details,
+.content-panel {
+  border-color: rgba(75,0,130,.16);
+  box-shadow: 0 22px 58px rgba(37,0,71,.11);
+}
+.card:hover,
+.booking-card:hover,
+.about-proof-card:hover,
+details:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 28px 70px rgba(37,0,71,.15);
+}
+.price-card.featured {
+  border-color: rgba(243,199,91,.88);
+  box-shadow: 0 26px 70px rgba(243,199,91,.18), 0 22px 58px rgba(37,0,71,.12);
+}
+.card-link,
+.check-list li::before,
+.step-list li::before,
+.status-list strong {
+  color: var(--purple);
+}
+
+/* Fix: the safety card uses both .content-panel and .dark-panel. This selector wins after .content-panel. */
+.content-panel.dark-panel {
+  color: #fff;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(243,199,91,.18), transparent 18rem),
+    linear-gradient(135deg, #12001f 0%, #3a006b 54%, #4b0082 100%);
+  border: 1px solid rgba(243,199,91,.36);
+  box-shadow: 0 26px 72px rgba(37,0,71,.24), inset 0 0 0 1px rgba(255,255,255,.05);
+}
+.content-panel.dark-panel .eyebrow {
+  color: var(--gold);
+}
+.content-panel.dark-panel h2 {
+  color: #fff;
+}
+.content-panel.dark-panel p {
+  color: rgba(255,255,255,.86);
+}
+
+.safety-section {
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fbf8ff 100%);
+}
+.safety-cards .card {
+  background: linear-gradient(180deg, #ffffff 0%, #fbf9ff 100%);
+}
+
+.photo-card-shell {
+  border-color: rgba(243,199,91,.34);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02)),
+    radial-gradient(circle at 50% 0%, rgba(243,199,91,.18), transparent 18rem);
+}
+.photo-ring {
+  background:
+    radial-gradient(circle at 50% 22%, rgba(111,45,189,.42), transparent 14rem),
+    linear-gradient(180deg, rgba(18,0,31,.94), rgba(3,1,5,.98));
+}
+.photo-caption strong,
+.site-footer a {
+  color: var(--gold);
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 4px rgba(75,0,130,.13);
+}
+
+@media (max-width: 1080px) {
+  .nav-links {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header { position: static; }
+  .nav-wrap { gap: 14px; }
+  .brand img { width: min(220px, 66vw); }
+  .nav-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    overflow: visible;
+    padding: 0 0 8px;
+  }
+  .nav-links a {
+    text-align: center;
+    font-size: .62rem;
+    letter-spacing: .08em;
+    padding: 9px 7px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 999px;
+    background: rgba(255,255,255,.04);
+  }
+  .nav-links a::after { display: none; }
+  .nav-links .nav-cta {
+    grid-column: 1 / -1;
+    padding: 11px 12px;
+  }
+  .hero-dark { padding-top: 24px; }
+  .section { padding: 60px 0; }
+  .content-panel.dark-panel {
+    padding: 26px;
+  }
+}
