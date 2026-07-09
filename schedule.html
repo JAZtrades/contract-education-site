@@ -3,35 +3,44 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Start Here | John Zarcaro</title>
-  <meta name="description" content="Request an intro call for private cryptocurrency education with John Zarcaro.">
-  <link rel="stylesheet" href="styles.css?v=9">
-  <style>
-    .lead-form{display:grid;gap:16px;margin-top:22px}.form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.form-field label{display:block;font-weight:800;color:#2c2136;margin:0 0 7px}.form-field input,.form-field select,.form-field textarea{width:100%;box-sizing:border-box;border:1px solid rgba(109,40,217,.22);border-radius:14px;padding:14px 15px;font:inherit;background:#fff;color:#20142a;outline:none;box-shadow:0 8px 22px rgba(31,20,50,.04)}.form-field textarea{min-height:150px;resize:vertical}.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:#6d28d9;box-shadow:0 0 0 4px rgba(109,40,217,.12)}.privacy-note{font-size:.92rem;color:#665b72;margin:4px 0 0}.hp-field{position:absolute;left:-5000px;opacity:0}.submit-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.submit-row .btn{border:0;cursor:pointer}.submit-row .btn:disabled{opacity:.68;cursor:not-allowed}.form-message{display:none;margin:18px 0 0;padding:18px 20px;border-radius:18px;font-weight:800;line-height:1.45}.form-message.success{display:block;background:rgba(22,163,74,.11);border:1px solid rgba(22,163,74,.28);color:#14532d}.form-message.error{display:block;background:rgba(220,38,38,.1);border:1px solid rgba(220,38,38,.28);color:#7f1d1d}.sent-panel{display:none;margin-top:22px;padding:24px;border-radius:22px;background:rgba(109,40,217,.08);border:1px solid rgba(109,40,217,.18)}.sent-panel.active{display:block}.sent-panel h3{margin-top:0}@media(max-width:760px){.form-row{grid-template-columns:1fr}}
-  </style>
+  <title>Book an Intro Call | John Zarcaro</title>
+  <meta name="description" content="Request a private intro call with John Zarcaro for cryptocurrency education, wallet basics, exchange safety, and digital-asset risk awareness.">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="site-header">
     <div class="container nav-wrap">
-      <a class="brand brand-wide" href="index.html"><img src="assets/logo.svg?v=5" alt="John Zarcaro logo"><span><strong>John Zarcaro</strong><small>Cryptocurrency Educator · For the Digital Age</small></span></a>
-      <nav class="nav-links"><a href="index.html">Home</a><a href="index.html#how">How I Help</a><a href="index.html#services">Services</a><a class="nav-cta" href="schedule.html">Start Here</a></nav>
+      <a class="brand brand-wide" href="index.html" aria-label="John Zarcaro home">
+        <img src="assets/logo.svg?v=5" alt="John Zarcaro logo">
+        <span><strong>John Zarcaro</strong><small>Cryptocurrency Educator · For the Digital Age</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="contract.html">Agreement</a>
+        <a href="pay.html">Payment</a>
+        <a class="nav-cta" href="schedule.html">Book Intro Call</a>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <section class="page-hero">
-      <div class="container">
+  <main id="main">
+    <section class="page-hero booking-page-hero">
+      <div class="container narrow">
         <p class="eyebrow">Start Here</p>
-        <h1>Request an Intro Call</h1>
-        <p>Submit the form below. It will send through Web3Forms and show a confirmation on this page.</p>
+        <h1>Request your intro call.</h1>
+        <p>Tell me what you want help understanding. I will follow up so we can decide whether a private session is the right next step.</p>
       </div>
     </section>
 
     <section class="section">
-      <div class="container contact-card">
+      <div class="container contact-card booking-layout">
         <div class="content-panel call-panel">
-          <h2>Intro Call Request Form</h2>
-          <p>This is a real Web3Forms submission. It does not open Gmail, Firefox email, or any mail app.</p>
+          <span class="badge">Private request form</span>
+          <h2>Book the first conversation</h2>
+          <p>Use the form below to request an intro call. Do not include passwords, private keys, recovery phrases, authentication codes, wallet addresses, or sensitive account information.</p>
 
           <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 
@@ -39,7 +48,7 @@
             <input type="hidden" name="access_key" value="b8163483-293e-453d-b365-e01dbeae1ffd">
             <input type="hidden" name="subject" value="New Intro Call Request - John Zarcaro Crypto Education">
             <input type="hidden" name="from_name" value="John Zarcaro Website">
-            <input type="hidden" name="form_source" value="Start Here page">
+            <input type="hidden" name="form_source" value="Book Intro Call page">
             <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off">
 
             <div class="form-row">
@@ -70,43 +79,64 @@
               </div>
             </div>
 
-            <div class="form-field">
-              <label for="preferred_time">Preferred call time</label>
-              <input id="preferred_time" name="preferred_time" type="text" placeholder="Example: Weekdays after 3 PM">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="service_interest">What are you interested in?</label>
+                <select id="service_interest" name="service_interest" required>
+                  <option value="">Choose one</option>
+                  <option>Intro Crypto Education - $249</option>
+                  <option>Complete Education Package - $799</option>
+                  <option>Custom education for a family or group</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="preferred_time">Preferred call time</label>
+                <input id="preferred_time" name="preferred_time" type="text" placeholder="Example: Weekdays after 3 PM">
+              </div>
             </div>
 
             <div class="form-field">
               <label for="message">What do you want help understanding?</label>
-              <textarea id="message" name="message" required placeholder="Example: I want help understanding Bitcoin wallets, exchanges, self-custody, or crypto safety."></textarea>
+              <textarea id="message" name="message" required placeholder="Example: I want help understanding Bitcoin, wallets, exchanges, self-custody, or how to avoid common crypto mistakes."></textarea>
             </div>
 
-            <p class="privacy-note">Educational services only. Do not send passwords, seed phrases, private keys, or sensitive account information.</p>
+            <p class="privacy-note">Educational services only. Do not send passwords, seed phrases, private keys, wallet recovery details, authentication codes, or sensitive account information.</p>
 
             <div class="submit-row">
-              <button id="submit-button" class="btn primary" type="submit">Submit Intro Call Request</button>
-              <a class="btn ghost" href="index.html#services">View Services</a>
+              <button id="submit-button" class="btn primary" type="submit">Request Intro Call</button>
+              <a class="btn ghost on-light" href="index.html#services">View Services</a>
             </div>
           </form>
 
           <div id="sent-panel" class="sent-panel">
-            <h3>Form submitted.</h3>
-            <p>I received your request and will get back to you soon.</p>
+            <h3>Request received.</h3>
+            <p>Thank you. I will review your request and follow up with the next step.</p>
             <button id="send-another" class="btn secondary" type="button">Submit Another Request</button>
           </div>
         </div>
 
-        <aside class="content-panel next-step-panel">
-          <h3>The simple flow</h3>
-          <p><strong>1.</strong> You submit the form.</p>
-          <p><strong>2.</strong> Web3Forms receives the submission.</p>
-          <p><strong>3.</strong> The request gets sent to the connected inbox.</p>
-          <p><strong>4.</strong> I follow up to schedule the intro call.</p>
+        <aside class="content-panel next-step-panel booking-aside">
+          <span class="badge">What happens next</span>
+          <h3>The booking flow</h3>
+          <ol class="step-list">
+            <li><strong>Submit the form.</strong><span>Tell me your questions and preferred contact method.</span></li>
+            <li><strong>Intro call.</strong><span>We confirm what you need and whether a paid session fits.</span></li>
+            <li><strong>Agreement first.</strong><span>You review the scope before paying.</span></li>
+            <li><strong>Payment and scheduling.</strong><span>After payment is received, the appointment is confirmed.</span></li>
+          </ol>
+          <div class="mini-disclaimer">John provides education only and does not provide personalized investment, legal, tax, or accounting advice.</div>
         </aside>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer"><div class="container footer-grid"><p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p><p><a href="index.html">Home</a> · <a href="contract.html">Client Agreement</a></p></div></footer>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p>
+      <p><a href="index.html">Home</a> · <a href="contract.html">Client Agreement</a> · <a href="pay.html">Payment Process</a></p>
+    </div>
+  </footer>
 
   <script>
     const leadForm = document.getElementById('lead-form');
@@ -146,13 +176,13 @@
         leadForm.style.display = 'none';
         sentPanel.classList.add('active');
         formMessage.className = 'form-message success';
-        formMessage.textContent = 'Form submitted. I will get back to you soon!';
+        formMessage.textContent = 'Request received. I will follow up with the next step.';
       } catch (error) {
         formMessage.className = 'form-message error';
         formMessage.textContent = 'The form did not submit. Please check the required fields and try again.';
       } finally {
         submitButton.disabled = false;
-        submitButton.textContent = 'Submit Intro Call Request';
+        submitButton.textContent = 'Request Intro Call';
       }
     });
 
