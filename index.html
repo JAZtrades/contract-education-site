@@ -3,52 +3,271 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>John Zarcaro | Cryptocurrency Educator</title>
-  <meta name="description" content="Private cryptocurrency education with John Zarcaro. Learn wallets, exchanges, Bitcoin, self-custody, and digital-asset safety in plain English.">
-  <link rel="stylesheet" href="styles.css?v=8">
-  <style>
-    .hero-avatar-img{position:relative;z-index:3;display:block;width:min(560px,118%);max-width:none;height:auto;transform:translateX(20px);filter:drop-shadow(0 0 28px rgba(168,85,247,.42)) drop-shadow(0 24px 44px rgba(0,0,0,.42));}
-    .avatar-card{align-items:center;}
-    @media(max-width:980px){.hero-avatar-img{width:min(560px,100%);max-width:100%;transform:none;margin:0 auto}.avatar-card{min-height:auto;padding:18px 0 42px;}}
-    @media(max-width:640px){.hero-avatar-img{width:min(460px,112vw);}}
-  </style>
+  <title>John Zarcaro | Private Cryptocurrency Education</title>
+  <meta name="description" content="Book a private intro call with John Zarcaro for beginner-friendly cryptocurrency education covering Bitcoin, wallets, exchanges, self-custody, and digital-asset safety.">
+  <link rel="stylesheet" href="styles.css?v=10">
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
   <header class="site-header">
     <div class="container nav-wrap">
-      <a class="brand brand-wide" href="index.html"><img src="assets/logo.svg?v=5" alt="John Zarcaro logo"><span><strong>John Zarcaro</strong><small>Cryptocurrency Educator · For the Digital Age</small></span></a>
-      <nav class="nav-links"><a href="index.html">Home</a><a href="#how">How I Help</a><a href="#services">Services</a><a href="#about">About</a><a class="nav-cta" href="schedule.html">Start Here</a></nav>
+      <a class="brand brand-wide" href="index.html" aria-label="John Zarcaro home">
+        <img src="assets/logo.svg?v=5" alt="John Zarcaro Cryptocurrency Educator logo">
+        <span><strong>John Zarcaro</strong><small>Cryptocurrency Educator · For the Digital Age</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="#how">How It Works</a>
+        <a href="#services">Services</a>
+        <a href="#safety">Safety</a>
+        <a href="pay.html">Payment</a>
+        <a class="nav-cta" href="schedule.html">Book Intro Call</a>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero hero-dark">
+  <main id="main">
+    <section class="hero hero-dark booking-hero">
       <div class="container hero-grid mockup-grid">
         <div class="hero-copy">
-          <img class="hero-logo" src="assets/logo.svg?v=5" alt="John Zarcaro Cryptocurrency Educator logo">
           <p class="eyebrow">Private Cryptocurrency Education</p>
-          <h1 style="font-family:Cinzel,Georgia,serif;color:#f8f5ff;font-size:clamp(2.35rem,5.4vw,5.2rem);line-height:1;max-width:860px;margin:0 0 18px;letter-spacing:.02em;">Understand crypto before you make expensive mistakes.</h1>
-          <p class="hero-lead compact">I help beginners, families, and professionals understand wallets, exchanges, Bitcoin, self-custody, and digital-asset safety in plain English.</p>
-          <p style="color:rgba(248,245,255,.66);max-width:620px;margin:0 0 30px;">No pressure. No hype. Just a private conversation about what you want to understand and how I may be able to help.</p>
-          <div class="hero-actions"><a class="btn primary purple-btn" href="schedule.html">Request an Intro Call</a><a class="btn ghost" href="#how">See How I Help</a></div>
+          <h1>Book a private crypto lesson before you risk money, wallets, or passwords.</h1>
+          <p class="hero-lead compact">I help beginners, families, and professionals understand Bitcoin, wallets, exchanges, self-custody, scams, and digital-asset safety in plain English.</p>
+          <p class="hero-support">No hype. No pressure. No confusing technical talk. Just a calm, private session built around what you want to understand.</p>
+          <div class="hero-actions">
+            <a class="btn primary purple-btn" href="schedule.html">Request an Intro Call</a>
+            <a class="btn ghost" href="#services">View Session Options</a>
+          </div>
+          <div class="trust-strip" aria-label="Service highlights">
+            <span>Beginner friendly</span>
+            <span>Education only</span>
+            <span>Safety first</span>
+            <span>Private sessions</span>
+          </div>
         </div>
-        <aside class="portrait-card avatar-card" aria-label="illustrated portrait of John Zarcaro">
-          <img class="hero-avatar-img" src="assets/john-hero-avatar.svg?v=1" alt="Illustrated portrait of John Zarcaro">
+
+        <aside class="portrait-card photo-panel" aria-label="John Zarcaro portrait area">
+          <div class="photo-card-shell">
+            <div class="photo-ring">
+              <!-- Upload a real photo as assets/john-photo.jpg. Until then, this falls back to the current illustrated portrait. -->
+              <img class="hero-avatar-img" src="assets/john-photo.jpg?v=1" onerror="this.onerror=null;this.src='assets/john-hero-avatar.svg?v=1';" alt="Portrait of John Zarcaro">
+            </div>
+            <div class="photo-caption">
+              <strong>John Zarcaro</strong>
+              <span>Private crypto education for beginners and careful learners</span>
+            </div>
+          </div>
         </aside>
       </div>
     </section>
 
-    <section id="how" class="feature-band"><div class="container features-three"><article><div class="feature-icon">?</div><h3>You Have Questions</h3><p>What is Bitcoin? What is a wallet? What is an exchange? What should you avoid clicking?</p></article><article><div class="feature-icon">◎</div><h3>I Explain It Clearly</h3><p>Private education built around your comfort level, your questions, and your pace.</p></article><article><div class="feature-icon">☎</div><h3>Start With a Call</h3><p>The next step is a short intro call to see what you need help with.</p></article></div></section>
+    <section class="feature-band" id="how">
+      <div class="container features-three">
+        <article>
+          <div class="feature-icon">1</div>
+          <h3>Start With a Call</h3>
+          <p>Share what you want to understand, what worries you, and what would make the session useful.</p>
+        </article>
+        <article>
+          <div class="feature-icon">2</div>
+          <h3>Choose a Session</h3>
+          <p>Pick a single lesson, a complete package, or a custom plan for your family or team.</p>
+        </article>
+        <article>
+          <div class="feature-icon">3</div>
+          <h3>Learn Safely</h3>
+          <p>Get clear guidance without sharing passwords, seed phrases, private keys, or control of funds.</p>
+        </article>
+      </div>
+    </section>
 
-    <section class="section audience-section"><div class="container split"><div><p class="eyebrow" style="color:#6d28d9;">Who This Is For</p><h2>Crypto is confusing when nobody explains it simply.</h2><p>If you are curious about cryptocurrency but do not want to learn from random videos, hype, or complicated online threads, I can help you slow it down and understand the basics safely.</p><p>The goal is to help you understand what you are looking at, what the risks are, and what questions you should be asking before using crypto tools.</p><a class="btn secondary" href="schedule.html">Ask About a Private Session</a></div><div class="scope-list clean-list"><div><strong>Beginners</strong><span>Learn the basic language of Bitcoin, crypto, wallets, exchanges, and blockchain networks.</span></div><div><strong>Families</strong><span>Understand digital-asset safety, account access, scams, and how to ask better questions.</span></div><div><strong>Professionals</strong><span>Get a clear overview of crypto tools without getting buried in jargon.</span></div><div><strong>Concerned Users</strong><span>Learn how to slow down, verify websites, avoid obvious scams, and protect sensitive information.</span></div></div></div></section>
+    <section class="section conversion-section">
+      <div class="container split conversion-grid">
+        <div>
+          <p class="eyebrow dark">Why People Book</p>
+          <h2>Crypto feels risky when every answer sounds like a sales pitch.</h2>
+          <p>If you are trying to understand cryptocurrency, the hardest part is knowing what information to trust. My sessions slow everything down and focus on practical understanding: what the tools are, what the risks are, and what questions you should ask before clicking, sending, approving, or buying anything.</p>
+          <p>The first call is simply to understand your situation and see whether a private session makes sense.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="schedule.html">Book the Intro Call</a>
+            <a class="btn secondary" href="#scope">What We Can Cover</a>
+          </div>
+        </div>
+        <div class="booking-card">
+          <span class="badge">Best first step</span>
+          <h3>Request a private intro call</h3>
+          <p>Use the short form to tell me what you want help understanding. I will follow up so we can decide the right session and schedule.</p>
+          <ul class="check-list">
+            <li>No obligation</li>
+            <li>No sensitive account details</li>
+            <li>No investment recommendation</li>
+            <li>Clear next steps before payment</li>
+          </ul>
+          <a class="btn primary full" href="schedule.html">Start Here</a>
+        </div>
+      </div>
+    </section>
 
-    <section id="services" class="section services-clean section-alt"><div class="container"><div class="section-heading center"><p class="eyebrow" style="color:#6d28d9;">How I Can Help</p><h2>Private education, not a sales pitch.</h2><p>Here are the main ways I can help. We can decide what fits after a quick intro call.</p></div><div class="cards three"><article class="card price-card"><span class="badge">Starter</span><h3>Intro Crypto Education</h3><p class="price">$249</p><p>One private session lasting up to 90 minutes.</p></article><article class="card price-card featured"><span class="badge">Most Complete</span><h3>Complete Education Package</h3><p class="price">$799</p><p>Three private sessions totaling up to four hours.</p></article><article class="card price-card"><span class="badge">Flexible</span><h3>Custom Education</h3><p class="price">Custom</p><p>For families, small groups, or specific education needs.</p></article></div></div></section>
+    <section id="services" class="section services-clean section-alt">
+      <div class="container">
+        <div class="section-heading center">
+          <p class="eyebrow dark">Session Options</p>
+          <h2>Pick the level of help that fits your questions.</h2>
+          <p>Every paid session starts after the scope is clear, the agreement is reviewed, and the appointment is confirmed.</p>
+        </div>
+        <div class="cards three pricing-grid">
+          <article class="card price-card">
+            <span class="badge">Starter</span>
+            <h3>Intro Crypto Education</h3>
+            <p class="price">$249</p>
+            <p>One private session lasting up to 90 minutes.</p>
+            <ul>
+              <li>Crypto basics in plain English</li>
+              <li>Wallet and exchange overview</li>
+              <li>Safety questions answered</li>
+            </ul>
+            <a class="card-link" href="schedule.html">Ask about this session</a>
+          </article>
+          <article class="card price-card featured">
+            <span class="badge">Most Complete</span>
+            <h3>Complete Education Package</h3>
+            <p class="price">$799</p>
+            <p>Three private sessions totaling up to four hours.</p>
+            <ul>
+              <li>Structured beginner education</li>
+              <li>More time for wallets and safety</li>
+              <li>Good fit for families</li>
+            </ul>
+            <a class="card-link" href="schedule.html">Ask about the package</a>
+          </article>
+          <article class="card price-card">
+            <span class="badge">Flexible</span>
+            <h3>Custom Education</h3>
+            <p class="price">Custom</p>
+            <p>For families, small groups, or specific education needs.</p>
+            <ul>
+              <li>Custom topics</li>
+              <li>Flexible format</li>
+              <li>Clear scope before payment</li>
+            </ul>
+            <a class="card-link" href="schedule.html">Request a custom plan</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
-    <section id="about" class="section about-clean"><div class="container split"><div><p class="eyebrow" style="color:#6d28d9;">What We Can Cover</p><h2>Enough to understand. Not enough to overwhelm.</h2><p>A private session can cover crypto basics, wallets, exchanges, scams, and safer ways to think before clicking, sending, or approving anything.</p><p style="font-size:.95rem;color:#665b72;background:rgba(109,40,217,.08);border-left:4px solid #6d28d9;padding:14px 16px;border-radius:12px;">Educational services only. No personalized investment recommendations, account management, or custody of funds.</p></div><div class="cards mini-topic-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;"><article class="card mini-card"><h3>Wallets</h3><p>Public addresses, recovery phrases, hardware wallets, and self-custody basics.</p></article><article class="card mini-card"><h3>Exchanges</h3><p>How crypto exchanges work and why account security matters.</p></article><article class="card mini-card"><h3>Bitcoin</h3><p>What Bitcoin is and how it differs from other networks.</p></article><article class="card mini-card"><h3>Safety</h3><p>Fake websites, phishing, impersonation scams, and irreversible transactions.</p></article></div></div></section>
+    <section id="scope" class="section audience-section">
+      <div class="container split">
+        <div>
+          <p class="eyebrow dark">What We Can Cover</p>
+          <h2>Enough to understand. Not enough to overwhelm.</h2>
+          <p>Sessions are built around your comfort level. The goal is not to make you a programmer or trader. The goal is to help you understand what you are looking at and how to be more careful.</p>
+          <a class="btn secondary" href="contract.html">Review the Scope Agreement</a>
+        </div>
+        <div class="scope-list clean-list">
+          <div><strong>Bitcoin & crypto basics</strong><span>Understand key words, networks, transactions, and why crypto tools feel different from normal apps.</span></div>
+          <div><strong>Wallets</strong><span>Learn the difference between public addresses, passwords, recovery phrases, hardware wallets, and self-custody.</span></div>
+          <div><strong>Exchanges</strong><span>Understand how accounts, withdrawals, deposits, two-factor authentication, and account security fit together.</span></div>
+          <div><strong>Scam awareness</strong><span>Slow down around fake websites, impersonators, phishing links, approval requests, and urgent messages.</span></div>
+        </div>
+      </div>
+    </section>
 
-    <section class="section cta-section"><div class="container cta-card"><h2>Curious about crypto, but want someone to explain it clearly?</h2><p>Start with a quick intro call. No pressure, no hype, and no obligation.</p><a class="btn primary" href="schedule.html">Start Here</a></div></section>
+    <section id="safety" class="section safety-section section-alt">
+      <div class="container safety-grid">
+        <div class="content-panel dark-panel">
+          <p class="eyebrow">Safety Boundaries</p>
+          <h2>Education only. You stay in control.</h2>
+          <p>John will not ask for passwords, seed phrases, private keys, authentication codes, remote wallet control, or custody of funds. You remain responsible for all accounts, security choices, and transactions.</p>
+        </div>
+        <div class="cards safety-cards">
+          <article class="card mini-card"><h3>No custody</h3><p>I do not take possession of money, crypto, wallets, accounts, or devices.</p></article>
+          <article class="card mini-card"><h3>No guarantees</h3><p>I do not promise profits, recovery of funds, or specific financial outcomes.</p></article>
+          <article class="card mini-card"><h3>No investment advice</h3><p>I explain concepts and publicly available information, not what you should buy or sell.</p></article>
+          <article class="card mini-card"><h3>No secrets shared</h3><p>Never send passwords, private keys, recovery phrases, or authentication codes through the form.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section about-clean">
+      <div class="container split about-grid">
+        <div>
+          <p class="eyebrow dark">About John</p>
+          <h2>Clear crypto education for real people.</h2>
+          <p>I help people cut through the noise and understand cryptocurrency tools at a practical level. Sessions are private, patient, and focused on helping you ask better questions before taking action.</p>
+          <p>Whether you are brand new, helping a family member, or trying to make sense of wallets and exchanges, the goal is to make crypto less confusing and more understandable.</p>
+        </div>
+        <div class="about-proof-card">
+          <h3>Good fit if you want help with:</h3>
+          <ul class="check-list large">
+            <li>Understanding crypto without hype</li>
+            <li>Learning wallet and exchange basics</li>
+            <li>Recognizing common scam patterns</li>
+            <li>Preparing smarter questions before using crypto tools</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section faq-section section-alt">
+      <div class="container">
+        <div class="section-heading center">
+          <p class="eyebrow dark">Questions Before Booking</p>
+          <h2>Simple answers before you start.</h2>
+        </div>
+        <div class="faq-grid">
+          <details>
+            <summary>Do I need crypto experience?</summary>
+            <p>No. The sessions are designed for beginners and careful learners.</p>
+          </details>
+          <details>
+            <summary>Will you tell me what to buy?</summary>
+            <p>No. These are educational sessions, not personalized investment recommendations.</p>
+          </details>
+          <details>
+            <summary>Can you help me use a wallet or exchange?</summary>
+            <p>I can explain how tools work and what to watch for. You stay in control of every account, password, approval, and transaction.</p>
+          </details>
+          <details>
+            <summary>When does payment happen?</summary>
+            <p>Payment comes after the intro call, after the service scope is clear, and before the paid appointment is confirmed.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container cta-card">
+        <p class="eyebrow">Ready to start?</p>
+        <h2>Book the intro call and tell me what you want to understand.</h2>
+        <p>The form is quick, private, and built to move serious clients toward a clear next step.</p>
+        <div class="hero-actions center-actions">
+          <a class="btn primary" href="schedule.html">Request an Intro Call</a>
+          <a class="btn ghost" href="pay.html">See Payment Process</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="site-footer"><div class="container footer-grid"><p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p><p><a href="schedule.html">Contact</a> · <a href="contract.html">Client Agreement</a></p></div></footer>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p>
+      <p><a href="schedule.html">Book Intro Call</a> · <a href="contract.html">Client Agreement</a> · <a href="pay.html">Payment Process</a></p>
+    </div>
+  </footer>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "John Zarcaro Cryptocurrency Education",
+    "description": "Private cryptocurrency education covering Bitcoin, wallets, exchanges, self-custody, and digital-asset safety.",
+    "url": "https://jaztrades.github.io/contract-education-site/",
+    "areaServed": "United States",
+    "priceRange": "$249-$799",
+    "sameAs": []
+  }
+  </script>
 </body>
 </html>
