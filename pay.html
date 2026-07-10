@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Payment Process | John Zarcaro</title>
-  <meta name="description" content="Learn the agreement and payment process for private cryptocurrency education sessions with John Zarcaro.">
+  <title>Secure Payment Process | John Zarcaro</title>
+  <meta name="description" content="Secure payment process for private cryptocurrency education sessions with John Zarcaro using Calendly, Stripe, and client-specific invoices.">
   <link rel="stylesheet" href="styles.css?v=10">
   <link rel="stylesheet" href="carlsbad-polish.css?v=1">
+  <script src="js/integration-config.js" defer></script>
+  <script src="js/integrations.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -29,141 +31,90 @@
   <main id="main">
     <section class="page-hero payment-hero">
       <div class="container narrow">
-        <p class="eyebrow">Before Payment</p>
-        <h1>Clear agreement first. Payment second. Appointment confirmed after that.</h1>
-        <p>Request the correct secure payment link after the intro call and agreement review. Card and bank details are never collected directly on this website.</p>
+        <p class="eyebrow">Secure Payment Process</p>
+        <h1>Secure Payment Process</h1>
+        <p>Payments are collected only after the service scope is clear and the client agreement has been reviewed. Card information is entered on a secure Stripe-hosted payment page and is never submitted directly to this website.</p>
       </div>
     </section>
 
     <section class="section">
-      <div class="container payment-grid">
-        <div class="content-panel">
-          <span class="badge">Recommended process</span>
-          <h2>How a paid session gets confirmed</h2>
-          <ol class="step-list large-steps">
-            <li><strong>Intro call request.</strong><span>The client sends a short request explaining what they want help understanding.</span></li>
-            <li><strong>Scope confirmed.</strong><span>John confirms the service, format, timing, and education-only boundaries.</span></li>
-            <li><strong>Agreement reviewed.</strong><span>The client reviews the scope agreement before payment.</span></li>
-            <li><strong>Payment request submitted.</strong><span>Use the form on this page to request the correct secure payment link after scope and agreement review.</span></li>
-            <li><strong>Appointment confirmed.</strong><span>After payment is received, John confirms the meeting time and session details.</span></li>
-          </ol>
-          <div class="btn-row">
-            <a class="btn primary" href="schedule.html">Request Intro Call</a>
-            <a class="btn secondary" href="contract.html">Review Agreement</a>
-            <a class="btn ghost on-light" href="#payment-request">Request Payment Link</a>
-          </div>
+      <div class="container">
+        <div class="section-heading center">
+          <p class="eyebrow dark">Payment Options</p>
+          <h2>Choose the secure path that matches the approved scope.</h2>
         </div>
 
-        <aside class="content-panel payment-status-card">
-          <span class="badge">Secure payment workflow</span>
-          <h3>Agreement review comes before payment.</h3>
-          <p>After the scope is confirmed, clients can request the correct payment link here. John sends the secure checkout link for the selected service.</p>
-          <div class="status-list">
-            <div><strong>Live now</strong><span>Intro call request form</span></div>
-            <div><strong>Live now</strong><span>Scope agreement page</span></div>
-            <div><strong>Live now</strong><span>Payment link request form</span></div>
-          </div>
-          <p class="mini-disclaimer">Do not enter card numbers, bank details, wallet seed phrases, private keys, passwords, or authentication codes anywhere on this website.</p>
-        </aside>
-      </div>
-    </section>
+        <div class="cards three payment-option-cards">
+          <article class="card price-card featured payment-option-card">
+            <span class="badge">Private session</span>
+            <h3>Private Cryptocurrency Education Session</h3>
+            <p class="price">$249</p>
+            <ul class="check-list">
+              <li>One session lasting up to 90 minutes</li>
+              <li>Payment due after the agreement is signed</li>
+              <li>Appointment confirmed after payment</li>
+              <li>Secure payment through Stripe inside Calendly</li>
+            </ul>
+            <a class="btn primary full" href="schedule.html" data-integration-link="calendlyPaidSessionUrl" data-integration-fallback="bookingFallbackUrl" data-integration-target="blank">Book and Pay $249</a>
+          </article>
 
-
-    <section class="section" id="payment-request">
-      <div class="container contact-card payment-request-layout">
-        <div class="content-panel checkout-panel">
-          <span class="badge">Payment link request</span>
-          <h2>Request the correct secure payment link.</h2>
-          <p>Use this form only after the intro call or scope confirmation. John will send the secure checkout link that matches the selected service and agreement terms.</p>
-
-          <div id="payment-message" class="form-message" role="status" aria-live="polite"></div>
-
-          <form id="payment-request-form" class="lead-form" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="b8163483-293e-453d-b365-e01dbeae1ffd">
-            <input type="hidden" name="subject" value="Payment Link Request - John Zarcaro Crypto Education">
-            <input type="hidden" name="from_name" value="John Zarcaro Website">
-            <input type="hidden" name="form_source" value="Payment Process page">
-            <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off">
-
-            <div class="form-row">
-              <div class="form-field">
-                <label for="payer_name">Name</label>
-                <input id="payer_name" name="name" type="text" autocomplete="name" required>
-              </div>
-              <div class="form-field">
-                <label for="payer_email">Email for payment link</label>
-                <input id="payer_email" name="email" type="email" autocomplete="email" required>
-              </div>
+          <article class="card price-card payment-option-card">
+            <span class="badge">Complete package</span>
+            <h3>Complete Cryptocurrency Education Package</h3>
+            <p class="price">$799</p>
+            <ul class="check-list">
+              <li>Three private sessions</li>
+              <li>Up to four total hours</li>
+              <li>First payment: $399.50 after signing the agreement</li>
+              <li>Second payment: $399.50 before the second session</li>
+              <li>Each payment is collected using a client-specific Stripe invoice</li>
+              <li>The package is not purchased through a public reusable checkout link</li>
+            </ul>
+            <div class="card-actions">
+              <a class="btn primary full" href="schedule.html?service=complete-package">Request the Complete Package</a>
+              <a class="btn secondary full" href="schedule.html?service=complete-package" data-integration-link="calendlyPackageUrl" data-integration-target="blank" data-integration-optional>View Prepaid Package</a>
             </div>
+          </article>
 
-            <div class="form-row">
-              <div class="form-field">
-                <label for="payment_service">Approved service</label>
-                <select id="payment_service" name="payment_service" required>
-                  <option value="">Choose one</option>
-                  <option>Intro Crypto Education - $249</option>
-                  <option>Complete Education Package - $799</option>
-                  <option>Custom education - invoice amount confirmed by John</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label for="agreement_status">Agreement status</label>
-                <select id="agreement_status" name="agreement_status" required>
-                  <option value="">Choose one</option>
-                  <option>I reviewed the client agreement</option>
-                  <option>John already sent my final agreement</option>
-                  <option>I need the agreement resent before paying</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-field">
-              <label for="payment_notes">Notes for the payment request</label>
-              <textarea id="payment_notes" name="payment_notes" placeholder="Example: John approved the $249 session after our intro call. Please send the payment link to this email."></textarea>
-            </div>
-
-            <label class="agreement-check">
-              <input type="checkbox" name="payment_safety_acknowledgement" required>
-              <span>I understand this website does not collect card numbers, bank details, wallet seed phrases, private keys, passwords, or authentication codes.</span>
-            </label>
-
-            <div class="submit-row">
-              <button id="payment-submit-button" class="btn primary" type="submit">Request Payment Link</button>
-              <a class="btn secondary" href="contract.html">Review Agreement</a>
-            </div>
-          </form>
-
-          <div id="payment-sent-panel" class="sent-panel">
-            <h3>Payment link request received.</h3>
-            <p>John will confirm the agreement status and send the correct secure checkout link for the approved service.</p>
-            <a class="btn secondary" href="complete.html">View Next Steps</a>
-          </div>
+          <article class="card price-card payment-option-card">
+            <span class="badge">Custom scope</span>
+            <h3>Custom Cryptocurrency Education</h3>
+            <p class="price">Custom</p>
+            <ul class="check-list">
+              <li>Scope and price confirmed before payment</li>
+              <li>Client-specific Stripe invoice</li>
+              <li>No public generic checkout</li>
+              <li>Appointment scheduled after the agreed payment is received</li>
+            </ul>
+            <a class="btn primary full" href="schedule.html?service=custom">Request a Custom Plan</a>
+          </article>
         </div>
-
-        <aside class="content-panel next-step-panel">
-          <span class="badge">Payment safety</span>
-          <h3>Pay only through the secure link John sends.</h3>
-          <ul class="check-list">
-            <li>No card or bank fields live on this static site</li>
-            <li>No crypto wallet connection requested</li>
-            <li>No seed phrase, password, or private key collection</li>
-            <li>Appointment confirmed after agreement and payment are complete</li>
-          </ul>
-        </aside>
       </div>
     </section>
 
     <section class="section section-alt">
-      <div class="container">
-        <div class="section-heading center">
-          <p class="eyebrow dark">Session Pricing</p>
-          <h2>Payment should match the selected scope.</h2>
+      <div class="container payment-grid">
+        <div class="content-panel">
+          <span class="badge">Five-step process</span>
+          <h2>How payment and booking are confirmed</h2>
+          <ol class="step-list large-steps">
+            <li><strong>Request intro call.</strong><span>Start with a private conversation about your educational goals.</span></li>
+            <li><strong>Confirm educational scope.</strong><span>John confirms the right service, format, and education-only boundaries.</span></li>
+            <li><strong>Review and sign agreement.</strong><span>The agreement documents the selected service, price, payment timing, and safety boundaries.</span></li>
+            <li><strong>Receive secure Stripe payment request.</strong><span>The $249 session is paid through Calendly with Stripe. Packages and custom work use client-specific Stripe invoices.</span></li>
+            <li><strong>Confirm appointment.</strong><span>Paid appointments are confirmed after the required payment is complete.</span></li>
+          </ol>
         </div>
-        <div class="cards three">
-          <article class="card price-card"><span class="badge">Starter</span><h3>Intro Crypto Education</h3><p class="price">$249</p><p>One private session lasting up to 90 minutes.</p></article>
-          <article class="card price-card featured"><span class="badge">Most Complete</span><h3>Complete Education Package</h3><p class="price">$799</p><p>Three private sessions totaling up to four hours.</p></article>
-          <article class="card price-card"><span class="badge">Flexible</span><h3>Custom Education</h3><p class="price">Custom</p><p>Custom scope and pricing confirmed before payment.</p></article>
-        </div>
+
+        <aside class="content-panel payment-status-card">
+          <span class="badge">Security note</span>
+          <h3>Use only Stripe-hosted or Calendly-hosted checkout.</h3>
+          <p>Never enter card details, passwords, seed phrases, private keys, authentication codes, or wallet recovery information directly into this website. Payment details are entered only on a Stripe-hosted or Calendly-hosted checkout page.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="schedule.html">Request Intro Call</a>
+            <a class="btn secondary" href="contract.html">Review Agreement</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
@@ -174,52 +125,5 @@
       <p><a href="index.html">Home</a> · <a href="schedule.html">Book Intro Call</a> · <a href="contract.html">Client Agreement</a></p>
     </div>
   </footer>
-  <script>
-    const paymentForm = document.getElementById('payment-request-form');
-    const paymentSubmitButton = document.getElementById('payment-submit-button');
-    const paymentMessage = document.getElementById('payment-message');
-    const paymentSentPanel = document.getElementById('payment-sent-panel');
-
-    paymentForm.addEventListener('submit', async function (event) {
-      event.preventDefault();
-
-      paymentMessage.className = 'form-message';
-      paymentMessage.textContent = '';
-      paymentSubmitButton.disabled = true;
-      paymentSubmitButton.textContent = 'Submitting...';
-
-      const formData = new FormData(paymentForm);
-      const payload = Object.fromEntries(formData);
-
-      try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-          throw new Error(result.message || 'Submission failed.');
-        }
-
-        paymentForm.reset();
-        paymentForm.style.display = 'none';
-        paymentSentPanel.classList.add('active');
-        paymentMessage.className = 'form-message success';
-        paymentMessage.textContent = 'Payment link request received. John will follow up with the secure checkout link.';
-      } catch (error) {
-        paymentMessage.className = 'form-message error';
-        paymentMessage.textContent = 'The request did not submit. Please check the required fields and try again.';
-      } finally {
-        paymentSubmitButton.disabled = false;
-        paymentSubmitButton.textContent = 'Request Payment Link';
-      }
-    });
-  </script>
 </body>
 </html>

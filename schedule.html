@@ -7,6 +7,8 @@
   <meta name="description" content="Request a private intro call with John Zarcaro for cryptocurrency education, wallet basics, exchange safety, and digital-asset risk awareness.">
   <link rel="stylesheet" href="styles.css?v=10">
   <link rel="stylesheet" href="carlsbad-polish.css?v=1">
+  <script src="js/integration-config.js" defer></script>
+  <script src="js/integrations.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -31,8 +33,25 @@
     <section class="page-hero booking-page-hero">
       <div class="container narrow">
         <p class="eyebrow">Start Here</p>
-        <h1>Request your intro call.</h1>
-        <p>Tell me what you want help understanding. I will follow up so we can decide whether a private session is the right next step.</p>
+        <h1>Book Your Intro Call</h1>
+        <p>Start with a private conversation about what you want to understand. The intro call is used to confirm your educational goals, choose the right service, and explain the agreement and payment process.</p>
+      </div>
+    </section>
+
+    <section class="section calendly-booking-section" data-calendly-section hidden>
+      <div class="container contact-card booking-layout">
+        <div class="content-panel call-panel">
+          <span class="badge">Free intro call</span>
+          <h2>Choose an intro-call time.</h2>
+          <p>Use the secure Calendly scheduler below when the free intro-call calendar is available. The fallback link opens the same scheduler in a new tab.</p>
+          <div class="calendly-embed-frame" data-calendly-embed="calendlyIntroUrl" tabindex="0"></div>
+          <p class="privacy-note"><a data-calendly-fallback href="schedule.html">Open the intro-call scheduler in a new tab</a></p>
+        </div>
+        <aside class="content-panel next-step-panel booking-aside">
+          <span class="badge">What happens next</span>
+          <h3>Agreement and payment come later.</h3>
+          <p>The intro call is free. If a paid session is the right fit, John confirms the scope, shares the agreement, and explains the secure payment process.</p>
+        </aside>
       </div>
     </section>
 
@@ -40,8 +59,8 @@
       <div class="container contact-card booking-layout">
         <div class="content-panel call-panel">
           <span class="badge">Private request form</span>
-          <h2>Book the first conversation</h2>
-          <p>Use the form below to request an intro call. Do not include passwords, private keys, recovery phrases, authentication codes, wallet addresses, or sensitive account information.</p>
+          <h2>Request Intro Call</h2>
+          <p>Use the form below if the Calendly intro-call scheduler is not available or if you prefer to send a request first. Do not include passwords, private keys, recovery phrases, authentication codes, wallet addresses, or sensitive account information.</p>
 
           <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 
@@ -150,6 +169,25 @@
           </ol>
           <div class="mini-disclaimer">John provides education only and does not provide personalized investment, legal, tax, or accounting advice.</div>
         </aside>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-heading center">
+          <p class="eyebrow dark">Ready for a Paid Session?</p>
+          <h2>Book once the scope and agreement are confirmed.</h2>
+        </div>
+        <div class="cards one-card booking-offer-grid">
+          <article class="card price-card featured paid-session-card">
+            <span class="badge">Private session</span>
+            <h3>Private Cryptocurrency Education Session</h3>
+            <p>Up to 90 minutes</p>
+            <p class="price">$249</p>
+            <a class="btn primary full" href="schedule.html" data-integration-link="calendlyPaidSessionUrl" data-integration-fallback="bookingFallbackUrl" data-integration-target="blank">Book and Pay Securely</a>
+            <p class="mini-disclaimer">Available after the service scope and agreement are confirmed. Payment is processed securely through Stripe. John does not receive or store your card details.</p>
+          </article>
+        </div>
       </div>
     </section>
   </main>
