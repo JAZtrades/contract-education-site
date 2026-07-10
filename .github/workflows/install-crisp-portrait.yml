@@ -1,4 +1,4 @@
-name: Install crisp portrait
+name: Install verified portrait
 
 on:
   push:
@@ -18,14 +18,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Decode and verify portrait
+      - name: Decode and verify the high-quality portrait
         shell: bash
         run: |
-          cat assets/portrait-v11-part-*.b64 | tr -d '\r\n' | base64 --decode > assets/john-portrait-crisp-v11.jpg
-          echo "e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30  assets/john-portrait-crisp-v11.jpg" | sha256sum -c -
-          test "$(stat -c%s assets/john-portrait-crisp-v11.jpg)" = "91422"
+          cat assets/portrait-v11-part-*.b64 | tr -d '\r\n' | base64 --decode > assets/john-portrait-crisp-v12.jpg
+          echo "e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30  assets/john-portrait-crisp-v12.jpg" | sha256sum -c -
+          test "$(stat -c%s assets/john-portrait-crisp-v12.jpg)" = "91422"
 
-      - name: Update homepage and mobile portrait styling
+      - name: Install the portrait and refine its presentation
         shell: bash
         run: |
           python - <<'PY'
@@ -33,30 +33,89 @@ jobs:
 
           page = Path('index.html')
           html = page.read_text(encoding='utf-8')
-          old = '<img class="hero-avatar-img" src="assets/john-photo-hq.webp?v=4" width="800" height="1000" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src=\'assets/john-photo.jpg?v=3\';" alt="Professional AI portrait of John Zarcaro">'
-          new = '<img class="hero-avatar-img" src="assets/john-portrait-crisp-v11.jpg?v=11" width="600" height="750" decoding="async" fetchpriority="high" alt="Professional AI portrait of John Zarcaro">'
-          if old not in html:
-              raise SystemExit('Expected portrait markup not found')
-          page.write_text(html.replace(old, new), encoding='utf-8')
+          start = html.index('<img class="hero-avatar-img"', html.index('<div class="photo-ring">'))
+          end = html.index('>', start) + 1
+          replacement = '<img class="hero-avatar-img" src="assets/john-portrait-crisp-v12.jpg?v=12" width="600" height="750" loading="eager" decoding="async" fetchpriority="high" alt="Professional portrait of John Zarcaro">'
+          html = html[:start] + replacement + html[end:]
+          html = html.replace('carlsbad-polish.css?v=2', 'carlsbad-polish.css?v=3')
+          page.write_text(html, encoding='utf-8')
 
           stylesheet = Path('carlsbad-polish.css')
           css = stylesheet.read_text(encoding='utf-8')
-          old_width = 'width: 190px !important;'
-          old_filter = 'filter: contrast(1.08) saturate(1.035) !important;'
-          if old_width not in css:
-              raise SystemExit('Expected mobile portrait width rule not found')
-          if old_filter not in css:
-              raise SystemExit('Expected portrait filter rule not found')
-          css = css.replace(old_width, 'width: 220px !important;')
-          css = css.replace(old_filter, 'filter: none !important;')
+          marker = '/* Portrait quality and sizing — verified mobile-safe presentation. */'
+          override = r'''
+
+/* Portrait quality and sizing — verified mobile-safe presentation. */
+.photo-ring {
+  width: min(100%, 340px);
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 28px;
+}
+
+.photo-ring .hero-avatar-img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  object-fit: cover;
+  object-position: center center;
+  transform: none !important;
+  filter: none !important;
+  image-rendering: auto;
+}
+
+@media (max-width: 640px) {
+  .photo-card-shell {
+    width: min(100%, 360px);
+    margin-inline: auto;
+  }
+
+  .photo-ring {
+    width: min(100%, 260px) !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+    margin: 2px auto 0;
+    border-radius: 24px;
+  }
+
+  .photo-ring::before {
+    inset: 8px;
+  }
+
+  .photo-ring .hero-avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center center;
+    filter: none !important;
+  }
+}
+'''
+          if marker in css:
+              css = css[:css.index(marker)].rstrip() + override
+          else:
+              css = css.rstrip() + override
           stylesheet.write_text(css, encoding='utf-8')
           PY
 
-      - name: Commit the verified portrait
+      - name: Remove temporary and obsolete portrait files
+        shell: bash
+        run: |
+          rm -f assets/portrait-*.b64
+          rm -f assets/john-photo-hq.webp
+          rm -f assets/john-ai-portrait.svg
+          rm -f assets/john-ai-portrait-v2.svg
+          rm -f __test_tree_probe.txt
+          rm -f .github/workflows/install-crisp-portrait.yml
+
+      - name: Commit the verified result
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/john-portrait-crisp-v11.jpg index.html carlsbad-polish.css
-          git commit -m "Install verified crisp portrait"
+          git add -A
+          git commit -m "Install sharp professional portrait"
           git push origin HEAD:main
