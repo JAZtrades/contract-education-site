@@ -21,50 +21,26 @@ jobs:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
 
-      - name: Rebuild, verify, install, and commit the portrait
+      - name: Rebuild and verify the intact portrait
         shell: bash
         run: |
-          set +e
-          exec > >(tee install-final-log.txt) 2>&1
-
-          status=0
-          base_commit='39534a8e1cdac786d1f387711e1e89029fe318ee'
+          set -euo pipefail
+          source_commit='4163f78d42a27a93e539b73e9f03bc9c2e4daa6e'
           encoded_file="$(mktemp)"
           portrait_file="$(mktemp)"
 
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Commit: $(git rev-parse HEAD)"
-          echo "Source commit: ${base_commit}"
+          git cat-file -e "${source_commit}^{commit}" 2>/dev/null || git fetch --no-tags origin "${source_commit}"
 
-          if ! git cat-file -e "${base_commit}^{commit}" 2>/dev/null; then
-            echo 'Base commit is not local; fetching it directly.'
-            git fetch --no-tags origin "${base_commit}" || status=1
-          fi
+          : > "$encoded_file"
+          for part in 01 02 03 04 05 06 07; do
+            git show "${source_commit}:assets/portrait-v11-part-${part}.b64" >> "$encoded_file"
+          done
 
-          if [ "$status" -eq 0 ]; then
-            : > "$encoded_file"
-            for part in 01 02 03 04 05 06 07; do
-              source_path="assets/portrait-v11-part-${part}.b64"
-              echo "Reading ${source_path} from ${base_commit}"
-              git show "${base_commit}:${source_path}" >> "$encoded_file" || status=1
-            done
-          fi
+          tr -d '\r\n' < "$encoded_file" | base64 --decode > "$portrait_file"
+          echo 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30  '"$portrait_file" | sha256sum -c -
+          test "$(stat -c%s "$portrait_file")" = '91422'
 
-          if [ "$status" -eq 0 ]; then
-            tr -d '\r\n' < "$encoded_file" | base64 --decode > "$portrait_file" || status=1
-          fi
-
-          if [ "$status" -eq 0 ]; then
-            actual_bytes="$(stat -c%s "$portrait_file")"
-            actual_sha="$(sha256sum "$portrait_file" | cut -d' ' -f1)"
-            echo "Decoded bytes: ${actual_bytes}"
-            echo "Decoded SHA-256: ${actual_sha}"
-            [ "$actual_bytes" = '91422' ] || status=1
-            [ "$actual_sha" = 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30' ] || status=1
-          fi
-
-          if [ "$status" -eq 0 ]; then
-            PORTRAIT_TMP="$portrait_file" python3 - <<'PY' || status=1
+          PORTRAIT_TMP="$portrait_file" python3 - <<'PY'
           from pathlib import Path
           import hashlib
           import os
@@ -72,15 +48,12 @@ jobs:
 
           path = Path(os.environ['PORTRAIT_TMP'])
           data = path.read_bytes()
-          assert data[:2] == b'\xff\xd8', 'Missing JPEG start marker'
-          assert data[-2:] == b'\xff\xd9', 'Missing JPEG end marker'
+          assert data[:2] == b'\xff\xd8'
+          assert data[-2:] == b'\xff\xd9'
 
           width = height = None
           index = 2
-          sof_markers = {
-              0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7,
-              0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF,
-          }
+          sof = {0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF}
           while index < len(data):
               if data[index] != 0xFF:
                   index += 1
@@ -91,27 +64,27 @@ jobs:
               index += 1
               if marker in (0xD8, 0xD9):
                   continue
-              segment_length = struct.unpack('>H', data[index:index + 2])[0]
-              if marker in sof_markers:
+              length = struct.unpack('>H', data[index:index + 2])[0]
+              if marker in sof:
                   height, width = struct.unpack('>HH', data[index + 3:index + 7])
                   break
-              index += segment_length
+              index += length
 
           digest = hashlib.sha256(data).hexdigest()
           assert len(data) == 91422, len(data)
           assert digest == 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30', digest
           assert (width, height) == (600, 750), (width, height)
-          print('PORTRAIT VERIFIED')
-          print('dimensions=600x750')
-          print('bytes=91422')
-          print(f'sha256={digest}')
+          print('PORTRAIT VERIFIED: 600 x 750, 91422 bytes')
           PY
-          fi
 
-          if [ "$status" -eq 0 ]; then
-            cp "$portrait_file" assets/john-zarcaro-professional-portrait.jpg
+          cp "$portrait_file" assets/john-zarcaro-professional-portrait.jpg
+          rm -f "$encoded_file" "$portrait_file"
 
-            python3 - <<'PY' || status=1
+      - name: Point the homepage to the verified static portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
           from pathlib import Path
           import re
 
@@ -125,10 +98,10 @@ jobs:
               'fetchpriority="high" alt="Professional portrait of John Zarcaro">'
           )
           html, count = pattern.subn(replacement, html, count=1)
-          if count != 1:
-              raise SystemExit(f'Expected one portrait element, replaced {count}')
-          if 'portrait-loader.js' in html or 'data:image' in html or 'john-hero-avatar' in html:
-              raise SystemExit('Obsolete portrait loading code remains in the homepage')
+          assert count == 1, count
+          assert 'portrait-loader.js' not in html
+          assert 'data:image' not in html
+          assert 'john-hero-avatar' not in html
           page.write_text(html, encoding='utf-8')
 
           styles = Path('styles.css')
@@ -144,40 +117,31 @@ jobs:
           css = css.replace('aspect-ratio: 1122 / 1402;', 'aspect-ratio: 4 / 5;')
           polish.write_text(css, encoding='utf-8')
           PY
-          fi
 
-          if [ "$status" -eq 0 ]; then
-            installed_bytes="$(stat -c%s assets/john-zarcaro-professional-portrait.jpg)"
-            installed_sha="$(sha256sum assets/john-zarcaro-professional-portrait.jpg | cut -d' ' -f1)"
-            [ "$installed_bytes" = '91422' ] || status=1
-            [ "$installed_sha" = 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30' ] || status=1
-          fi
+          echo 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30  assets/john-zarcaro-professional-portrait.jpg' | sha256sum -c -
+          test "$(stat -c%s assets/john-zarcaro-professional-portrait.jpg)" = '91422'
 
-          if [ "$status" -eq 0 ]; then
-            cat > portrait-final-verification.txt <<'EOF'
+          cat > portrait-final-verification.txt <<'EOF'
           PORTRAIT VERIFIED
           dimensions=600x750
           bytes=91422
           sha256=e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30
-          source=verified repository-history chunks
+          source_commit=4163f78d42a27a93e539b73e9f03bc9c2e4daa6e
           implementation=static JPEG; no loader, SVG, Blob URL, data URL, filter, or transform
           desktop_display_width=300px
           mobile_display_width=230px
           EOF
-            rm -f portrait-metadata.txt
-            rm -f .github/workflows/verify-portrait.yml
-            rm -f .github/workflows/install-final-portrait.yml
-            rm -f install-final-log.txt
-          else
-            echo "INSTALLATION FAILED WITH STATUS ${status}"
-          fi
 
-          rm -f "$encoded_file" "$portrait_file"
-
+      - name: Remove diagnostics and commit the final fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f install-final-log.txt
+          rm -f portrait-metadata.txt
+          rm -f .github/workflows/verify-portrait.yml
+          rm -f .github/workflows/install-final-portrait.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -m "$([ "$status" -eq 0 ] && echo 'Install verified sharp professional portrait' || echo 'Record final portrait installation failure')"
+          git commit -m 'Install verified sharp professional portrait'
           git push origin HEAD:${{ github.ref_name }}
-
-          exit "$status"
