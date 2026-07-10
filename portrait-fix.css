@@ -1,11 +1,14 @@
 /* Final portrait presentation: full-resolution rendering without artificial sharpening. */
 .photo-ring {
-  width: min(100%, 340px);
+  width: min(100%, 300px);
   min-height: 0;
   aspect-ratio: 4 / 5;
   margin: 0 auto;
   overflow: hidden;
   border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(111,45,189,.42), transparent 14rem),
+    linear-gradient(180deg, rgba(18,0,31,.94), rgba(3,1,5,.98));
 }
 
 .photo-ring .hero-avatar-img {
@@ -19,7 +22,7 @@
   filter: none !important;
   image-rendering: auto;
   opacity: 1;
-  transition: opacity .22s ease;
+  transition: opacity .18s ease;
 }
 
 .photo-ring .hero-avatar-img.portrait-loading {
@@ -32,12 +35,12 @@
 
 @media (max-width: 640px) {
   .photo-card-shell {
-    width: min(100%, 370px);
+    width: min(100%, 360px);
     margin-inline: auto;
   }
 
   .photo-ring {
-    width: min(100%, 270px) !important;
+    width: min(100%, 230px) !important;
     min-height: 0 !important;
     aspect-ratio: 4 / 5;
     margin: 2px auto 0;
