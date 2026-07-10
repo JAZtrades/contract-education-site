@@ -131,19 +131,40 @@
         option: 'Complete Education Package - $799',
         heading: 'Request the Complete Cryptocurrency Education Package',
         message: 'You selected the $799 complete package path. John will confirm the agreement and send the two client-specific Stripe invoices: $399.50 after signing and $399.50 before session two.',
-        button: 'Request the Complete Package'
+        button: 'Request the Complete Package',
+        offerBadge: 'Complete package',
+        offerTitle: 'Complete Cryptocurrency Education Package',
+        offerDetail: 'Three private sessions · up to four total hours',
+        offerPrice: '$799',
+        offerButton: 'Request the Complete Package',
+        offerHref: 'schedule.html?service=complete-package#lead-form',
+        offerNote: 'The complete package uses two client-specific Stripe invoices: $399.50 after signing and $399.50 before session two.'
       },
       custom: {
         option: 'Custom education for a family or group',
         heading: 'Request a Custom Cryptocurrency Education Plan',
         message: 'You selected the custom plan path. John will confirm the written scope and send a client-specific Stripe invoice for the approved custom amount.',
-        button: 'Request a Custom Plan'
+        button: 'Request a Custom Plan',
+        offerBadge: 'Custom scope',
+        offerTitle: 'Custom Cryptocurrency Education',
+        offerDetail: 'Scope and price confirmed before payment',
+        offerPrice: 'Custom',
+        offerButton: 'Request a Custom Plan',
+        offerHref: 'schedule.html?service=custom#lead-form',
+        offerNote: 'Custom education uses a written scope and a client-specific Stripe invoice for the approved amount.'
       },
       intro: {
         option: 'Intro Crypto Education - $249',
         heading: 'Request the Private Cryptocurrency Education Session',
         message: 'You selected the $249 private session path. If the paid Calendly link is not configured yet, use this form and John will confirm the agreement before payment.',
-        button: 'Request the $249 Session'
+        button: 'Request the $249 Session',
+        offerBadge: 'Private session',
+        offerTitle: 'Private Cryptocurrency Education Session',
+        offerDetail: 'Up to 90 minutes',
+        offerPrice: '$249',
+        offerButton: 'Book and Pay Securely',
+        offerHref: 'schedule.html?service=intro#lead-form',
+        offerNote: 'Available after the service scope and agreement are confirmed. Payment is processed securely through Stripe. John does not receive or store your card details.'
       }
     };
 
@@ -171,6 +192,38 @@
     if (submitButton) {
       submitButton.textContent = selected.button;
       submitButton.dataset.defaultText = selected.button;
+    }
+
+    const offerBadge = document.getElementById('selected-offer-badge');
+    if (offerBadge) offerBadge.textContent = selected.offerBadge;
+
+    const offerTitle = document.getElementById('selected-offer-title');
+    if (offerTitle) offerTitle.textContent = selected.offerTitle;
+
+    const offerDetail = document.getElementById('selected-offer-detail');
+    if (offerDetail) offerDetail.textContent = selected.offerDetail;
+
+    const offerPrice = document.getElementById('selected-offer-price');
+    if (offerPrice) offerPrice.textContent = selected.offerPrice;
+
+    const offerNote = document.getElementById('selected-offer-note');
+    if (offerNote) offerNote.textContent = selected.offerNote;
+
+    const offerLink = document.getElementById('selected-offer-link');
+    if (offerLink) {
+      offerLink.textContent = selected.offerButton;
+
+      if (service === 'intro') {
+        offerLink.dataset.integrationFallbackUrl = selected.offerHref;
+        return;
+      }
+
+      offerLink.setAttribute('href', selected.offerHref);
+      offerLink.removeAttribute('data-integration-link');
+      offerLink.removeAttribute('data-integration-fallback-url');
+      offerLink.removeAttribute('data-integration-target');
+      offerLink.removeAttribute('target');
+      offerLink.removeAttribute('rel');
     }
   }
 
