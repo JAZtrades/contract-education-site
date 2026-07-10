@@ -1,0 +1,66 @@
+name: Verify portrait asset
+
+on:
+  push:
+    paths:
+      - '.github/workflows/verify-portrait.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Inspect portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, struct
+
+          path = Path('assets/john-zarcaro-professional-portrait.jpg')
+          data = path.read_bytes()
+          width = height = None
+          i = 2
+          while i < len(data):
+              if data[i] != 0xFF:
+                  i += 1
+                  continue
+              while i < len(data) and data[i] == 0xFF:
+                  i += 1
+              marker = data[i]
+              i += 1
+              if marker in (0xD8, 0xD9):
+                  continue
+              length = struct.unpack('>H', data[i:i+2])[0]
+              if marker in (0xC0,0xC1,0xC2,0xC3,0xC5,0xC6,0xC7,0xC9,0xCA,0xCB,0xCD,0xCE,0xCF):
+                  height, width = struct.unpack('>HH', data[i+3:i+7])
+                  break
+              i += length
+
+          report = (
+              f'bytes={len(data)}\n'
+              f'sha256={hashlib.sha256(data).hexdigest()}\n'
+              f'width={width}\n'
+              f'height={height}\n'
+          )
+          Path('portrait-metadata.txt').write_text(report, encoding='utf-8')
+          print(report)
+          PY
+
+      - name: Commit report
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add portrait-metadata.txt
+          git commit -m 'Record portrait verification metadata'
+          git push origin HEAD:${{ github.ref_name }}

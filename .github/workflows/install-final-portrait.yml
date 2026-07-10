@@ -1,0 +1,147 @@
+name: Install verified final professional portrait
+
+on:
+  push:
+    branches:
+      - codex/fix-professional-portrait-implementation
+    paths:
+      - '.github/workflows/install-final-portrait.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the pull-request branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Rebuild and verify the intact portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_commit='4163f78d42a27a93e539b73e9f03bc9c2e4daa6e'
+          encoded_file="$(mktemp)"
+          portrait_file="$(mktemp)"
+
+          git cat-file -e "${source_commit}^{commit}" 2>/dev/null || git fetch --no-tags origin "${source_commit}"
+
+          : > "$encoded_file"
+          for part in 01 02 03 04 05 06 07; do
+            git show "${source_commit}:assets/portrait-v11-part-${part}.b64" >> "$encoded_file"
+          done
+
+          tr -d '\r\n' < "$encoded_file" | base64 --decode > "$portrait_file"
+          echo 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30  '"$portrait_file" | sha256sum -c -
+          test "$(stat -c%s "$portrait_file")" = '91422'
+
+          PORTRAIT_TMP="$portrait_file" python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import os
+          import struct
+
+          path = Path(os.environ['PORTRAIT_TMP'])
+          data = path.read_bytes()
+          assert data[:2] == b'\xff\xd8'
+          assert data[-2:] == b'\xff\xd9'
+
+          width = height = None
+          index = 2
+          sof = {0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF}
+          while index < len(data):
+              if data[index] != 0xFF:
+                  index += 1
+                  continue
+              while index < len(data) and data[index] == 0xFF:
+                  index += 1
+              marker = data[index]
+              index += 1
+              if marker in (0xD8, 0xD9):
+                  continue
+              length = struct.unpack('>H', data[index:index + 2])[0]
+              if marker in sof:
+                  height, width = struct.unpack('>HH', data[index + 3:index + 7])
+                  break
+              index += length
+
+          digest = hashlib.sha256(data).hexdigest()
+          assert len(data) == 91422, len(data)
+          assert digest == 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30', digest
+          assert (width, height) == (600, 750), (width, height)
+          print('PORTRAIT VERIFIED: 600 x 750, 91422 bytes')
+          PY
+
+          cp "$portrait_file" assets/john-zarcaro-professional-portrait.jpg
+          rm -f "$encoded_file" "$portrait_file"
+
+      - name: Point the homepage to the verified static portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          page = Path('index.html')
+          html = page.read_text(encoding='utf-8')
+          pattern = re.compile(r'<img\s+(?:id="john-portrait"\s+)?class="hero-avatar-img"[^>]*>', re.I)
+          replacement = (
+              '<img class="hero-avatar-img" '
+              'src="assets/john-zarcaro-professional-portrait.jpg?v=final-600" '
+              'width="600" height="750" loading="eager" decoding="async" '
+              'fetchpriority="high" alt="Professional portrait of John Zarcaro">'
+          )
+          html, count = pattern.subn(replacement, html, count=1)
+          assert count == 1, count
+          assert 'portrait-loader.js' not in html
+          assert 'data:image' not in html
+          assert 'john-hero-avatar' not in html
+          page.write_text(html, encoding='utf-8')
+
+          styles = Path('styles.css')
+          css = styles.read_text(encoding='utf-8')
+          css = css.replace('width: min(100%, 360px);', 'width: min(100%, 300px);')
+          css = css.replace('aspect-ratio: 1122 / 1402;', 'aspect-ratio: 4 / 5;')
+          css = css.replace('.photo-ring { width: min(100%, 340px); }', '.photo-ring { width: min(100%, 300px); }')
+          styles.write_text(css, encoding='utf-8')
+
+          polish = Path('carlsbad-polish.css')
+          css = polish.read_text(encoding='utf-8')
+          css = css.replace('width: min(100%, 280px);', 'width: min(100%, 230px);')
+          css = css.replace('aspect-ratio: 1122 / 1402;', 'aspect-ratio: 4 / 5;')
+          polish.write_text(css, encoding='utf-8')
+          PY
+
+          echo 'e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30  assets/john-zarcaro-professional-portrait.jpg' | sha256sum -c -
+          test "$(stat -c%s assets/john-zarcaro-professional-portrait.jpg)" = '91422'
+
+          cat > portrait-final-verification.txt <<'EOF'
+          PORTRAIT VERIFIED
+          dimensions=600x750
+          bytes=91422
+          sha256=e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30
+          source_commit=4163f78d42a27a93e539b73e9f03bc9c2e4daa6e
+          implementation=static JPEG; no loader, SVG, Blob URL, data URL, filter, or transform
+          desktop_display_width=300px
+          mobile_display_width=230px
+          EOF
+
+      - name: Remove diagnostics and commit the final fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f install-final-log.txt
+          rm -f portrait-metadata.txt
+          rm -f .github/workflows/verify-portrait.yml
+          rm -f .github/workflows/install-final-portrait.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Install verified sharp professional portrait'
+          git push origin HEAD:${{ github.ref_name }}

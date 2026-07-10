@@ -1,0 +1,54 @@
+commit=39534a8e1cdac786d1f387711e1e89029fe318ee
+path=assets/john-ai-portrait.jpg
+status=present
+format=JPEG
+bytes=3256
+dimensions=(300, 375)
+sha256=30b23865a35d537531afc9ad712dc172bbf1ba09d50b3f805972b48c8dd5809f
+git_blob=685c639ed687b374f526504d312a55dfaf43fd57
+head_hex=ffd8ffe000104a464946000101000001
+---
+commit=39534a8e1cdac786d1f387711e1e89029fe318ee
+path=assets/john-photo.jpg
+status=present
+format=JPEG
+bytes=28002
+dimensions=(300, 375)
+sha256=9c0afa744f729f099d388ba3fb70d72c06dcaa540e5ba06dd06ac7cfd6c052e6
+git_blob=9ab736bd58a752115dae73af70195ec5f6cd8b12
+head_hex=ffd8ffe000104a464946000101000001
+---
+commit=39534a8e1cdac786d1f387711e1e89029fe318ee
+path=assets/john-photo-hq.webp
+status=present
+format=WEBP
+bytes=10399
+dimensions=(800, 1000)
+sha256=f2fc33b7e873aac7249cc49c01628875cf75fa862c1a0d1e5660a59e5a65fc89
+git_blob=5b72373431fcb86cec3a6ae9e5bc7c45db19c16c
+head_hex=524946464e8400005745425056503820
+---
+commit=39534a8e1cdac786d1f387711e1e89029fe318ee
+path=assets/john-zarcaro-professional-portrait.jpg
+status=missing
+---
+commit=d59d6b07a8a856542f1f2a97911e2cd1fbeb1bd3
+path=assets/john-photo-hq.webp
+status=present
+format=WEBP
+bytes=10399
+dimensions=(800, 1000)
+sha256=f2fc33b7e873aac7249cc49c01628875cf75fa862c1a0d1e5660a59e5a65fc89
+git_blob=5b72373431fcb86cec3a6ae9e5bc7c45db19c16c
+head_hex=524946464e8400005745425056503820
+---
+commit=99aa846dc37493ec78d94aa58d7b09a0b5d3cef8
+path=assets/john-photo-hq.webp
+status=present
+format=TEXT_OR_UNKNOWN
+bytes=13866
+dimensions=None
+sha256=a55a9511a7a0981786768d932ccf569bf0387fbc504af0a0f846a1556d1c1432
+git_blob=d1f0b60a1a00c73817bf3c9597105304bd120caa
+head_hex=556b6c47526b36454141425852554a51
+---
