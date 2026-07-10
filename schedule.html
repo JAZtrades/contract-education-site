@@ -92,8 +92,25 @@
                 </select>
               </div>
               <div class="form-field">
+                <label for="meeting_format">Preferred format</label>
+                <select id="meeting_format" name="meeting_format" required>
+                  <option value="">Choose one</option>
+                  <option>Video call</option>
+                  <option>Phone call</option>
+                  <option>In person, if available</option>
+                  <option>No preference</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
                 <label for="preferred_time">Preferred call time</label>
                 <input id="preferred_time" name="preferred_time" type="text" placeholder="Example: Weekdays after 3 PM">
+              </div>
+              <div class="form-field">
+                <label for="timezone">Time zone</label>
+                <input id="timezone" name="timezone" type="text" autocomplete="off" placeholder="Example: Pacific, Mountain, Eastern" required>
               </div>
             </div>
 
@@ -103,6 +120,11 @@
             </div>
 
             <p class="privacy-note">Educational services only. Do not send passwords, seed phrases, private keys, wallet recovery details, authentication codes, or sensitive account information.</p>
+
+            <label class="agreement-check booking-acknowledgement">
+              <input type="checkbox" name="booking_safety_acknowledgement" required>
+              <span>I understand this form is only for scheduling and I will not submit passwords, seed phrases, private keys, wallet recovery details, authentication codes, or sensitive account information.</span>
+            </label>
 
             <div class="submit-row">
               <button id="submit-button" class="btn primary" type="submit">Request Intro Call</button>

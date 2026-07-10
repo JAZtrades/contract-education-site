@@ -31,7 +31,7 @@
       <div class="container narrow">
         <p class="eyebrow">Before Payment</p>
         <h1>Clear agreement first. Payment second. Appointment confirmed after that.</h1>
-        <p>This page prepares the site for the payment processor without pretending checkout is live before it is connected.</p>
+        <p>Request the correct secure payment link after the intro call and agreement review. Card and bank details are never collected directly on this website.</p>
       </div>
     </section>
 
@@ -44,25 +44,111 @@
             <li><strong>Intro call request.</strong><span>The client sends a short request explaining what they want help understanding.</span></li>
             <li><strong>Scope confirmed.</strong><span>John confirms the service, format, timing, and education-only boundaries.</span></li>
             <li><strong>Agreement reviewed.</strong><span>The client reviews the scope agreement before payment.</span></li>
-            <li><strong>Payment request sent.</strong><span>A secure payment link or checkout page will be used after the payment processor is connected.</span></li>
+            <li><strong>Payment request submitted.</strong><span>Use the form on this page to request the correct secure payment link after scope and agreement review.</span></li>
             <li><strong>Appointment confirmed.</strong><span>After payment is received, John confirms the meeting time and session details.</span></li>
           </ol>
           <div class="btn-row">
             <a class="btn primary" href="schedule.html">Request Intro Call</a>
             <a class="btn secondary" href="contract.html">Review Agreement</a>
+            <a class="btn ghost on-light" href="#payment-request">Request Payment Link</a>
           </div>
         </div>
 
         <aside class="content-panel payment-status-card">
-          <span class="badge">Processor coming next</span>
-          <h3>Payment checkout is not live yet.</h3>
-          <p>The site is ready for a secure payment processor step, but the current client-facing path should still start with booking and agreement review.</p>
+          <span class="badge">Secure payment workflow</span>
+          <h3>Agreement review comes before payment.</h3>
+          <p>After the scope is confirmed, clients can request the correct payment link here. John sends the secure checkout link for the selected service.</p>
           <div class="status-list">
             <div><strong>Live now</strong><span>Intro call request form</span></div>
             <div><strong>Live now</strong><span>Scope agreement page</span></div>
-            <div><strong>Next build</strong><span>Secure checkout/payment processor</span></div>
+            <div><strong>Live now</strong><span>Payment link request form</span></div>
           </div>
-          <p class="mini-disclaimer">Do not collect card or bank information directly through this static website form.</p>
+          <p class="mini-disclaimer">Do not enter card numbers, bank details, wallet seed phrases, private keys, passwords, or authentication codes anywhere on this website.</p>
+        </aside>
+      </div>
+    </section>
+
+
+    <section class="section" id="payment-request">
+      <div class="container contact-card payment-request-layout">
+        <div class="content-panel checkout-panel">
+          <span class="badge">Payment link request</span>
+          <h2>Request the correct secure payment link.</h2>
+          <p>Use this form only after the intro call or scope confirmation. John will send the secure checkout link that matches the selected service and agreement terms.</p>
+
+          <div id="payment-message" class="form-message" role="status" aria-live="polite"></div>
+
+          <form id="payment-request-form" class="lead-form" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="b8163483-293e-453d-b365-e01dbeae1ffd">
+            <input type="hidden" name="subject" value="Payment Link Request - John Zarcaro Crypto Education">
+            <input type="hidden" name="from_name" value="John Zarcaro Website">
+            <input type="hidden" name="form_source" value="Payment Process page">
+            <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off">
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="payer_name">Name</label>
+                <input id="payer_name" name="name" type="text" autocomplete="name" required>
+              </div>
+              <div class="form-field">
+                <label for="payer_email">Email for payment link</label>
+                <input id="payer_email" name="email" type="email" autocomplete="email" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="payment_service">Approved service</label>
+                <select id="payment_service" name="payment_service" required>
+                  <option value="">Choose one</option>
+                  <option>Intro Crypto Education - $249</option>
+                  <option>Complete Education Package - $799</option>
+                  <option>Custom education - invoice amount confirmed by John</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="agreement_status">Agreement status</label>
+                <select id="agreement_status" name="agreement_status" required>
+                  <option value="">Choose one</option>
+                  <option>I reviewed the client agreement</option>
+                  <option>John already sent my final agreement</option>
+                  <option>I need the agreement resent before paying</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="payment_notes">Notes for the payment request</label>
+              <textarea id="payment_notes" name="payment_notes" placeholder="Example: John approved the $249 session after our intro call. Please send the payment link to this email."></textarea>
+            </div>
+
+            <label class="agreement-check">
+              <input type="checkbox" name="payment_safety_acknowledgement" required>
+              <span>I understand this website does not collect card numbers, bank details, wallet seed phrases, private keys, passwords, or authentication codes.</span>
+            </label>
+
+            <div class="submit-row">
+              <button id="payment-submit-button" class="btn primary" type="submit">Request Payment Link</button>
+              <a class="btn secondary" href="contract.html">Review Agreement</a>
+            </div>
+          </form>
+
+          <div id="payment-sent-panel" class="sent-panel">
+            <h3>Payment link request received.</h3>
+            <p>John will confirm the agreement status and send the correct secure checkout link for the approved service.</p>
+            <a class="btn secondary" href="complete.html">View Next Steps</a>
+          </div>
+        </div>
+
+        <aside class="content-panel next-step-panel">
+          <span class="badge">Payment safety</span>
+          <h3>Pay only through the secure link John sends.</h3>
+          <ul class="check-list">
+            <li>No card or bank fields live on this static site</li>
+            <li>No crypto wallet connection requested</li>
+            <li>No seed phrase, password, or private key collection</li>
+            <li>Appointment confirmed after agreement and payment are complete</li>
+          </ul>
         </aside>
       </div>
     </section>
@@ -88,5 +174,52 @@
       <p><a href="index.html">Home</a> · <a href="schedule.html">Book Intro Call</a> · <a href="contract.html">Client Agreement</a></p>
     </div>
   </footer>
+  <script>
+    const paymentForm = document.getElementById('payment-request-form');
+    const paymentSubmitButton = document.getElementById('payment-submit-button');
+    const paymentMessage = document.getElementById('payment-message');
+    const paymentSentPanel = document.getElementById('payment-sent-panel');
+
+    paymentForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      paymentMessage.className = 'form-message';
+      paymentMessage.textContent = '';
+      paymentSubmitButton.disabled = true;
+      paymentSubmitButton.textContent = 'Submitting...';
+
+      const formData = new FormData(paymentForm);
+      const payload = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || 'Submission failed.');
+        }
+
+        paymentForm.reset();
+        paymentForm.style.display = 'none';
+        paymentSentPanel.classList.add('active');
+        paymentMessage.className = 'form-message success';
+        paymentMessage.textContent = 'Payment link request received. John will follow up with the secure checkout link.';
+      } catch (error) {
+        paymentMessage.className = 'form-message error';
+        paymentMessage.textContent = 'The request did not submit. Please check the required fields and try again.';
+      } finally {
+        paymentSubmitButton.disabled = false;
+        paymentSubmitButton.textContent = 'Request Payment Link';
+      }
+    });
+  </script>
 </body>
 </html>
