@@ -1,0 +1,93 @@
+name: Install professional portrait v2
+
+on:
+  push:
+    paths:
+      - 'portrait-v2.ready'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Reconstruct and verify exact portrait
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat assets/portrait-v2-part-*.b64 | tr -d '\r\n' | base64 --decode > assets/john-zarcaro-professional-portrait-v2.jpg
+          echo '1d8375f556a3e57f67cddfdf758e8d3fdfe333f8d90338a4df69b691bf985e11  assets/john-zarcaro-professional-portrait-v2.jpg' | sha256sum -c -
+          test "$(stat -c%s assets/john-zarcaro-professional-portrait-v2.jpg)" = "415353"
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct
+
+          path = Path('assets/john-zarcaro-professional-portrait-v2.jpg')
+          data = path.read_bytes()
+          assert data[:2] == b'\xff\xd8' and data[-2:] == b'\xff\xd9', 'Not a valid JPEG envelope'
+
+          i = 2
+          width = height = None
+          while i < len(data):
+              if data[i] != 0xFF:
+                  i += 1
+                  continue
+              while i < len(data) and data[i] == 0xFF:
+                  i += 1
+              marker = data[i]
+              i += 1
+              if marker in (0xD8, 0xD9):
+                  continue
+              length = struct.unpack('>H', data[i:i+2])[0]
+              if marker in (0xC0, 0xC1, 0xC2, 0xC3, 0xC5, 0xC6, 0xC7, 0xC9, 0xCA, 0xCB, 0xCD, 0xCE, 0xCF):
+                  height, width = struct.unpack('>HH', data[i+3:i+7])
+                  break
+              i += length
+
+          assert (width, height) == (1122, 1402), (width, height)
+          print('PORTRAIT VERIFIED: 1122 x 1402, 415353 bytes')
+          PY
+
+      - name: Point homepage to verified static image
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          page = Path('index.html')
+          html = page.read_text(encoding='utf-8')
+          html = html.replace('id="john-portrait" class="hero-avatar-img"', 'class="hero-avatar-img"')
+          html = html.replace('assets/john-zarcaro-professional-portrait.jpg', 'assets/john-zarcaro-professional-portrait-v2.jpg')
+          if 'assets/john-zarcaro-professional-portrait-v2.jpg' not in html:
+              raise SystemExit('New portrait path was not installed in index.html')
+          if 'assets/john-zarcaro-professional-portrait.jpg' in html:
+              raise SystemExit('Old low-resolution portrait path remains in index.html')
+          page.write_text(html, encoding='utf-8')
+          PY
+
+      - name: Remove temporary and obsolete portrait files
+        shell: bash
+        run: |
+          rm -f assets/portrait-v2-part-*.b64
+          rm -f portrait-v2.ready
+          rm -f assets/john-zarcaro-professional-portrait.jpg
+          rm -f .github/workflows/install-professional-portrait-v2.yml
+
+      - name: Commit exact portrait to PR branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Install original full-resolution professional portrait'
+          git push origin HEAD:${{ github.ref_name }}
