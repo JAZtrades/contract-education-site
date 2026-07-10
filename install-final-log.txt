@@ -1,0 +1,12 @@
+Branch: codex/fix-professional-portrait-implementation
+Commit: 2269c6b8d89f74339819d739982f937aa2533953
+Source commit: 39534a8e1cdac786d1f387711e1e89029fe318ee
+Reading assets/portrait-v11-part-01.b64 from 39534a8e1cdac786d1f387711e1e89029fe318ee
+Reading assets/portrait-v11-part-02.b64 from 39534a8e1cdac786d1f387711e1e89029fe318ee
+Reading assets/portrait-v11-part-03.b64 from 39534a8e1cdac786d1f387711e1e89029fe318ee
+Reading assets/portrait-v11-part-04.b64 from 39534a8e1cdac786d1f387711e1e89029fe318ee
+Reading assets/portrait-v11-part-05.b64 from 39534a8e1cdac786d1f387711e1e89029fe318ee
+Reading assets/portrait-v11-part-06.b64 from 39534a8e1cdac786d1f387711e1e89029fe318ee
+Reading assets/portrait-v11-part-07.b64 from 39534a8e1cdac786d1f387711e1e89029fe318ee
+base64: invalid input
+INSTALLATION FAILED WITH STATUS 1
