@@ -1,0 +1,62 @@
+name: Install crisp portrait
+
+on:
+  push:
+    paths:
+      - '.github/workflows/install-crisp-portrait.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Decode and verify portrait
+        shell: bash
+        run: |
+          cat assets/portrait-v11-part-*.b64 | tr -d '\r\n' | base64 --decode > assets/john-portrait-crisp-v11.jpg
+          echo "e6687b44de3f20bb30fe2e6a6dde978c955609b0cecaec0d7f6a8b0b224f8d30  assets/john-portrait-crisp-v11.jpg" | sha256sum -c -
+          test "$(stat -c%s assets/john-portrait-crisp-v11.jpg)" = "91422"
+
+      - name: Update homepage and mobile portrait styling
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          page = Path('index.html')
+          html = page.read_text(encoding='utf-8')
+          old = '<img class="hero-avatar-img" src="assets/john-photo-hq.webp?v=4" width="800" height="1000" decoding="async" fetchpriority="high" onerror="this.onerror=null;this.src=\'assets/john-photo.jpg?v=3\';" alt="Professional AI portrait of John Zarcaro">'
+          new = '<img class="hero-avatar-img" src="assets/john-portrait-crisp-v11.jpg?v=11" width="600" height="750" decoding="async" fetchpriority="high" alt="Professional AI portrait of John Zarcaro">'
+          if old not in html:
+              raise SystemExit('Expected portrait markup not found')
+          page.write_text(html.replace(old, new), encoding='utf-8')
+
+          stylesheet = Path('carlsbad-polish.css')
+          css = stylesheet.read_text(encoding='utf-8')
+          old_width = 'width: 190px !important;'
+          old_filter = 'filter: contrast(1.08) saturate(1.035) !important;'
+          if old_width not in css:
+              raise SystemExit('Expected mobile portrait width rule not found')
+          if old_filter not in css:
+              raise SystemExit('Expected portrait filter rule not found')
+          css = css.replace(old_width, 'width: 220px !important;')
+          css = css.replace(old_filter, 'filter: none !important;')
+          stylesheet.write_text(css, encoding='utf-8')
+          PY
+
+      - name: Commit the verified portrait
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/john-portrait-crisp-v11.jpg index.html carlsbad-polish.css
+          git commit -m "Install verified crisp portrait"
+          git push origin HEAD:main
