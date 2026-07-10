@@ -713,7 +713,6 @@ details p { color: var(--soft-text); margin-bottom: 0; }
 }
 
 .booking-offer-grid {
-  max-width: 460px;
   margin: 0 auto;
 }
 
