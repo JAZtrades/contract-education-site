@@ -59,7 +59,8 @@
       <div class="container contact-card booking-layout">
         <div class="content-panel call-panel">
           <span class="badge">Private request form</span>
-          <h2>Request Intro Call</h2>
+          <h2 id="request-form-heading">Request Intro Call</h2>
+          <p id="service-intent-message" class="service-intent-message" hidden></p>
           <p>Use the form below if the Calendly intro-call scheduler is not available or if you prefer to send a request first. Do not include passwords, private keys, recovery phrases, authentication codes, wallet addresses, or sensitive account information.</p>
 
           <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
@@ -184,7 +185,7 @@
             <h3>Private Cryptocurrency Education Session</h3>
             <p>Up to 90 minutes</p>
             <p class="price">$249</p>
-            <a class="btn primary full" href="schedule.html" data-integration-link="calendlyPaidSessionUrl" data-integration-fallback="bookingFallbackUrl" data-integration-target="blank">Book and Pay Securely</a>
+            <a class="btn primary full" href="schedule.html?service=intro#lead-form" data-integration-link="calendlyPaidSessionUrl" data-integration-fallback-url="schedule.html?service=intro#lead-form" data-integration-target="blank">Book and Pay Securely</a>
             <p class="mini-disclaimer">Available after the service scope and agreement are confirmed. Payment is processed securely through Stripe. John does not receive or store your card details.</p>
           </article>
         </div>

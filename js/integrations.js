@@ -30,6 +30,10 @@
   }
 
   function getFallbackUrl(element) {
+    if (element.dataset.integrationFallbackUrl) {
+      return element.dataset.integrationFallbackUrl;
+    }
+
     const fallbackKey = element.dataset.integrationFallback || 'bookingFallbackUrl';
     return config[fallbackKey] || 'schedule.html';
   }
@@ -123,18 +127,51 @@
     const params = new URLSearchParams(window.location.search);
     const service = params.get('service');
     const values = {
-      'complete-package': 'Complete Education Package - $799',
-      custom: 'Custom education for a family or group',
-      intro: 'Intro Crypto Education - $249'
+      'complete-package': {
+        option: 'Complete Education Package - $799',
+        heading: 'Request the Complete Cryptocurrency Education Package',
+        message: 'You selected the $799 complete package path. John will confirm the agreement and send the two client-specific Stripe invoices: $399.50 after signing and $399.50 before session two.',
+        button: 'Request the Complete Package'
+      },
+      custom: {
+        option: 'Custom education for a family or group',
+        heading: 'Request a Custom Cryptocurrency Education Plan',
+        message: 'You selected the custom plan path. John will confirm the written scope and send a client-specific Stripe invoice for the approved custom amount.',
+        button: 'Request a Custom Plan'
+      },
+      intro: {
+        option: 'Intro Crypto Education - $249',
+        heading: 'Request the Private Cryptocurrency Education Session',
+        message: 'You selected the $249 private session path. If the paid Calendly link is not configured yet, use this form and John will confirm the agreement before payment.',
+        button: 'Request the $249 Session'
+      }
     };
 
-    if (!values[service]) return;
+    const selected = values[service];
+    if (!selected) return;
 
     Array.from(serviceSelect.options).forEach((option) => {
-      if (option.textContent === values[service]) {
+      if (option.textContent === selected.option) {
         option.selected = true;
       }
     });
+
+    const heading = document.getElementById('request-form-heading');
+    if (heading) {
+      heading.textContent = selected.heading;
+    }
+
+    const intent = document.getElementById('service-intent-message');
+    if (intent) {
+      intent.textContent = selected.message;
+      intent.hidden = false;
+    }
+
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+      submitButton.textContent = selected.button;
+      submitButton.dataset.defaultText = selected.button;
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {

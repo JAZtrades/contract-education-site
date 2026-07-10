@@ -750,3 +750,14 @@ details p { color: var(--soft-text); margin-bottom: 0; }
     border-radius: 18px;
   }
 }
+
+.service-intent-message {
+  margin: 14px 0 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(243, 199, 91, .38);
+  background: rgba(243, 199, 91, .12);
+  color: #2c2136;
+  font-weight: 800;
+  line-height: 1.55;
+}
