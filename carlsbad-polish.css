@@ -131,7 +131,7 @@ details:hover {
   color: var(--purple);
 }
 
-/* Fix: the safety card uses both .content-panel and .dark-panel. This selector wins after .content-panel. */
+/* The safety card uses both .content-panel and .dark-panel. */
 .content-panel.dark-panel {
   color: #fff;
   background:
@@ -140,19 +140,12 @@ details:hover {
   border: 1px solid rgba(243,199,91,.36);
   box-shadow: 0 26px 72px rgba(37,0,71,.24), inset 0 0 0 1px rgba(255,255,255,.05);
 }
-.content-panel.dark-panel .eyebrow {
-  color: var(--gold);
-}
-.content-panel.dark-panel h2 {
-  color: #fff;
-}
-.content-panel.dark-panel p {
-  color: rgba(255,255,255,.86);
-}
+.content-panel.dark-panel .eyebrow { color: var(--gold); }
+.content-panel.dark-panel h2 { color: #fff; }
+.content-panel.dark-panel p { color: rgba(255,255,255,.86); }
 
 .safety-section {
-  background:
-    linear-gradient(180deg, #ffffff 0%, #fbf8ff 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8ff 100%);
 }
 .safety-cards .card {
   background: linear-gradient(180deg, #ffffff 0%, #fbf9ff 100%);
@@ -170,9 +163,8 @@ details:hover {
     linear-gradient(180deg, rgba(18,0,31,.94), rgba(3,1,5,.98));
 }
 .photo-caption strong,
-.site-footer a {
-  color: var(--gold);
-}
+.site-footer a { color: var(--gold); }
+
 .portrait-about {
   margin-top: 16px;
   padding: 18px 18px 20px;
@@ -245,7 +237,33 @@ details:hover {
   }
   .hero-dark { padding-top: 24px; }
   .section { padding: 60px 0; }
-  .content-panel.dark-panel {
-    padding: 26px;
+  .content-panel.dark-panel { padding: 26px; }
+
+  /* Keep the small source close to its native display size on high-DPI phones. */
+  .photo-card-shell {
+    width: min(100%, 340px);
+    margin-inline: auto;
+  }
+  .photo-ring {
+    width: 190px !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+    margin: 4px auto 0;
+    border-radius: 24px;
+  }
+  .photo-ring::before { inset: 8px; }
+  .photo-ring .hero-avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover;
+    object-position: center top;
+    transform: none !important;
+    filter: contrast(1.08) saturate(1.035) !important;
+    image-rendering: auto;
+  }
+  .photo-caption {
+    text-align: center;
+    justify-items: center;
   }
 }
