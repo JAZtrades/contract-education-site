@@ -157,11 +157,6 @@ details:hover {
     linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02)),
     radial-gradient(circle at 50% 0%, rgba(243,199,91,.18), transparent 18rem);
 }
-.photo-ring {
-  background:
-    radial-gradient(circle at 50% 22%, rgba(111,45,189,.42), transparent 14rem),
-    linear-gradient(180deg, rgba(18,0,31,.94), rgba(3,1,5,.98));
-}
 .photo-caption strong,
 .site-footer a { color: var(--gold); }
 
@@ -239,28 +234,12 @@ details:hover {
   .section { padding: 60px 0; }
   .content-panel.dark-panel { padding: 26px; }
 
-  /* Keep the small source close to its native display size on high-DPI phones. */
   .photo-card-shell {
     width: min(100%, 340px);
     margin-inline: auto;
   }
   .photo-ring {
-    width: 190px !important;
-    min-height: 0 !important;
-    aspect-ratio: 4 / 5;
-    margin: 4px auto 0;
-    border-radius: 24px;
-  }
-  .photo-ring::before { inset: 8px; }
-  .photo-ring .hero-avatar-img {
-    width: 100% !important;
-    height: 100% !important;
-    max-width: 100% !important;
-    object-fit: cover;
-    object-position: center top;
-    transform: none !important;
-    filter: contrast(1.08) saturate(1.035) !important;
-    image-rendering: auto;
+    width: min(100%, 280px);
   }
   .photo-caption {
     text-align: center;
