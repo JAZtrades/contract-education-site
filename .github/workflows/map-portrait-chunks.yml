@@ -1,0 +1,57 @@
+name: Map portrait source chunks
+
+on:
+  push:
+    branches:
+      - codex/fix-professional-portrait-implementation
+    paths:
+      - '.github/workflows/map-portrait-chunks.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  map:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - name: Record chunk boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_commit='4163f78d42a27a93e539b73e9f03bc9c2e4daa6e'
+          git cat-file -e "${source_commit}^{commit}" 2>/dev/null || git fetch --no-tags origin "${source_commit}"
+          : > portrait-chunk-map.txt
+          for path in \
+            assets/portrait-v11-part-01.b64 \
+            assets/portrait-v11-part-02.b64 \
+            assets/portrait-v11-part-03.b64 \
+            assets/portrait-v11-part-04.b64 \
+            assets/portrait-v11-part-05.b64 \
+            assets/portrait-v11-part-06.b64 \
+            assets/portrait-v11-part-07.b64 \
+            assets/portrait-v12-001.b64 \
+            assets/portrait-v12-002.b64
+          do
+            tmp="$(mktemp)"
+            git show "${source_commit}:${path}" > "$tmp"
+            printf 'path=%s\n' "$path" >> portrait-chunk-map.txt
+            printf 'bytes=%s\n' "$(stat -c%s "$tmp")" >> portrait-chunk-map.txt
+            printf 'git_blob=%s\n' "$(git hash-object "$tmp")" >> portrait-chunk-map.txt
+            printf 'head=' >> portrait-chunk-map.txt
+            head -c 64 "$tmp" >> portrait-chunk-map.txt
+            printf '\n' >> portrait-chunk-map.txt
+            printf 'tail=' >> portrait-chunk-map.txt
+            tail -c 64 "$tmp" >> portrait-chunk-map.txt
+            printf '\n---\n' >> portrait-chunk-map.txt
+            rm -f "$tmp"
+          done
+          rm -f .github/workflows/map-portrait-chunks.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Record portrait source chunk boundaries'
+          git push origin HEAD:${{ github.ref_name }}
