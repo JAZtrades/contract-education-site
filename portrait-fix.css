@@ -1,0 +1,65 @@
+/* Final portrait presentation: full-resolution rendering without artificial sharpening. */
+.photo-ring {
+  width: min(100%, 340px);
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 28px;
+}
+
+.photo-ring .hero-avatar-img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  object-fit: cover;
+  object-position: center center;
+  transform: none !important;
+  filter: none !important;
+  image-rendering: auto;
+  opacity: 1;
+  transition: opacity .22s ease;
+}
+
+.photo-ring .hero-avatar-img.portrait-loading {
+  opacity: 0;
+}
+
+.photo-ring .hero-avatar-img.portrait-ready {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .photo-card-shell {
+    width: min(100%, 370px);
+    margin-inline: auto;
+  }
+
+  .photo-ring {
+    width: min(100%, 270px) !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+    margin: 2px auto 0;
+    border-radius: 24px;
+  }
+
+  .photo-ring::before {
+    inset: 8px;
+  }
+
+  .photo-ring .hero-avatar-img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: cover;
+    object-position: center center;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .photo-caption {
+    text-align: center;
+    justify-items: center;
+  }
+}
