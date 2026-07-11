@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Payment Process | John Zarcaro</title>
-  <meta name="description" content="Learn the agreement and payment process for private cryptocurrency education sessions with John Zarcaro.">
+  <title>Secure Payment Process | John Zarcaro</title>
+  <meta name="description" content="Secure payment process for private cryptocurrency education sessions with John Zarcaro using Calendly, Stripe, and client-specific invoices.">
   <link rel="stylesheet" href="styles.css?v=10">
   <link rel="stylesheet" href="carlsbad-polish.css?v=1">
+  <script src="js/integration-config.js" defer></script>
+  <script src="js/integrations.js?v=service-paths-2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -29,55 +31,90 @@
   <main id="main">
     <section class="page-hero payment-hero">
       <div class="container narrow">
-        <p class="eyebrow">Before Payment</p>
-        <h1>Clear agreement first. Payment second. Appointment confirmed after that.</h1>
-        <p>This page prepares the site for the payment processor without pretending checkout is live before it is connected.</p>
+        <p class="eyebrow">Secure Payment Process</p>
+        <h1>Secure Payment Process</h1>
+        <p>Payments are collected only after the service scope is clear and the client agreement has been reviewed. Card information is entered on a secure Stripe-hosted payment page and is never submitted directly to this website.</p>
       </div>
     </section>
 
     <section class="section">
-      <div class="container payment-grid">
-        <div class="content-panel">
-          <span class="badge">Recommended process</span>
-          <h2>How a paid session gets confirmed</h2>
-          <ol class="step-list large-steps">
-            <li><strong>Intro call request.</strong><span>The client sends a short request explaining what they want help understanding.</span></li>
-            <li><strong>Scope confirmed.</strong><span>John confirms the service, format, timing, and education-only boundaries.</span></li>
-            <li><strong>Agreement reviewed.</strong><span>The client reviews the scope agreement before payment.</span></li>
-            <li><strong>Payment request sent.</strong><span>A secure payment link or checkout page will be used after the payment processor is connected.</span></li>
-            <li><strong>Appointment confirmed.</strong><span>After payment is received, John confirms the meeting time and session details.</span></li>
-          </ol>
-          <div class="btn-row">
-            <a class="btn primary" href="schedule.html">Request Intro Call</a>
-            <a class="btn secondary" href="contract.html">Review Agreement</a>
-          </div>
+      <div class="container">
+        <div class="section-heading center">
+          <p class="eyebrow dark">Payment Options</p>
+          <h2>Choose the secure path that matches the approved scope.</h2>
         </div>
 
-        <aside class="content-panel payment-status-card">
-          <span class="badge">Processor coming next</span>
-          <h3>Payment checkout is not live yet.</h3>
-          <p>The site is ready for a secure payment processor step, but the current client-facing path should still start with booking and agreement review.</p>
-          <div class="status-list">
-            <div><strong>Live now</strong><span>Intro call request form</span></div>
-            <div><strong>Live now</strong><span>Scope agreement page</span></div>
-            <div><strong>Next build</strong><span>Secure checkout/payment processor</span></div>
-          </div>
-          <p class="mini-disclaimer">Do not collect card or bank information directly through this static website form.</p>
-        </aside>
+        <div class="cards three payment-option-cards">
+          <article class="card price-card featured payment-option-card">
+            <span class="badge">Private session</span>
+            <h3>Private Cryptocurrency Education Session</h3>
+            <p class="price">$249</p>
+            <ul class="check-list">
+              <li>One session lasting up to 90 minutes</li>
+              <li>Payment due after the agreement is signed</li>
+              <li>Appointment confirmed after payment</li>
+              <li>Secure payment through Stripe inside Calendly</li>
+            </ul>
+            <a class="btn primary full" href="schedule.html?service=intro#lead-form" data-integration-link="calendlyPaidSessionUrl" data-integration-fallback-url="schedule.html?service=intro#lead-form" data-integration-target="blank">Book and Pay $249</a>
+          </article>
+
+          <article class="card price-card payment-option-card">
+            <span class="badge">Complete package</span>
+            <h3>Complete Cryptocurrency Education Package</h3>
+            <p class="price">$799</p>
+            <ul class="check-list">
+              <li>Three private sessions</li>
+              <li>Up to four total hours</li>
+              <li>First payment: $399.50 after signing the agreement</li>
+              <li>Second payment: $399.50 before the second session</li>
+              <li>Each payment is collected using a client-specific Stripe invoice</li>
+              <li>The package is not purchased through a public reusable checkout link</li>
+            </ul>
+            <div class="card-actions">
+              <a class="btn primary full" href="schedule.html?service=complete-package#lead-form">Request the Complete Package</a>
+              <a class="btn secondary full" href="schedule.html?service=complete-package#lead-form" data-integration-link="calendlyPackageUrl" data-integration-target="blank" data-integration-optional>View Prepaid Package</a>
+            </div>
+          </article>
+
+          <article class="card price-card payment-option-card">
+            <span class="badge">Custom scope</span>
+            <h3>Custom Cryptocurrency Education</h3>
+            <p class="price">Custom</p>
+            <ul class="check-list">
+              <li>Scope and price confirmed before payment</li>
+              <li>Client-specific Stripe invoice</li>
+              <li>No public generic checkout</li>
+              <li>Appointment scheduled after the agreed payment is received</li>
+            </ul>
+            <a class="btn primary full" href="schedule.html?service=custom#lead-form">Request a Custom Plan</a>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="section section-alt">
-      <div class="container">
-        <div class="section-heading center">
-          <p class="eyebrow dark">Session Pricing</p>
-          <h2>Payment should match the selected scope.</h2>
+      <div class="container payment-grid">
+        <div class="content-panel">
+          <span class="badge">Five-step process</span>
+          <h2>How payment and booking are confirmed</h2>
+          <ol class="step-list large-steps">
+            <li><strong>Request intro call.</strong><span>Start with a private conversation about your educational goals.</span></li>
+            <li><strong>Confirm educational scope.</strong><span>John confirms the right service, format, and education-only boundaries.</span></li>
+            <li><strong>Review and sign agreement.</strong><span>The agreement documents the selected service, price, payment timing, and safety boundaries.</span></li>
+            <li><strong>Receive secure Stripe payment request.</strong><span>The $249 session is paid through Calendly with Stripe. Packages and custom work use client-specific Stripe invoices.</span></li>
+            <li><strong>Confirm appointment.</strong><span>Paid appointments are confirmed after the required payment is complete.</span></li>
+          </ol>
         </div>
-        <div class="cards three">
-          <article class="card price-card"><span class="badge">Starter</span><h3>Intro Crypto Education</h3><p class="price">$249</p><p>One private session lasting up to 90 minutes.</p></article>
-          <article class="card price-card featured"><span class="badge">Most Complete</span><h3>Complete Education Package</h3><p class="price">$799</p><p>Three private sessions totaling up to four hours.</p></article>
-          <article class="card price-card"><span class="badge">Flexible</span><h3>Custom Education</h3><p class="price">Custom</p><p>Custom scope and pricing confirmed before payment.</p></article>
-        </div>
+
+        <aside class="content-panel payment-status-card">
+          <span class="badge">Security note</span>
+          <h3>Use only Stripe-hosted or Calendly-hosted checkout.</h3>
+          <p>Never enter card details, passwords, seed phrases, private keys, authentication codes, or wallet recovery information directly into this website. Payment details are entered only on a Stripe-hosted or Calendly-hosted checkout page.</p>
+          <div class="btn-row">
+            <a class="btn primary" href="schedule.html">Request Intro Call</a>
+            <a class="btn secondary" href="contract.html">Review Agreement</a>
+          </div>
+        </aside>
       </div>
     </section>
   </main>
