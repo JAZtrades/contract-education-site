@@ -1,0 +1,16 @@
+{
+  "name": "contract-education-site",
+  "version": "1.0.0",
+  "description": "Static GitHub Pages website for John Zarcaro, Cryptocurrency Educator for the Digital Age.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test tests/service-selection.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

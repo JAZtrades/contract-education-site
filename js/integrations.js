@@ -4,6 +4,50 @@
   const config = window.JOHN_SITE_INTEGRATIONS || {};
   const warned = new Set();
 
+  const SERVICE_OPTIONS = Object.freeze({
+    intro: Object.freeze({
+      key: 'intro',
+      label: 'Private Cryptocurrency Education Session',
+      shortLabel: 'Private Session',
+      price: '$249',
+      formOption: 'Intro Crypto Education - $249',
+      heading: 'Request the Private Cryptocurrency Education Session',
+      message: 'You selected the $249 private session. John will confirm the agreement before payment.',
+      submitLabel: 'Request the $249 Session',
+      offerId: 'offer-intro',
+      paymentDescription: 'One private session lasting up to 90 minutes.',
+      invoiceDescription: 'Payment is processed securely through Calendly and Stripe after the agreement is confirmed.'
+    }),
+    'complete-package': Object.freeze({
+      key: 'complete-package',
+      label: 'Complete Cryptocurrency Education Package',
+      shortLabel: 'Complete Package',
+      price: '$799',
+      formOption: 'Complete Education Package - $799',
+      heading: 'Request the Complete Cryptocurrency Education Package',
+      message: 'You selected the $799 complete package. John will confirm the agreement and send two client-specific Stripe invoices: $399.50 after signing and $399.50 before session two.',
+      submitLabel: 'Request the $799 Complete Package',
+      offerId: 'offer-complete-package',
+      paymentDescription: 'Three private sessions totaling up to four hours.',
+      invoiceDescription: 'Two client-specific Stripe invoices: $399.50 after signing and $399.50 before session two.'
+    }),
+    custom: Object.freeze({
+      key: 'custom',
+      label: 'Custom Cryptocurrency Education',
+      shortLabel: 'Custom Plan',
+      price: 'Custom',
+      formOption: 'Custom education for a family or group',
+      heading: 'Request a Custom Cryptocurrency Education Plan',
+      message: 'You selected a custom education plan. John will confirm the written scope and send a client-specific Stripe invoice for the approved amount.',
+      submitLabel: 'Request a Custom Plan',
+      offerId: 'offer-custom',
+      paymentDescription: 'A custom educational scope for an individual, family, or group.',
+      invoiceDescription: 'A client-specific Stripe invoice is sent after the scope and price are agreed in writing.'
+    })
+  });
+
+  let activeServiceKey = 'intro';
+
   function warnOnce(key, message) {
     if (warned.has(key)) return;
     warned.add(key);
@@ -120,63 +164,172 @@
     });
   }
 
-  function applyServiceQueryDefaults() {
-    const serviceSelect = document.getElementById('service_interest');
-    if (!serviceSelect) return;
+  function getServiceFromUrl() {
+    const service = new URLSearchParams(window.location.search).get('service');
+    return SERVICE_OPTIONS[service] || SERVICE_OPTIONS.intro;
+  }
 
-    const params = new URLSearchParams(window.location.search);
-    const service = params.get('service');
-    const values = {
-      'complete-package': {
-        option: 'Complete Education Package - $799',
-        heading: 'Request the Complete Cryptocurrency Education Package',
-        message: 'You selected the $799 complete package path. John will confirm the agreement and send the two client-specific Stripe invoices: $399.50 after signing and $399.50 before session two.',
-        button: 'Request the Complete Package'
-      },
-      custom: {
-        option: 'Custom education for a family or group',
-        heading: 'Request a Custom Cryptocurrency Education Plan',
-        message: 'You selected the custom plan path. John will confirm the written scope and send a client-specific Stripe invoice for the approved custom amount.',
-        button: 'Request a Custom Plan'
-      },
-      intro: {
-        option: 'Intro Crypto Education - $249',
-        heading: 'Request the Private Cryptocurrency Education Session',
-        message: 'You selected the $249 private session path. If the paid Calendly link is not configured yet, use this form and John will confirm the agreement before payment.',
-        button: 'Request the $249 Session'
+  function setText(selector, value) {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.textContent = value;
+    });
+  }
+
+  function setHiddenValue(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.value = value;
+  }
+
+  function updateUrl(serviceKey) {
+    if (!window.history || !window.history.replaceState) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('service', serviceKey);
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  }
+
+  function setSelectedOfferCard(selectedService) {
+    document.querySelectorAll('[data-selected-service-card]').forEach((card) => {
+      const isSelected = card.id === selectedService.offerId;
+      card.classList.toggle('selected-service-card', isSelected);
+
+      if (isSelected) {
+        card.setAttribute('aria-current', 'true');
+      } else {
+        card.removeAttribute('aria-current');
       }
-    };
 
-    const selected = values[service];
-    if (!selected) return;
+      const action = card.querySelector('.btn');
+      if (!action) return;
 
-    Array.from(serviceSelect.options).forEach((option) => {
-      if (option.textContent === selected.option) {
-        option.selected = true;
+      if (isSelected) {
+        action.setAttribute('aria-current', 'true');
+      } else {
+        action.removeAttribute('aria-current');
       }
     });
+  }
 
-    const heading = document.getElementById('request-form-heading');
-    if (heading) {
-      heading.textContent = selected.heading;
+  function applyServiceState(service, options) {
+    const selectedService = SERVICE_OPTIONS[service] || SERVICE_OPTIONS.intro;
+    const settings = options || {};
+    activeServiceKey = selectedService.key;
+
+    if (settings.updateUrl) {
+      updateUrl(selectedService.key);
     }
 
-    const intent = document.getElementById('service-intent-message');
-    if (intent) {
-      intent.textContent = selected.message;
-      intent.hidden = false;
-    }
+    document.title = `${selectedService.shortLabel} Request | John Zarcaro`;
+
+    setText('[data-selected-service-label]', selectedService.label);
+    setText('[data-selected-service-price]', selectedService.price);
+    setText('[data-selected-service-heading]', selectedService.heading);
+    setText('[data-selected-service-message]', selectedService.message);
+    setText('[data-selected-service-description]', selectedService.paymentDescription);
+    setText('[data-selected-service-invoice]', selectedService.invoiceDescription);
+    setText('[data-selected-service-submit]', selectedService.submitLabel);
+
+    const serviceSelect = document.getElementById('service_interest');
+    if (serviceSelect) serviceSelect.value = selectedService.key;
+
+    setHiddenValue('selected_service_key', selectedService.key);
+    setHiddenValue('selected_service_label', selectedService.label);
+    setHiddenValue('selected_service_price', selectedService.price);
 
     const submitButton = document.getElementById('submit-button');
     if (submitButton) {
-      submitButton.textContent = selected.button;
-      submitButton.dataset.defaultText = selected.button;
+      submitButton.dataset.defaultText = selectedService.submitLabel;
+      submitButton.textContent = selectedService.submitLabel;
+    }
+
+    setSelectedOfferCard(selectedService);
+  }
+
+  function initializeServiceState() {
+    if (!document.getElementById('lead-form')) return;
+
+    applyServiceState(getServiceFromUrl().key);
+
+    const serviceSelect = document.getElementById('service_interest');
+    if (serviceSelect) {
+      serviceSelect.addEventListener('change', () => {
+        const selectedService = SERVICE_OPTIONS[serviceSelect.value] || SERVICE_OPTIONS.intro;
+        applyServiceState(selectedService.key, { updateUrl: true });
+      });
     }
   }
+
+  function initializeLeadForm() {
+    const leadForm = document.getElementById('lead-form');
+    if (!leadForm) return;
+
+    const submitButton = document.getElementById('submit-button');
+    const formMessage = document.getElementById('form-message');
+    const sentPanel = document.getElementById('sent-panel');
+    const sendAnother = document.getElementById('send-another');
+
+    leadForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      formMessage.className = 'form-message';
+      formMessage.textContent = '';
+      submitButton.disabled = true;
+      submitButton.textContent = 'Submitting...';
+
+      const formData = new FormData(leadForm);
+      const payload = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || 'Submission failed.');
+        }
+
+        leadForm.reset();
+        applyServiceState(activeServiceKey);
+        leadForm.style.display = 'none';
+        sentPanel.classList.add('active');
+        formMessage.className = 'form-message success';
+        formMessage.textContent = 'Request received. I will follow up with the next step.';
+      } catch (error) {
+        formMessage.className = 'form-message error';
+        formMessage.textContent = 'The form did not submit. Please check the required fields and try again.';
+        applyServiceState(activeServiceKey);
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = submitButton.dataset.defaultText || 'Request Intro Call';
+      }
+    });
+
+    sendAnother.addEventListener('click', function () {
+      sentPanel.classList.remove('active');
+      formMessage.className = 'form-message';
+      formMessage.textContent = '';
+      leadForm.style.display = 'grid';
+      applyServiceState(activeServiceKey);
+    });
+  }
+
+  window.JohnBookingState = Object.freeze({
+    reapply: () => applyServiceState(activeServiceKey),
+    setService: (serviceKey) => applyServiceState(serviceKey, { updateUrl: true }),
+    getService: () => activeServiceKey,
+    options: SERVICE_OPTIONS
+  });
 
   document.addEventListener('DOMContentLoaded', () => {
     configureLinks();
     configureCalendlyEmbeds();
-    applyServiceQueryDefaults();
+    initializeServiceState();
+    initializeLeadForm();
   });
 })();
