@@ -1,0 +1,2 @@
+require('dotenv/config'); const argon2=require('argon2'); const {getDb,migrate}=require('../lib/db'); const {now}=require('../lib/payments');
+(async()=>{migrate(); const email=process.env.ADMIN_EMAIL; const pw=process.env.ADMIN_INITIAL_PASSWORD; if(!email||!pw||pw.length<12) throw new Error('Set ADMIN_EMAIL and ADMIN_INITIAL_PASSWORD (12+ chars)'); const hash=await argon2.hash(pw); getDb().prepare('INSERT OR REPLACE INTO admins(email,passwordHash,createdAt) VALUES(?,?,?)').run(email,hash,now()); console.log('Admin ready:',email);})();
