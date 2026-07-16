@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Payment Process | John Zarcaro</title>
-  <meta name="description" content="Learn the private agreement-first payment process for cryptocurrency education sessions with John Zarcaro.">
+  <meta name="description" content="Select a fixed-price cryptocurrency education service and continue to secure Stripe-hosted checkout with John Zarcaro.">
   <link rel="stylesheet" href="styles.css?v=10">
   <link rel="stylesheet" href="carlsbad-polish.css?v=1">
 </head>
@@ -29,23 +29,80 @@
   <main id="main">
     <section class="page-hero payment-hero">
       <div class="container narrow">
-        <p class="eyebrow">Private Client Payment</p>
-        <h1>Agreement first. Private payment request second.</h1>
-        <p>Payment is requested only after your educational needs, selected service, price, and scope have been confirmed. After you review and sign the agreement, John will send you a secure Stripe-hosted invoice directly.</p>
+        <p class="eyebrow">Secure Stripe Checkout</p>
+        <h1>Select your service and continue to secure checkout.</h1>
+        <p>After reviewing the service terms and Scope of Services Agreement, select the appropriate payment option below. Payment information is entered securely on Stripe’s hosted checkout page. This website does not collect or store your card or bank-account information.</p>
+        <p class="hero-notice">Only submit payment after confirming the service and terms with John.</p>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-heading center">
+          <p class="eyebrow dark">Fixed-Price Services</p>
+          <h2>Choose the payment option that matches your agreement.</h2>
+          <p>Stripe Payment Links are being connected. Until John’s real Stripe-hosted URLs are added, fixed-price checkout buttons are intentionally disabled.</p>
+        </div>
+        <div class="cards three pricing-grid payment-card-grid">
+          <article class="card price-card payment-option-card">
+            <span class="badge">Single Session</span>
+            <h3>Intro Crypto Education</h3>
+            <p class="price">$249</p>
+            <p>One private cryptocurrency education session lasting up to 90 minutes. Full payment is required before the appointment is confirmed.</p>
+            <!-- STRIPE_PAYMENT_LINK_INTRO: Replace with John’s real Stripe Payment Link for the $249 Intro Crypto Education session. The final URL must begin with https://buy.stripe.com/ -->
+            <button class="btn primary full" type="button" disabled>Stripe Checkout Being Connected</button>
+          </article>
+
+          <article class="card price-card featured payment-option-card">
+            <span class="badge">Three Sessions</span>
+            <h3>Complete Education Package</h3>
+            <p class="price">$799 total</p>
+            <p>Three private sessions totaling up to four hours.</p>
+            <ul class="check-list compact-list">
+              <li>First payment: $399.50</li>
+              <li>Final payment: $399.50 before the second session</li>
+              <li>Two separate payments</li>
+              <li>Not a subscription</li>
+            </ul>
+            <div class="installment-actions" aria-label="Complete Education Package installment checkout options">
+              <div class="installment-choice">
+                <strong>First installment</strong>
+                <span>Use this for the first $399.50 payment after agreement review.</span>
+                <!-- STRIPE_PAYMENT_LINK_PACKAGE_FIRST: Replace with John’s real Stripe Payment Link for the first $399.50 Complete Education Package installment. The final URL must begin with https://buy.stripe.com/ -->
+                <button class="btn primary full" type="button" disabled>Stripe Checkout Being Connected</button>
+              </div>
+              <div class="installment-choice final-installment">
+                <strong>Final installment</strong>
+                <span>Use this only for the final $399.50 payment before the second session.</span>
+                <!-- STRIPE_PAYMENT_LINK_PACKAGE_FINAL: Replace with John’s real Stripe Payment Link for the final $399.50 Complete Education Package installment. The final URL must begin with https://buy.stripe.com/ -->
+                <button class="btn secondary full" type="button" disabled>Stripe Checkout Being Connected</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card price-card payment-option-card">
+            <span class="badge">Custom</span>
+            <h3>Custom Education</h3>
+            <p class="price">Written quote</p>
+            <p>The scope, price, number of sessions, and payment schedule are agreed to in writing before a custom payment request is sent.</p>
+            <a class="btn primary full" href="schedule.html">Request Custom Payment Link</a>
+          </article>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="container payment-grid">
         <div class="content-panel">
-          <span class="badge">Recommended process</span>
+          <span class="badge">Agreement-first process</span>
           <h2>How a paid session gets confirmed</h2>
           <ol class="step-list large-steps">
-            <li><strong>Intro call request</strong><span>Tell John what you want help understanding.</span></li>
-            <li><strong>Scope confirmed</strong><span>Confirm the service, educational topics, format, schedule, and price.</span></li>
-            <li><strong>Agreement reviewed</strong><span>Read and sign the Scope of Services Agreement before paying.</span></li>
-            <li><strong>Private payment request</strong><span>John sends a Stripe-hosted invoice directly to the approved client.</span></li>
-            <li><strong>Appointment confirmation</strong><span>John verifies the completed payment and confirms the session details.</span></li>
+            <li><strong>Request an intro call</strong><span>Tell John what you want help understanding.</span></li>
+            <li><strong>Confirm the service</strong><span>Confirm the service, educational topics, format, price, and schedule.</span></li>
+            <li><strong>Review the agreement</strong><span>Read the Scope of Services Agreement before paying.</span></li>
+            <li><strong>Select the correct payment</strong><span>Choose the fixed-price payment option that matches the agreed service.</span></li>
+            <li><strong>Complete secure Stripe checkout</strong><span>Enter payment information only on Stripe’s hosted website.</span></li>
+            <li><strong>Receive appointment confirmation</strong><span>John verifies the payment and confirms the appointment details.</span></li>
           </ol>
           <div class="btn-row">
             <a class="btn primary" href="schedule.html">Request Intro Call</a>
@@ -54,48 +111,16 @@
         </div>
 
         <aside class="content-panel payment-status-card">
-          <span class="badge">Private payment only</span>
-          <h3>There is no public checkout on this website.</h3>
-          <p>Every payment request is connected to a specific client, selected service, and signed agreement. Do not submit payment unless John sent the payment request to you directly after confirming the service.</p>
+          <span class="badge">Secure hosted checkout</span>
+          <h3>Use only the correct Stripe-hosted checkout link.</h3>
+          <p>Fixed-price services will redirect to Stripe-hosted Payment Links once John’s approved URLs are connected. The public website does not collect card numbers, bank information, passwords, Stripe credentials, or other sensitive payment data.</p>
           <div class="status-list">
-            <div><strong>Step 1</strong><span>Intro call completed</span></div>
-            <div><strong>Step 2</strong><span>Service and scope confirmed</span></div>
-            <div><strong>Step 3</strong><span>Agreement reviewed and signed</span></div>
-            <div><strong>Step 4</strong><span>Private Stripe invoice sent</span></div>
-            <div><strong>Step 5</strong><span>Appointment confirmed after payment verification</span></div>
+            <div><strong>Before paying</strong><span>Confirm the selected service, price, and Scope of Services Agreement.</span></div>
+            <div><strong>During checkout</strong><span>Enter payment information only on a secure page beginning with https://buy.stripe.com/.</span></div>
+            <div><strong>After checkout</strong><span>John verifies the Stripe payment record before confirming the appointment.</span></div>
           </div>
           <p class="mini-disclaimer">Private cryptocurrency education only. John does not provide investment advice, asset management, legal advice, tax advice, accounting advice, custody, transaction execution, or financial planning.</p>
         </aside>
-      </div>
-    </section>
-
-    <section class="section section-alt">
-      <div class="container">
-        <div class="section-heading center">
-          <p class="eyebrow dark">Session Pricing</p>
-          <h2>Payment should match the selected scope.</h2>
-        </div>
-        <div class="cards three pricing-grid">
-          <article class="card price-card">
-            <span class="badge">Single Session</span>
-            <h3>Intro Crypto Education</h3>
-            <p class="price">$249</p>
-            <p>One private session lasting up to 90 minutes. Full payment is requested after the agreement is signed and before the appointment is confirmed.</p>
-          </article>
-          <article class="card price-card featured">
-            <span class="badge">Three Sessions</span>
-            <h3>Complete Education Package</h3>
-            <p class="price">$799 total</p>
-            <p>Three private sessions totaling up to four hours. The first $399.50 payment is requested after signing. The remaining $399.50 is requested before the second session.</p>
-            <p class="mini-disclaimer">Two separate payments. Not a subscription.</p>
-          </article>
-          <article class="card price-card">
-            <span class="badge">Custom</span>
-            <h3>Custom Education</h3>
-            <p class="price">Written quote</p>
-            <p>The scope, price, number of sessions, and payment schedule are agreed to in writing before a payment request is sent.</p>
-          </article>
-        </div>
       </div>
     </section>
 
@@ -103,16 +128,17 @@
       <div class="container">
         <div class="section-heading center">
           <p class="eyebrow dark">Payment Safety</p>
-          <h2>Keep payment and account information private.</h2>
+          <h2>Verify the service and price before paying.</h2>
         </div>
         <div class="content-panel">
           <ul class="check-list large">
-            <li>This website does not collect card or bank information.</li>
-            <li>John will not ask for payment through a wallet address posted on the public website.</li>
-            <li>Never send passwords, seed phrases, private keys, recovery phrases, authentication codes, or account credentials.</li>
-            <li>Do not send screenshots containing financial-account credentials.</li>
-            <li>Do not pay an amount that differs from the signed agreement.</li>
-            <li>Contact John directly if a payment request looks unfamiliar or contains different terms.</li>
+            <li>Payment information is entered only on Stripe’s hosted checkout website.</li>
+            <li>This website does not collect or store card or bank-account information.</li>
+            <li>Confirm that the selected service and amount match the agreement.</li>
+            <li>John will never ask for passwords, seed phrases, recovery phrases, private keys, or authentication codes.</li>
+            <li>Do not send screenshots containing account credentials or payment information.</li>
+            <li>Contact John before paying if the service, amount, or payment request appears incorrect.</li>
+            <li>Do not send cryptocurrency directly to a public wallet address.</li>
           </ul>
         </div>
       </div>
@@ -125,13 +151,5 @@
       <p><a href="index.html">Home</a> · <a href="schedule.html">Book Intro Call</a> · <a href="contract.html">Client Agreement</a></p>
     </div>
   </footer>
-
-  <!--
-    Future private payment portal:
-    The public website must never create Stripe charges directly.
-    When pay.jaz.llc is deployed, approved clients will receive individual
-    invitation links generated by the private backend. Do not enable a
-    public payment-portal link without that backend.
-  -->
 </body>
 </html>

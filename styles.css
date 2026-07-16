@@ -216,7 +216,13 @@ p { line-height: 1.75; }
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
 }
 .btn:hover { transform: translateY(-2px); }
+.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .btn.full { width: 100%; }
+button.btn { cursor: pointer; }
+button.btn:disabled,
+button.btn[disabled] { cursor: not-allowed; opacity: .68; filter: grayscale(.12); transform: none; box-shadow: none; }
+button.btn:disabled:hover,
+button.btn[disabled]:hover { transform: none; }
 .btn.primary,
 .purple-btn {
   color: var(--white);
@@ -401,6 +407,36 @@ p { line-height: 1.75; }
 .card ul { padding-left: 20px; margin-bottom: 22px; line-height: 1.8; color: var(--soft-text); }
 .card-link { margin-top: auto; color: var(--purple); font-weight: 900; text-decoration: none; }
 .card-link:hover { text-decoration: underline; }
+
+.hero-notice {
+  display: inline-flex;
+  margin: 10px 0 0;
+  padding: 11px 14px;
+  border: 1px solid rgba(246,200,95,.38);
+  border-radius: 999px;
+  color: var(--white) !important;
+  background: rgba(246,200,95,.12);
+  font-weight: 900;
+}
+.payment-card-grid { align-items: stretch; }
+.payment-option-card { gap: 10px; }
+.payment-option-card .btn { margin-top: auto; }
+.compact-list { padding-left: 0 !important; }
+.installment-actions { display: grid; gap: 14px; margin-top: auto; }
+.installment-choice {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid rgba(109,40,217,.16);
+  border-radius: 16px;
+  background: rgba(109,40,217,.045);
+}
+.installment-choice strong { color: var(--purple-dark); }
+.installment-choice span { color: var(--soft-text); line-height: 1.5; }
+.final-installment {
+  border-color: rgba(246,200,95,.42);
+  background: rgba(246,200,95,.09);
+}
 
 .split {
   display: grid;
