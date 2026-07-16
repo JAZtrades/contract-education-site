@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: zarcaro-pay-backend
+    env: docker
+    plan: starter
+    healthCheckPath: /healthz
+    disk:
+      name: zarcaro-pay-data
+      mountPath: /app/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: DATABASE_PATH
+        value: /app/data/app.sqlite
+      - key: APP_BASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_INITIAL_PASSWORD
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_PUBLISHABLE_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: PAYMENT_MIN_CENTS
+        value: 750000
+      - key: PAYMENT_MAX_CENTS
+        value: 4000000
+      - key: PAYMENT_HIGH_VALUE_CONFIRM_CENTS
+        value: 2500000
+      - key: CARD_PAYMENT_MAX_CENTS
+        value: 1000000

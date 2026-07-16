@@ -5,6 +5,7 @@ migrate(); const db=getDb(); const app=express(); const stripe=process.env.STRIP
 const prod=process.env.NODE_ENV==='production';
 app.use(helmet({contentSecurityPolicy:{directives:{defaultSrc:["'self'"],scriptSrc:["'self'","https://js.stripe.com"],frameSrc:["https://js.stripe.com","https://hooks.stripe.com"],connectSrc:["'self'","https://api.stripe.com"],imgSrc:["'self'","data:"],styleSrc:["'self'","'unsafe-inline'"]}},referrerPolicy:{policy:'strict-origin-when-cross-origin'}}));
 app.use((req,res,next)=>{if(prod&&req.headers['x-forwarded-proto']==='http') return res.redirect(301,'https://'+req.headers.host+req.url); next();});
+app.get('/healthz',(req,res)=>res.json({ok:true}));
 app.post('/api/stripe/webhook',express.raw({type:'application/json'}),webhook);
 app.use(express.urlencoded({extended:false})); app.use(express.json()); app.use(express.static(process.cwd(),{extensions:['html'],setHeaders(res,file){if(file.includes('/pay/')) res.setHeader('X-Robots-Tag','noindex, nofollow')}}));
 const rates=new Map(); function rate(key,limit=10,ms=60000){const n=Date.now(), a=(rates.get(key)||[]).filter(t=>n-t<ms); if(a.length>=limit) return false; a.push(n); rates.set(key,a); return true;}

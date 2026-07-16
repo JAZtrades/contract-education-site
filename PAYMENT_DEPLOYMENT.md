@@ -96,3 +96,12 @@ The implementation does not decide whether funds belong in an operating account 
 ## Production-readiness note
 
 Do not treat this as production-ready until test-mode Checkout, verified webhooks, link expiration, link revocation, and asynchronous ACH success/failure status changes have all been validated on the target host.
+
+## Split frontend/backend deployment
+
+This repository includes deployment scaffolding for a split deployment:
+
+- `vercel.json` serves the static frontend from Vercel and rewrites `/admin/*`, `/api/*`, and `/pay/*` to the backend host.
+- `Dockerfile` and `render.yaml` deploy the Node/Express backend to Render with a persistent SQLite disk.
+
+Before deploying the Vercel frontend, replace `https://REPLACE_WITH_BACKEND_HOST` in `vercel.json` with the actual backend URL assigned by the backend host. Set the backend `APP_BASE_URL` to the final public frontend URL if Vercel proxies the payment/admin routes, or to the backend URL if those routes are accessed directly.
