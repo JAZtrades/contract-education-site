@@ -31,7 +31,7 @@
       <div class="container narrow">
         <p class="eyebrow">Before Payment</p>
         <h1>Clear agreement first. Payment second. Appointment confirmed after that.</h1>
-        <p>This page prepares the site for the payment processor without pretending checkout is live before it is connected.</p>
+        <p>The public process starts with a free intro call. There is no unrestricted public checkout: payment access is client-specific and remains unavailable until the completed agreement has been verified.</p>
       </div>
     </section>
 
@@ -42,10 +42,11 @@
           <h2>How a paid session gets confirmed</h2>
           <ol class="step-list large-steps">
             <li><strong>Free intro call.</strong><span>The client chooses a current available time through the secure Proton booking page.</span></li>
-            <li><strong>Scope confirmed.</strong><span>John confirms the service, format, timing, and education-only boundaries.</span></li>
-            <li><strong>Agreement reviewed.</strong><span>The client reviews the scope agreement before payment.</span></li>
-            <li><strong>Payment request sent.</strong><span>A secure payment link or checkout page will be used after the payment processor is connected.</span></li>
-            <li><strong>Appointment confirmed.</strong><span>After payment is received, John confirms the meeting time and session details.</span></li>
+            <li><strong>Scope confirmed.</strong><span>John confirms the service, price, format, timing, payment schedule, and education-only boundaries.</span></li>
+            <li><strong>Agreement signed and verified.</strong><span>The client-specific scope agreement must be completed and independently verified before payment access can be issued.</span></li>
+            <li><strong>Private payment access.</strong><span>The client receives a one-time, expiring way to open only the exact service, installment, and price John authorized.</span></li>
+            <li><strong>Stripe-hosted checkout.</strong><span>Payment details are entered only on Stripe’s secure website. Returning to this site does not by itself prove payment.</span></li>
+            <li><strong>Paid appointment access.</strong><span>The paid-session booking step is released only after the backend verifies the required payment.</span></li>
           </ol>
           <div class="btn-row">
             <a class="btn primary" href="schedule.html">Book Free Intro Call</a>
@@ -54,16 +55,17 @@
         </div>
 
         <aside class="content-panel payment-status-card">
-          <span class="badge">Processor coming next</span>
-          <h3>Payment checkout is not live yet.</h3>
-          <p>The site is ready for a secure payment processor step, but the current client-facing path should still start with booking and agreement review.</p>
+          <span class="badge">Private workflow in testing</span>
+          <h3>There is no public checkout.</h3>
+          <p>The agreement and payment portal is being tested privately. The current client-facing path still starts with the free intro call, and no payment invitation is sent from this public page.</p>
           <div class="status-list">
             <div><strong>Live now</strong><span>Secure Proton intro-call booking</span></div>
             <div><strong>Live now</strong><span>Private scheduling change requests</span></div>
             <div><strong>Live now</strong><span>Scope agreement page</span></div>
-            <div><strong>Next build</strong><span>Secure checkout/payment processor</span></div>
+            <div><strong>Private test</strong><span>Verified agreement and payment gates</span></div>
+            <div><strong>Not live</strong><span>Customer payment invitations and paid-session booking</span></div>
           </div>
-          <p class="mini-disclaimer">Do not collect card or bank information directly through this static website form.</p>
+          <p class="mini-disclaimer">Never send card or bank information by email, text, or a form on this static website. When enabled, payment details will be entered only on Stripe’s hosted checkout.</p>
         </aside>
       </div>
     </section>
@@ -75,9 +77,9 @@
           <h2>Payment should match the selected scope.</h2>
         </div>
         <div class="cards three">
-          <article class="card price-card"><span class="badge">Starter</span><h3>Intro Crypto Education</h3><p class="price">$249</p><p>One private session lasting up to 90 minutes.</p></article>
-          <article class="card price-card featured"><span class="badge">Most Complete</span><h3>Complete Education Package</h3><p class="price">$799</p><p>Three private sessions totaling up to four hours.</p></article>
-          <article class="card price-card"><span class="badge">Flexible</span><h3>Custom Education</h3><p class="price">Custom</p><p>Custom scope and pricing confirmed before payment.</p></article>
+          <article class="card price-card"><span class="badge">Starter</span><h3>Private Cryptocurrency Education Session</h3><p class="price">$249</p><p>One private session lasting up to 90 minutes. The full fee is due after signing and before the appointment is confirmed.</p></article>
+          <article class="card price-card featured"><span class="badge">Most Complete</span><h3>Complete Cryptocurrency Education Package</h3><p class="price">$799</p><p>Three private sessions totaling up to four hours. Two separate one-time payments of $399.50; never a subscription or automatic second charge.</p></article>
+          <article class="card price-card"><span class="badge">Flexible</span><h3>Custom Cryptocurrency Education Service</h3><p class="price">Custom</p><p>A written scope, price, and payment schedule are agreed before service. The client never enters or changes the price.</p></article>
         </div>
       </div>
     </section>
