@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Change or Cancel an Intro Call | John Zarcaro</title>
+  <meta name="description" content="Request a reschedule or cancellation for a John Zarcaro cryptocurrency education intro call without sharing sensitive information.">
+  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="stylesheet" href="carlsbad-polish.css?v=2">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand brand-wide" href="index.html" aria-label="John Zarcaro home">
+        <img src="assets/logo.svg?v=5" alt="John Zarcaro logo">
+        <span><strong>John Zarcaro</strong><small>Cryptocurrency Educator · For the Digital Age</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="contract.html">Agreement</a>
+        <a href="pay.html">Payment</a>
+        <a href="manage-booking.html" aria-current="page">Change a Booking</a>
+        <a class="nav-cta" href="schedule.html">Book Intro Call</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero booking-page-hero">
+      <div class="container narrow">
+        <p class="eyebrow">Existing Intro Call</p>
+        <h1>Request a change or cancellation.</h1>
+        <p>Prepare a scheduling email below using the same email address used for your booking. Your details stay in your browser until your email app opens, and nothing is sent until you review the message and choose Send.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container contact-card booking-layout">
+        <div class="content-panel call-panel">
+          <span class="badge">Scheduling details only</span>
+          <h2>Tell us what needs to change</h2>
+          <p>Your appointment is not changed or canceled when you prepare or send this request. It remains active until you receive an official Proton Calendar update or cancellation email.</p>
+
+          <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+
+          <form id="booking-change-form" class="lead-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="name">Name on the booking</label>
+                <input id="name" name="name" type="text" autocomplete="name" maxlength="120" required>
+              </div>
+              <div class="form-field">
+                <label for="booking-email">Email used to book</label>
+                <input id="booking-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="request-type">What would you like to do?</label>
+              <select id="request-type" name="request_type" required>
+                <option value="">Choose one</option>
+                <option value="Reschedule intro call">Reschedule the intro call</option>
+                <option value="Cancel intro call">Cancel the intro call</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="confirmed-date">Current appointment date</label>
+                <input id="confirmed-date" name="current_appointment_date" type="date" autocomplete="off" required>
+              </div>
+              <div class="form-field">
+                <label for="confirmed-time">Current appointment time</label>
+                <input id="confirmed-time" name="current_appointment_time" type="time" autocomplete="off" required>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="time-zone">Time zone shown on your confirmation</label>
+              <input id="time-zone" name="confirmation_time_zone" type="text" maxlength="80" placeholder="Example: Pacific Time / GMT-7" required>
+            </div>
+
+            <div id="replacement-times-field" class="form-field conditional-field" hidden>
+              <label for="replacement-times">Preferred replacement times</label>
+              <textarea id="replacement-times" name="preferred_replacement_times" maxlength="600" placeholder="List two or three dates and time ranges. Do not include account, wallet, or financial information."></textarea>
+            </div>
+
+            <label class="checkbox-field" for="request-acknowledgment">
+              <input id="request-acknowledgment" name="request_acknowledgment" type="checkbox" value="I understand this is a request until Proton sends an official update or cancellation." required>
+              <span>I understand that my current appointment remains active until I receive an official Proton update or cancellation email.</span>
+            </label>
+
+            <div class="request-boundary">
+              <strong>Private scheduling route</strong>
+              <span>Do not send passwords, private keys, recovery phrases, authentication codes, wallet addresses, transaction details, account balances, or other sensitive information.</span>
+              <span>This website does not submit the form to a third-party delivery company. It prepares an email to the dedicated Proton scheduling address; you remain in control and must send it from your own email app.</span>
+            </div>
+
+            <div class="submit-row">
+              <button id="submit-button" class="btn primary" type="submit">Open Email Request</button>
+              <a class="btn ghost on-light" href="schedule.html">Back to Booking</a>
+            </div>
+          </form>
+        </div>
+
+        <aside class="content-panel next-step-panel booking-aside">
+          <span class="badge">How requests work</span>
+          <h3>Nothing changes silently</h3>
+          <ol class="step-list">
+            <li><strong>Prepare the request.</strong><span>Use the same name and email address from the original booking.</span></li>
+            <li><strong>Review and send it.</strong><span>Your email app opens a prepared message to the dedicated Proton scheduling address.</span></li>
+            <li><strong>John reviews it.</strong><span>The appointment is matched using the date, time, and time zone you provide.</span></li>
+            <li><strong>Proton confirms it.</strong><span>A reschedule produces an updated invitation; a cancellation produces a cancellation email.</span></li>
+          </ol>
+          <div class="mini-disclaimer">Need a different new time? You may review current availability on the secure Proton page, but do not make a second booking unless John asks you to.</div>
+          <a class="btn secondary full aside-action" href="https://calendar.proton.me/bookings#baijXzd2bP8m5UIOa85mSCa-CVVV1Iwps5Nf03TyRqA=" target="_blank" rel="noopener">View Current Availability</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p>
+      <p><a href="index.html">Home</a> · <a href="schedule.html">Book Intro Call</a> · <a href="contract.html">Client Agreement</a> · <a href="pay.html">Payment Process</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const requestForm = document.getElementById('booking-change-form');
+    const requestType = document.getElementById('request-type');
+    const replacementTimesField = document.getElementById('replacement-times-field');
+    const replacementTimes = document.getElementById('replacement-times');
+    const formMessage = document.getElementById('form-message');
+    const bookingMailbox = ['johnzarcarobookings', 'proton.me'].join('@');
+
+    function updateReplacementTimes() {
+      const isReschedule = requestType.value === 'Reschedule intro call';
+      replacementTimesField.hidden = !isReschedule;
+      replacementTimes.required = isReschedule;
+      if (!isReschedule) replacementTimes.value = '';
+    }
+
+    requestType.addEventListener('change', updateReplacementTimes);
+
+    requestForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      formMessage.className = 'form-message';
+      formMessage.textContent = '';
+
+      const details = Object.fromEntries(new FormData(requestForm));
+      const requestLabel = details.request_type === 'Reschedule intro call' ? 'Reschedule' : 'Cancellation';
+      const subject = `Intro Call ${requestLabel} Request — ${details.name}`;
+      const messageLines = [
+        'INTRO CALL SCHEDULING REQUEST',
+        '',
+        `Request: ${details.request_type}`,
+        `Name on booking: ${details.name}`,
+        `Email used to book: ${details.email}`,
+        `Current appointment date: ${details.current_appointment_date}`,
+        `Current appointment time: ${details.current_appointment_time}`,
+        `Time zone on confirmation: ${details.confirmation_time_zone}`,
+        `Preferred replacement times: ${details.preferred_replacement_times || 'Not applicable'}`,
+        '',
+        'I understand that my current appointment remains active until I receive an official Proton update or cancellation email.',
+        '',
+        'Scheduling details only. No passwords, private keys, recovery phrases, authentication codes, wallet information, transaction details, or account balances are included.'
+      ];
+
+      const emailLink = `mailto:${bookingMailbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(messageLines.join('\n'))}`;
+      formMessage.className = 'form-message success';
+      formMessage.textContent = 'Your email app is opening a prepared request. Review it and click Send there. Your appointment remains active until Proton confirms the change.';
+      window.location.href = emailLink;
+    });
+
+    updateReplacementTimes();
+  </script>
+</body>
+</html>

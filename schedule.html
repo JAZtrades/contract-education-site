@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book an Intro Call | John Zarcaro</title>
-  <meta name="description" content="Request a private intro call with John Zarcaro for cryptocurrency education, wallet basics, exchange safety, and digital-asset risk awareness.">
-  <link rel="stylesheet" href="styles.css?v=10">
-  <link rel="stylesheet" href="carlsbad-polish.css?v=1">
+  <title>Book a Free Intro Call | John Zarcaro</title>
+  <meta name="description" content="Book a free 30-minute cryptocurrency education intro call with John Zarcaro through secure Proton Calendar scheduling.">
+  <link rel="stylesheet" href="styles.css?v=11">
+  <link rel="stylesheet" href="carlsbad-polish.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -22,7 +22,8 @@
         <a href="index.html#services">Services</a>
         <a href="contract.html">Agreement</a>
         <a href="pay.html">Payment</a>
-        <a class="nav-cta" href="schedule.html">Book Intro Call</a>
+        <a href="manage-booking.html">Change a Booking</a>
+        <a class="nav-cta" href="schedule.html" aria-current="page">Book Intro Call</a>
       </nav>
     </div>
   </header>
@@ -30,90 +31,36 @@
   <main id="main">
     <section class="page-hero booking-page-hero">
       <div class="container narrow">
-        <p class="eyebrow">Start Here</p>
-        <h1>Request your intro call.</h1>
-        <p>Tell me what you want help understanding. I will follow up so we can decide whether a private session is the right next step.</p>
+        <p class="eyebrow">Free Introductory Call</p>
+        <h1>Choose a real available time.</h1>
+        <p>Book a private 30-minute conversation through the secure Proton Calendar page. The call is for discussing your cryptocurrency education interests and whether a private session may be a good fit.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container contact-card booking-layout">
         <div class="content-panel call-panel">
-          <span class="badge">Private request form</span>
+          <span class="badge">Free · 30 minutes · Proton Meet</span>
           <h2>Book the first conversation</h2>
-          <p>Use the form below to request an intro call. Do not include passwords, private keys, recovery phrases, authentication codes, wallet addresses, or sensitive account information.</p>
+          <p>Open the secure booking page, choose an available time, and enter only your name and email address. Proton will send the calendar invitation and meeting details automatically.</p>
 
-          <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+          <div class="status-list booking-facts" aria-label="Booking details">
+            <div><strong>Location</strong><span>Private Proton Meet video call</span></div>
+            <div><strong>Availability</strong><span>Monday–Friday, 10:00 AM–4:00 PM Pacific</span></div>
+            <div><strong>Notice</strong><span>Please book at least 48 hours in advance</span></div>
+          </div>
 
-          <form id="lead-form" class="lead-form" action="https://api.web3forms.com/submit" method="POST">
-            <input type="hidden" name="access_key" value="b8163483-293e-453d-b365-e01dbeae1ffd">
-            <input type="hidden" name="subject" value="New Intro Call Request - John Zarcaro Crypto Education">
-            <input type="hidden" name="from_name" value="John Zarcaro Website">
-            <input type="hidden" name="form_source" value="Book Intro Call page">
-            <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off">
+          <div class="submit-row booking-actions">
+            <a class="btn primary" href="https://calendar.proton.me/bookings#baijXzd2bP8m5UIOa85mSCa-CVVV1Iwps5Nf03TyRqA=" target="_blank" rel="noopener">View Available Times</a>
+            <a class="btn ghost on-light" href="index.html#services">View Services</a>
+          </div>
+          <p class="privacy-note">The booking page opens on Proton Calendar. Do not include passwords, private keys, recovery phrases, authentication codes, wallet addresses, or sensitive account information.</p>
 
-            <div class="form-row">
-              <div class="form-field">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" autocomplete="name" required>
-              </div>
-              <div class="form-field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" autocomplete="email" required>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-field">
-                <label for="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Optional, but helpful">
-              </div>
-              <div class="form-field">
-                <label for="contact_preference">Preferred contact</label>
-                <select id="contact_preference" name="contact_preference" required>
-                  <option value="">Choose one</option>
-                  <option>Email</option>
-                  <option>Phone call</option>
-                  <option>Text message</option>
-                  <option>No preference</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-field">
-                <label for="service_interest">What are you interested in?</label>
-                <select id="service_interest" name="service_interest" required>
-                  <option value="">Choose one</option>
-                  <option>Intro Crypto Education - $249</option>
-                  <option>Complete Education Package - $799</option>
-                  <option>Custom education for a family or group</option>
-                  <option>Not sure yet</option>
-                </select>
-              </div>
-              <div class="form-field">
-                <label for="preferred_time">Preferred call time</label>
-                <input id="preferred_time" name="preferred_time" type="text" placeholder="Example: Weekdays after 3 PM">
-              </div>
-            </div>
-
-            <div class="form-field">
-              <label for="message">What do you want help understanding?</label>
-              <textarea id="message" name="message" required placeholder="Example: I want help understanding Bitcoin, wallets, exchanges, self-custody, or how to avoid common crypto mistakes."></textarea>
-            </div>
-
-            <p class="privacy-note">Educational services only. Do not send passwords, seed phrases, private keys, wallet recovery details, authentication codes, or sensitive account information.</p>
-
-            <div class="submit-row">
-              <button id="submit-button" class="btn primary" type="submit">Request Intro Call</button>
-              <a class="btn ghost on-light" href="index.html#services">View Services</a>
-            </div>
-          </form>
-
-          <div id="sent-panel" class="sent-panel">
-            <h3>Request received.</h3>
-            <p>Thank you. I will review your request and follow up with the next step.</p>
-            <button id="send-another" class="btn secondary" type="button">Submit Another Request</button>
+          <div class="change-request-card">
+            <span class="badge">Already booked?</span>
+            <h3>Change or cancel your intro call</h3>
+            <p>Send a scheduling request through a dedicated Proton address while the original business inbox stays private. Your existing appointment stays active until you receive an official Proton update or cancellation email.</p>
+            <a class="btn secondary" href="manage-booking.html">Request a Change or Cancellation</a>
           </div>
         </div>
 
@@ -121,12 +68,12 @@
           <span class="badge">What happens next</span>
           <h3>The booking flow</h3>
           <ol class="step-list">
-            <li><strong>Submit the form.</strong><span>Tell me your questions and preferred contact method.</span></li>
-            <li><strong>Intro call.</strong><span>We confirm what you need and whether a paid session fits.</span></li>
-            <li><strong>Agreement first.</strong><span>You review the scope before paying.</span></li>
-            <li><strong>Payment and scheduling.</strong><span>After payment is received, the appointment is confirmed.</span></li>
+            <li><strong>Choose a time.</strong><span>Proton shows current availability in your selected time zone.</span></li>
+            <li><strong>Confirm your details.</strong><span>Enter your name and email address so the invitation reaches you.</span></li>
+            <li><strong>Receive the invitation.</strong><span>Your confirmation includes the date, time, and Proton Meet link.</span></li>
+            <li><strong>Talk with John.</strong><span>Discuss your educational interests and whether a paid session makes sense.</span></li>
           </ol>
-          <div class="mini-disclaimer">John provides education only and does not provide personalized investment, legal, tax, or accounting advice.</div>
+          <div class="mini-disclaimer">This is an educational introductory call—not investment, legal, tax, or accounting advice. You will never be asked to share credentials or control of funds.</div>
         </aside>
       </div>
     </section>
@@ -135,64 +82,8 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <p>&copy; 2026 John Zarcaro. Cryptocurrency education only.</p>
-      <p><a href="index.html">Home</a> · <a href="contract.html">Client Agreement</a> · <a href="pay.html">Payment Process</a></p>
+      <p><a href="index.html">Home</a> · <a href="manage-booking.html">Change a Booking</a> · <a href="contract.html">Client Agreement</a> · <a href="pay.html">Payment Process</a></p>
     </div>
   </footer>
-
-  <script>
-    const leadForm = document.getElementById('lead-form');
-    const submitButton = document.getElementById('submit-button');
-    const formMessage = document.getElementById('form-message');
-    const sentPanel = document.getElementById('sent-panel');
-    const sendAnother = document.getElementById('send-another');
-
-    leadForm.addEventListener('submit', async function (event) {
-      event.preventDefault();
-
-      formMessage.className = 'form-message';
-      formMessage.textContent = '';
-      submitButton.disabled = true;
-      submitButton.textContent = 'Submitting...';
-
-      const formData = new FormData(leadForm);
-      const payload = Object.fromEntries(formData);
-
-      try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-          throw new Error(result.message || 'Submission failed.');
-        }
-
-        leadForm.reset();
-        leadForm.style.display = 'none';
-        sentPanel.classList.add('active');
-        formMessage.className = 'form-message success';
-        formMessage.textContent = 'Request received. I will follow up with the next step.';
-      } catch (error) {
-        formMessage.className = 'form-message error';
-        formMessage.textContent = 'The form did not submit. Please check the required fields and try again.';
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = 'Request Intro Call';
-      }
-    });
-
-    sendAnother.addEventListener('click', function () {
-      sentPanel.classList.remove('active');
-      formMessage.className = 'form-message';
-      formMessage.textContent = '';
-      leadForm.style.display = 'grid';
-    });
-  </script>
 </body>
 </html>
