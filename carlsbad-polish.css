@@ -229,6 +229,9 @@ details:hover {
     text-align: center;
     font-size: .7rem;
     letter-spacing: .06em;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
     padding: 9px 7px;
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 999px;
@@ -269,5 +272,26 @@ details:hover {
   .photo-caption {
     text-align: center;
     justify-items: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .btn:hover,
+  .card:hover,
+  .booking-card:hover,
+  .about-proof-card:hover,
+  details:hover {
+    transform: none;
   }
 }

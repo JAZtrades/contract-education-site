@@ -61,7 +61,7 @@
 
             <div class="form-field">
               <label for="request-type">What would you like to do?</label>
-              <select id="request-type" name="request_type" aria-controls="replacement-times-field" required>
+              <select id="request-type" name="request_type" aria-controls="replacement-times-field" aria-expanded="false" required>
                 <option value="">Choose one</option>
                 <option value="Reschedule intro call">Reschedule the intro call</option>
                 <option value="Cancel intro call">Cancel the intro call</option>
@@ -155,6 +155,7 @@
       const isReschedule = requestType.value === 'Reschedule intro call';
       replacementTimesField.hidden = !isReschedule;
       replacementTimes.required = isReschedule;
+      requestType.setAttribute('aria-expanded', String(isReschedule));
       if (!isReschedule) replacementTimes.value = '';
     }
 
