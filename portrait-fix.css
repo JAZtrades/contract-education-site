@@ -1,14 +1,22 @@
-/* Known-good 300x375 fallback. Replace with John's original high-resolution portrait. */
+/* Keep the current 300x375 portrait below its native size so it stays as crisp as possible. */
+.photo-card-shell {
+  width: min(100%, 360px);
+}
+
 .photo-ring {
-  width: min(100%, 300px);
+  width: min(100%, 240px);
   min-height: 0;
   aspect-ratio: 4 / 5;
   margin: 0 auto;
   overflow: hidden;
-  border-radius: 28px;
+  border: 1px solid rgba(246, 200, 95, .42);
+  border-radius: 26px;
   background:
     radial-gradient(circle at 50% 22%, rgba(111,45,189,.42), transparent 14rem),
     linear-gradient(180deg, rgba(18,0,31,.94), rgba(3,1,5,.98));
+  box-shadow:
+    0 20px 46px rgba(0, 0, 0, .34),
+    0 0 0 7px rgba(255, 255, 255, .025);
 }
 
 .photo-ring .hero-avatar-img {
@@ -17,7 +25,7 @@
   height: 100% !important;
   max-width: 100% !important;
   object-fit: cover;
-  object-position: center center;
+  object-position: center top;
   transform: none !important;
   filter: none !important;
   image-rendering: auto;
@@ -35,12 +43,12 @@
 
 @media (max-width: 640px) {
   .photo-card-shell {
-    width: min(100%, 360px);
+    width: min(100%, 340px);
     margin-inline: auto;
   }
 
   .photo-ring {
-    width: min(100%, 230px) !important;
+    width: min(100%, 190px) !important;
     min-height: 0 !important;
     aspect-ratio: 4 / 5;
     margin: 2px auto 0;
@@ -56,7 +64,7 @@
     height: 100% !important;
     max-width: 100% !important;
     object-fit: cover;
-    object-position: center center;
+    object-position: center top;
     transform: none !important;
     filter: none !important;
   }
