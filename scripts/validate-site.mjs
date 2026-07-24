@@ -44,6 +44,27 @@ function localTarget(page, rawReference) {
   };
 }
 
+function hexRgb(value) {
+  const match = /^#([0-9a-f]{6})$/i.exec(value);
+  assert.ok(match, `expected a six-digit hex color, received ${value}`);
+  return [0, 2, 4].map((offset) => Number.parseInt(match[1].slice(offset, offset + 2), 16) / 255);
+}
+
+function relativeLuminance(value) {
+  const [red, green, blue] = hexRgb(value).map((channel) => (
+    channel <= 0.04045
+      ? channel / 12.92
+      : ((channel + 0.055) / 1.055) ** 2.4
+  ));
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+}
+
+function contrastRatio(first, second) {
+  const lighter = Math.max(relativeLuminance(first), relativeLuminance(second));
+  const darker = Math.min(relativeLuminance(first), relativeLuminance(second));
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 function assertPage(page) {
   const path = resolve(root, page);
   const html = readFileSync(path, "utf8");
@@ -117,6 +138,49 @@ function assertPage(page) {
 }
 
 for (const page of pages) assertPage(page);
+
+const sharedStyles = readFileSync(resolve(root, "styles.css"), "utf8");
+const polishStyles = readFileSync(resolve(root, "carlsbad-polish.css"), "utf8");
+const bookingPage = readFileSync(resolve(root, "manage-booking.html"), "utf8");
+
+const controlBorder = sharedStyles.match(/--control-border:\s*(#[0-9a-f]{6})\s*;/i)?.[1];
+assert.ok(controlBorder, "styles.css: missing control border color");
+assert.ok(
+  contrastRatio(controlBorder, "#ffffff") >= 3,
+  "styles.css: control border must have at least 3:1 contrast against white",
+);
+assert.ok(
+  (sharedStyles.match(/border:\s*1px solid var\(--control-border\)/g) ?? []).length >= 2,
+  "styles.css: editable and fallback form controls must use the accessible border",
+);
+
+const formMessageBase = sharedStyles.match(/\.form-message\s*\{([^}]*)\}/s)?.[1] ?? "";
+assert.doesNotMatch(
+  formMessageBase,
+  /display:\s*none/i,
+  "styles.css: the empty status live region must remain in the accessibility tree",
+);
+assert.match(sharedStyles, /\.form-message:empty\s*\{[^}]*position:\s*absolute/s);
+assert.match(sharedStyles, /\.form-message\.success,\s*\.form-message\.error\s*\{[^}]*position:\s*static/s);
+
+assert.match(
+  polishStyles,
+  /@media\s*\(max-width:\s*640px\)[\s\S]*?\.nav-links a\s*\{[^}]*white-space:\s*normal;[^}]*overflow-wrap:\s*anywhere;/,
+  "carlsbad-polish.css: mobile navigation labels must wrap safely",
+);
+assert.match(polishStyles, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?scroll-behavior:\s*auto;/);
+assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?\.btn:hover,[\s\S]*?transform:\s*none;/);
+
+const requestTypeTag = [...bookingPage.matchAll(/<select\b[^>]*>/gi)]
+  .find((match) => attributes(match[0]).get("id") === "request-type")?.[0];
+assert.ok(requestTypeTag, "manage-booking.html: missing request type select");
+assert.equal(attributes(requestTypeTag).get("aria-expanded"), "false");
+assert.match(
+  bookingPage,
+  /requestType\.setAttribute\(['"]aria-expanded['"],\s*String\(isReschedule\)\)/,
+  "manage-booking.html: request type must expose the controlled field state",
+);
 
 const publicCopy = pages.map((page) => readFileSync(resolve(root, page), "utf8")).join("\n");
 assert.match(publicCopy, /Private Cryptocurrency Education Session/);
