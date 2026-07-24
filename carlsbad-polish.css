@@ -213,6 +213,7 @@ details:hover {
 @media (max-width: 640px) {
   .nav-wrap { gap: 14px; }
   .brand img { width: min(220px, 66vw); }
+  .page-hero h1 { font-size: clamp(2rem, 11vw, 2.5rem); }
   .nav-links {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
