@@ -168,6 +168,11 @@ assert.match(
   /@media\s*\(max-width:\s*640px\)[\s\S]*?\.nav-links a\s*\{[^}]*white-space:\s*normal;[^}]*overflow-wrap:\s*anywhere;/,
   "carlsbad-polish.css: mobile navigation labels must wrap safely",
 );
+assert.match(
+  polishStyles,
+  /@media\s*\(max-width:\s*640px\)[\s\S]*?\.page-hero h1\s*\{[^}]*font-size:\s*clamp\(2rem,\s*11vw,\s*2\.5rem\);/,
+  "carlsbad-polish.css: long page headings must fit a 320px viewport",
+);
 assert.match(polishStyles, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
 assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?scroll-behavior:\s*auto;/);
 assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?\.btn:hover,[\s\S]*?transform:\s*none;/);
