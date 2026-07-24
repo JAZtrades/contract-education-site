@@ -19,3 +19,5 @@ Run `node scripts/validate-site.mjs` before publishing. The same validation runs
 ## GitHub Pages setup
 
 The live public site is built from the `main` branch and root folder. Review and approve changes before merging them into `main`.
+
+The `codex/verified-payment-process-copy` branch is reserved for the protected design preview and does not replace the live GitHub Pages site.
