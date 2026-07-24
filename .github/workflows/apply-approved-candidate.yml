@@ -29,18 +29,26 @@ jobs:
           set -euo pipefail
           test -f jaz-public-candidate-741df8e.tar.gz
           staging="$(mktemp -d)"
+          workflow_backup="$(mktemp -d)"
           tar -xzf jaz-public-candidate-741df8e.tar.gz -C "$staging"
+          if test -d .github/workflows; then
+            cp -a .github/workflows/. "$workflow_backup/"
+          fi
           rsync -a --delete \
             --exclude='.git/' \
             --exclude='jaz-public-candidate-741df8e.tar.gz' \
-            --exclude='.github/workflows/apply-approved-candidate.yml' \
             "$staging/" ./
           rm -f jaz-public-candidate-741df8e.tar.gz
-          rm -f .github/workflows/apply-approved-candidate.yml
-          git config user.name "JAZtrades"
-          git config user.email "cryptobossman54130@gmail.com"
           git add -A
           git diff --cached --check
           test "$(git write-tree)" = "73abeaf435313d114d6a5dfc026a168ead66b459"
+          rm -rf .github/workflows
+          mkdir -p .github/workflows
+          cp -a "$workflow_backup/." .github/workflows/
+          git add -A
+          git diff --cached --quiet -- .github/workflows
+          git config user.name "JAZtrades"
+          git config user.email "cryptobossman54130@gmail.com"
+          git diff --cached --check
           git commit -m "Polish public education site for preview"
           git push origin "HEAD:${GITHUB_REF_NAME}"
