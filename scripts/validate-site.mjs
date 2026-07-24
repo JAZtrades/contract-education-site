@@ -173,6 +173,16 @@ assert.match(
   /@media\s*\(max-width:\s*640px\)[\s\S]*?\.page-hero h1\s*\{[^}]*font-size:\s*clamp\(2rem,\s*11vw,\s*2\.5rem\);/,
   "carlsbad-polish.css: long page headings must fit a 320px viewport",
 );
+assert.match(
+  polishStyles,
+  /@media\s*\(max-width:\s*360px\)[\s\S]*?\.nav-links\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/,
+  "carlsbad-polish.css: the narrowest navigation must use readable two-column labels",
+);
+assert.match(
+  polishStyles,
+  /@media\s*\(max-width:\s*360px\)[\s\S]*?\.nav-links \.nav-cta\s*\{[^}]*grid-column:\s*auto;/,
+  "carlsbad-polish.css: the two-column navigation must keep its final row balanced",
+);
 assert.match(polishStyles, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
 assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?scroll-behavior:\s*auto;/);
 assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?\.btn:hover,[\s\S]*?transform:\s*none;/);
