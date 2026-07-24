@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    },
+    {
+      "source": "/pay/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/admin/:path*", "destination": "https://REPLACE_WITH_BACKEND_HOST/admin/:path*" },
+    { "source": "/api/:path*", "destination": "https://REPLACE_WITH_BACKEND_HOST/api/:path*" },
+    { "source": "/pay/:path*", "destination": "https://REPLACE_WITH_BACKEND_HOST/pay/:path*" }
+  ]
+}
