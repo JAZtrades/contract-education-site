@@ -183,7 +183,7 @@ details:hover {
   letter-spacing: .18em;
   text-transform: uppercase;
 }
-.portrait-about h3 {
+.portrait-about h2 {
   color: #fff;
   font-size: 1.06rem;
   margin: 0 0 8px;
@@ -203,6 +203,7 @@ details:hover {
 }
 
 @media (max-width: 1080px) {
+  .site-header { position: static; }
   .nav-links {
     flex-wrap: wrap;
     overflow: visible;
@@ -210,7 +211,6 @@ details:hover {
 }
 
 @media (max-width: 640px) {
-  .site-header { position: static; }
   .nav-wrap { gap: 14px; }
   .brand img { width: min(220px, 66vw); }
   .nav-links {
@@ -222,9 +222,13 @@ details:hover {
     padding: 0 0 8px;
   }
   .nav-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    font-size: .62rem;
-    letter-spacing: .08em;
+    font-size: .7rem;
+    letter-spacing: .06em;
     padding: 9px 7px;
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 999px;

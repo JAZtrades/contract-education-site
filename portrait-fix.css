@@ -1,4 +1,4 @@
-/* Final portrait presentation: full-resolution rendering without artificial sharpening. */
+/* Known-good 300x375 fallback. Replace with John's original high-resolution portrait. */
 .photo-ring {
   width: min(100%, 300px);
   min-height: 0;

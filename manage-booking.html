@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Change or Cancel an Intro Call | John Zarcaro</title>
   <meta name="description" content="Request a reschedule or cancellation for a John Zarcaro cryptocurrency education intro call without sharing sensitive information.">
-  <link rel="stylesheet" href="styles.css?v=11">
-  <link rel="stylesheet" href="carlsbad-polish.css?v=2">
+  <link rel="canonical" href="https://jaztrades.github.io/contract-education-site/manage-booking.html">
+  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="carlsbad-polish.css?v=3">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -60,7 +61,7 @@
 
             <div class="form-field">
               <label for="request-type">What would you like to do?</label>
-              <select id="request-type" name="request_type" required>
+              <select id="request-type" name="request_type" aria-controls="replacement-times-field" required>
                 <option value="">Choose one</option>
                 <option value="Reschedule intro call">Reschedule the intro call</option>
                 <option value="Cancel intro call">Cancel the intro call</option>
@@ -83,7 +84,7 @@
               <input id="time-zone" name="confirmation_time_zone" type="text" maxlength="80" placeholder="Example: Pacific Time / GMT-7" required>
             </div>
 
-            <div id="replacement-times-field" class="form-field conditional-field" hidden>
+            <div id="replacement-times-field" class="form-field conditional-field" aria-live="polite" hidden>
               <label for="replacement-times">Preferred replacement times</label>
               <textarea id="replacement-times" name="preferred_replacement_times" maxlength="600" placeholder="List two or three dates and time ranges. Do not include account, wallet, or financial information."></textarea>
             </div>
@@ -103,6 +104,15 @@
               <button id="submit-button" class="btn primary" type="submit">Open Email Request</button>
               <a class="btn ghost on-light" href="schedule.html">Back to Booking</a>
             </div>
+
+            <div id="email-fallback" class="email-fallback" hidden>
+              <h3>Email fallback</h3>
+              <p>If your email app does not open, copy the prepared email below and send it from your usual email account.</p>
+              <label for="prepared-email">Prepared scheduling email</label>
+              <textarea id="prepared-email" readonly rows="12"></textarea>
+              <button id="copy-prepared-email" class="btn secondary" type="button">Copy Prepared Email</button>
+              <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+            </div>
           </form>
         </div>
 
@@ -116,7 +126,7 @@
             <li><strong>Proton confirms it.</strong><span>A reschedule produces an updated invitation; a cancellation produces a cancellation email.</span></li>
           </ol>
           <div class="mini-disclaimer">Need a different new time? You may review current availability on the secure Proton page, but do not make a second booking unless John asks you to.</div>
-          <a class="btn secondary full aside-action" href="https://calendar.proton.me/bookings#baijXzd2bP8m5UIOa85mSCa-CVVV1Iwps5Nf03TyRqA=" target="_blank" rel="noopener">View Current Availability</a>
+          <a class="btn secondary full aside-action" href="https://calendar.proton.me/bookings#baijXzd2bP8m5UIOa85mSCa-CVVV1Iwps5Nf03TyRqA=" target="_blank" rel="noopener" aria-label="View current availability (opens in a new tab)">View Current Availability</a>
         </aside>
       </div>
     </section>
@@ -135,6 +145,10 @@
     const replacementTimesField = document.getElementById('replacement-times-field');
     const replacementTimes = document.getElementById('replacement-times');
     const formMessage = document.getElementById('form-message');
+    const emailFallback = document.getElementById('email-fallback');
+    const preparedEmail = document.getElementById('prepared-email');
+    const copyPreparedEmail = document.getElementById('copy-prepared-email');
+    const copyStatus = document.getElementById('copy-status');
     const bookingMailbox = ['johnzarcarobookings', 'proton.me'].join('@');
 
     function updateReplacementTimes() {
@@ -172,9 +186,23 @@
       ];
 
       const emailLink = `mailto:${bookingMailbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(messageLines.join('\n'))}`;
+      preparedEmail.value = `To: ${bookingMailbox}\nSubject: ${subject}\n\n${messageLines.join('\n')}`;
+      emailFallback.hidden = false;
+      copyStatus.textContent = '';
       formMessage.className = 'form-message success';
-      formMessage.textContent = 'Your email app is opening a prepared request. Review it and click Send there. Your appointment remains active until Proton confirms the change.';
+      formMessage.textContent = 'Your email app is opening a prepared request. Review it and click Send there. If no email app opens, use the copyable fallback below. Your appointment remains active until Proton confirms the change.';
       window.location.href = emailLink;
+    });
+
+    copyPreparedEmail.addEventListener('click', async function () {
+      try {
+        await navigator.clipboard.writeText(preparedEmail.value);
+        copyStatus.textContent = 'Prepared email copied. Paste it into a new message and send it.';
+      } catch (error) {
+        preparedEmail.focus();
+        preparedEmail.select();
+        copyStatus.textContent = 'The prepared email is selected. Press Command+C on Mac or Ctrl+C on Windows to copy it.';
+      }
     });
 
     updateReplacementTimes();
