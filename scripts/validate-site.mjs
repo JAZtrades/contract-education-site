@@ -197,6 +197,27 @@ assert.match(
   "manage-booking.html: request type must expose the controlled field state",
 );
 
+const bookingForm = bookingPage.match(
+  /<form\b[^>]*id=["']booking-change-form["'][^>]*>([\s\S]*?)<\/form>/i,
+)?.[0];
+assert.ok(bookingForm, "manage-booking.html: missing booking change form");
+for (const match of bookingForm.matchAll(/<(?:input|select|textarea)\b[^>]*>/gi)) {
+  assert.equal(
+    attributes(match[0]).has("name"),
+    false,
+    "manage-booking.html: privacy-preserving controls must not serialize into a fallback request",
+  );
+}
+const bookingSubmitButton = [...bookingForm.matchAll(/<button\b[^>]*>/gi)]
+  .find((match) => attributes(match[0]).get("id") === "submit-button")?.[0];
+assert.ok(bookingSubmitButton, "manage-booking.html: missing email-preparation button");
+assert.equal(attributes(bookingSubmitButton).get("type"), "button");
+assert.match(bookingSubmitButton, /\sdisabled(?:\s|>)/i);
+assert.match(bookingPage, /requestForm\.addEventListener\(['"]submit['"][\s\S]*?event\.preventDefault\(\)/);
+assert.match(bookingPage, /submitButton\.addEventListener\(['"]click['"]/);
+assert.match(bookingPage, /if \(!requestForm\.reportValidity\(\)\) return;/);
+assert.match(bookingPage, /submitButton\.disabled = false;/);
+
 const publicCopy = pages.map((page) => readFileSync(resolve(root, page), "utf8")).join("\n");
 assert.match(publicCopy, /Private Cryptocurrency Education Session/);
 assert.match(publicCopy, /Complete Cryptocurrency Education Package/);
