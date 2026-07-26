@@ -183,7 +183,7 @@ details:hover {
   letter-spacing: .18em;
   text-transform: uppercase;
 }
-.portrait-about h3 {
+.portrait-about h2 {
   color: #fff;
   font-size: 1.06rem;
   margin: 0 0 8px;
@@ -203,6 +203,7 @@ details:hover {
 }
 
 @media (max-width: 1080px) {
+  .site-header { position: static; }
   .nav-links {
     flex-wrap: wrap;
     overflow: visible;
@@ -210,9 +211,9 @@ details:hover {
 }
 
 @media (max-width: 640px) {
-  .site-header { position: static; }
   .nav-wrap { gap: 14px; }
   .brand img { width: min(220px, 66vw); }
+  .page-hero h1 { font-size: clamp(2rem, 11vw, 2.5rem); }
   .nav-links {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -222,9 +223,16 @@ details:hover {
     padding: 0 0 8px;
   }
   .nav-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    font-size: .62rem;
-    letter-spacing: .08em;
+    font-size: .7rem;
+    letter-spacing: .06em;
+    line-height: 1.25;
+    white-space: normal;
+    overflow-wrap: anywhere;
     padding: 9px 7px;
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 999px;
@@ -265,5 +273,31 @@ details:hover {
   .photo-caption {
     text-align: center;
     justify-items: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav-links .nav-cta { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .btn:hover,
+  .card:hover,
+  .booking-card:hover,
+  .about-proof-card:hover,
+  details:hover {
+    transform: none;
   }
 }

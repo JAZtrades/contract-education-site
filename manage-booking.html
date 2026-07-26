@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Change or Cancel an Intro Call | John Zarcaro</title>
   <meta name="description" content="Request a reschedule or cancellation for a John Zarcaro cryptocurrency education intro call without sharing sensitive information.">
-  <link rel="stylesheet" href="styles.css?v=11">
-  <link rel="stylesheet" href="carlsbad-polish.css?v=2">
+  <link rel="canonical" href="https://jaztrades.github.io/contract-education-site/manage-booking.html">
+  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="carlsbad-polish.css?v=3">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -46,21 +47,25 @@
 
           <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
 
+          <noscript>
+            <p class="mini-disclaimer">This privacy-preserving helper needs JavaScript. Reply to your Proton Calendar confirmation instead; this page will not submit the details entered below.</p>
+          </noscript>
+
           <form id="booking-change-form" class="lead-form">
             <div class="form-row">
               <div class="form-field">
                 <label for="name">Name on the booking</label>
-                <input id="name" name="name" type="text" autocomplete="name" maxlength="120" required>
+                <input id="name" type="text" autocomplete="name" maxlength="120" required>
               </div>
               <div class="form-field">
                 <label for="booking-email">Email used to book</label>
-                <input id="booking-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+                <input id="booking-email" type="email" autocomplete="email" maxlength="254" required>
               </div>
             </div>
 
             <div class="form-field">
               <label for="request-type">What would you like to do?</label>
-              <select id="request-type" name="request_type" required>
+              <select id="request-type" aria-controls="replacement-times-field" aria-expanded="false" required>
                 <option value="">Choose one</option>
                 <option value="Reschedule intro call">Reschedule the intro call</option>
                 <option value="Cancel intro call">Cancel the intro call</option>
@@ -70,26 +75,26 @@
             <div class="form-row">
               <div class="form-field">
                 <label for="confirmed-date">Current appointment date</label>
-                <input id="confirmed-date" name="current_appointment_date" type="date" autocomplete="off" required>
+                <input id="confirmed-date" type="date" autocomplete="off" required>
               </div>
               <div class="form-field">
                 <label for="confirmed-time">Current appointment time</label>
-                <input id="confirmed-time" name="current_appointment_time" type="time" autocomplete="off" required>
+                <input id="confirmed-time" type="time" autocomplete="off" required>
               </div>
             </div>
 
             <div class="form-field">
               <label for="time-zone">Time zone shown on your confirmation</label>
-              <input id="time-zone" name="confirmation_time_zone" type="text" maxlength="80" placeholder="Example: Pacific Time / GMT-7" required>
+              <input id="time-zone" type="text" maxlength="80" placeholder="Example: Pacific Time / GMT-7" required>
             </div>
 
-            <div id="replacement-times-field" class="form-field conditional-field" hidden>
+            <div id="replacement-times-field" class="form-field conditional-field" aria-live="polite" hidden>
               <label for="replacement-times">Preferred replacement times</label>
-              <textarea id="replacement-times" name="preferred_replacement_times" maxlength="600" placeholder="List two or three dates and time ranges. Do not include account, wallet, or financial information."></textarea>
+              <textarea id="replacement-times" maxlength="600" placeholder="List two or three dates and time ranges. Do not include account, wallet, or financial information."></textarea>
             </div>
 
             <label class="checkbox-field" for="request-acknowledgment">
-              <input id="request-acknowledgment" name="request_acknowledgment" type="checkbox" value="I understand this is a request until Proton sends an official update or cancellation." required>
+              <input id="request-acknowledgment" type="checkbox" value="I understand this is a request until Proton sends an official update or cancellation." required>
               <span>I understand that my current appointment remains active until I receive an official Proton update or cancellation email.</span>
             </label>
 
@@ -100,8 +105,17 @@
             </div>
 
             <div class="submit-row">
-              <button id="submit-button" class="btn primary" type="submit">Open Email Request</button>
+              <button id="submit-button" class="btn primary" type="button" disabled>Open Email Request</button>
               <a class="btn ghost on-light" href="schedule.html">Back to Booking</a>
+            </div>
+
+            <div id="email-fallback" class="email-fallback" hidden>
+              <h3>Email fallback</h3>
+              <p>If your email app does not open, copy the prepared email below and send it from your usual email account.</p>
+              <label for="prepared-email">Prepared scheduling email</label>
+              <textarea id="prepared-email" readonly rows="12"></textarea>
+              <button id="copy-prepared-email" class="btn secondary" type="button">Copy Prepared Email</button>
+              <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
             </div>
           </form>
         </div>
@@ -116,7 +130,7 @@
             <li><strong>Proton confirms it.</strong><span>A reschedule produces an updated invitation; a cancellation produces a cancellation email.</span></li>
           </ol>
           <div class="mini-disclaimer">Need a different new time? You may review current availability on the secure Proton page, but do not make a second booking unless John asks you to.</div>
-          <a class="btn secondary full aside-action" href="https://calendar.proton.me/bookings#baijXzd2bP8m5UIOa85mSCa-CVVV1Iwps5Nf03TyRqA=" target="_blank" rel="noopener">View Current Availability</a>
+          <a class="btn secondary full aside-action" href="https://calendar.proton.me/bookings#baijXzd2bP8m5UIOa85mSCa-CVVV1Iwps5Nf03TyRqA=" target="_blank" rel="noopener" aria-label="View current availability (opens in a new tab)">View Current Availability</a>
         </aside>
       </div>
     </section>
@@ -135,12 +149,23 @@
     const replacementTimesField = document.getElementById('replacement-times-field');
     const replacementTimes = document.getElementById('replacement-times');
     const formMessage = document.getElementById('form-message');
+    const emailFallback = document.getElementById('email-fallback');
+    const preparedEmail = document.getElementById('prepared-email');
+    const copyPreparedEmail = document.getElementById('copy-prepared-email');
+    const copyStatus = document.getElementById('copy-status');
+    const submitButton = document.getElementById('submit-button');
+    const bookingName = document.getElementById('name');
+    const bookingEmail = document.getElementById('booking-email');
+    const confirmedDate = document.getElementById('confirmed-date');
+    const confirmedTime = document.getElementById('confirmed-time');
+    const confirmationTimeZone = document.getElementById('time-zone');
     const bookingMailbox = ['johnzarcarobookings', 'proton.me'].join('@');
 
     function updateReplacementTimes() {
       const isReschedule = requestType.value === 'Reschedule intro call';
       replacementTimesField.hidden = !isReschedule;
       replacementTimes.required = isReschedule;
+      requestType.setAttribute('aria-expanded', String(isReschedule));
       if (!isReschedule) replacementTimes.value = '';
     }
 
@@ -148,11 +173,23 @@
 
     requestForm.addEventListener('submit', function (event) {
       event.preventDefault();
+    });
+
+    submitButton.addEventListener('click', function () {
+      if (!requestForm.reportValidity()) return;
 
       formMessage.className = 'form-message';
       formMessage.textContent = '';
 
-      const details = Object.fromEntries(new FormData(requestForm));
+      const details = {
+        name: bookingName.value,
+        email: bookingEmail.value,
+        request_type: requestType.value,
+        current_appointment_date: confirmedDate.value,
+        current_appointment_time: confirmedTime.value,
+        confirmation_time_zone: confirmationTimeZone.value,
+        preferred_replacement_times: replacementTimes.value
+      };
       const requestLabel = details.request_type === 'Reschedule intro call' ? 'Reschedule' : 'Cancellation';
       const subject = `Intro Call ${requestLabel} Request — ${details.name}`;
       const messageLines = [
@@ -172,12 +209,27 @@
       ];
 
       const emailLink = `mailto:${bookingMailbox}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(messageLines.join('\n'))}`;
+      preparedEmail.value = `To: ${bookingMailbox}\nSubject: ${subject}\n\n${messageLines.join('\n')}`;
+      emailFallback.hidden = false;
+      copyStatus.textContent = '';
       formMessage.className = 'form-message success';
-      formMessage.textContent = 'Your email app is opening a prepared request. Review it and click Send there. Your appointment remains active until Proton confirms the change.';
+      formMessage.textContent = 'Your email app is opening a prepared request. Review it and click Send there. If no email app opens, use the copyable fallback below. Your appointment remains active until Proton confirms the change.';
       window.location.href = emailLink;
     });
 
+    copyPreparedEmail.addEventListener('click', async function () {
+      try {
+        await navigator.clipboard.writeText(preparedEmail.value);
+        copyStatus.textContent = 'Prepared email copied. Paste it into a new message and send it.';
+      } catch (error) {
+        preparedEmail.focus();
+        preparedEmail.select();
+        copyStatus.textContent = 'The prepared email is selected. Press Command+C on Mac or Ctrl+C on Windows to copy it.';
+      }
+    });
+
     updateReplacementTimes();
+    submitButton.disabled = false;
   </script>
 </body>
 </html>
