@@ -1,4 +1,4 @@
-/* Keep the current 300x375 portrait below its native size so it stays as crisp as possible. */
+/* Keep the original portrait in a compact 4:5 frame for a sharp high-DPI presentation. */
 .photo-card-shell {
   width: min(100%, 360px);
 }

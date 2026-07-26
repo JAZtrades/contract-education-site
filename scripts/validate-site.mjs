@@ -141,7 +141,20 @@ for (const page of pages) assertPage(page);
 
 const sharedStyles = readFileSync(resolve(root, "styles.css"), "utf8");
 const polishStyles = readFileSync(resolve(root, "carlsbad-polish.css"), "utf8");
+const homePage = readFileSync(resolve(root, "index.html"), "utf8");
 const bookingPage = readFileSync(resolve(root, "manage-booking.html"), "utf8");
+
+const portraitTag = [...homePage.matchAll(/<img\b[^>]*>/gi)]
+  .find((match) => attributes(match[0]).get("id") === "john-portrait")?.[0];
+assert.ok(portraitTag, "index.html: missing John portrait");
+const portraitAttributes = attributes(portraitTag);
+assert.equal(portraitAttributes.get("src"), "assets/john-photo-original.jpg?v=1");
+assert.equal(portraitAttributes.get("width"), "1122");
+assert.equal(portraitAttributes.get("height"), "1402");
+const portraitBytes = readFileSync(resolve(root, "assets/john-photo-original.jpg"));
+assert.ok(portraitBytes.length >= 400_000, "portrait source must remain high resolution");
+assert.deepEqual([...portraitBytes.subarray(0, 2)], [0xff, 0xd8], "portrait must start with JPEG SOI");
+assert.deepEqual([...portraitBytes.subarray(-2)], [0xff, 0xd9], "portrait must end with JPEG EOI");
 
 const controlBorder = sharedStyles.match(/--control-border:\s*(#[0-9a-f]{6})\s*;/i)?.[1];
 assert.ok(controlBorder, "styles.css: missing control border color");
