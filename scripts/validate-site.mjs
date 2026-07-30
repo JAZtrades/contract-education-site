@@ -4,6 +4,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const officialSiteUrl = "https://jazcryptoeducation.com/";
 const pages = [
   "index.html",
   "contract.html",
@@ -12,13 +13,8 @@ const pages = [
   "pay.html",
   "complete.html",
   "thank-you.html",
+  "404.html",
 ];
-const canonicalUrls = new Map(
-  pages.map((page) => [
-    page,
-    `https://jaztrades.github.io/contract-education-site/${page === "index.html" ? "" : page}`,
-  ]),
-);
 
 function attributes(tag) {
   const parsed = new Map();
@@ -28,220 +24,70 @@ function attributes(tag) {
   return parsed;
 }
 
-function localTarget(page, rawReference) {
-  if (
-    !rawReference
-    || rawReference.startsWith("#")
-    || /^(?:https?:|mailto:|tel:|data:|javascript:)/i.test(rawReference)
-  ) {
-    return null;
-  }
-  const [withoutFragment, fragment = ""] = rawReference.split("#", 2);
-  const path = withoutFragment.split("?", 1)[0];
-  return {
-    path: resolve(root, dirname(page), path || page),
-    fragment: decodeURIComponent(fragment),
-  };
+function tags(html, name) {
+  return [...html.matchAll(new RegExp(`<${name}\\b[^>]*>`, "gi"))].map((match) => match[0]);
 }
 
-function hexRgb(value) {
-  const match = /^#([0-9a-f]{6})$/i.exec(value);
-  assert.ok(match, `expected a six-digit hex color, received ${value}`);
-  return [0, 2, 4].map((offset) => Number.parseInt(match[1].slice(offset, offset + 2), 16) / 255);
+function tagWithAttribute(html, name, attribute, value) {
+  return tags(html, name).find((tag) => attributes(tag).get(attribute)?.toLowerCase() === value);
 }
 
-function relativeLuminance(value) {
-  const [red, green, blue] = hexRgb(value).map((channel) => (
-    channel <= 0.04045
-      ? channel / 12.92
-      : ((channel + 0.055) / 1.055) ** 2.4
-  ));
-  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
-}
+function assertRedirectPage(page) {
+  const html = readFileSync(resolve(root, page), "utf8");
 
-function contrastRatio(first, second) {
-  const lighter = Math.max(relativeLuminance(first), relativeLuminance(second));
-  const darker = Math.min(relativeLuminance(first), relativeLuminance(second));
-  return (lighter + 0.05) / (darker + 0.05);
-}
-
-function assertPage(page) {
-  const path = resolve(root, page);
-  const html = readFileSync(path, "utf8");
-  const ids = [...html.matchAll(/\sid\s*=\s*(["'])(.*?)\1/gs)].map((match) => match[2]);
-  const idSet = new Set(ids);
-
-  assert.equal((html.match(/<main\b/gi) ?? []).length, 1, `${page}: expected one main`);
-  assert.equal((html.match(/<h1\b/gi) ?? []).length, 1, `${page}: expected one h1`);
-  assert.equal(idSet.size, ids.length, `${page}: duplicate id`);
+  assert.equal(tags(html, "main").length, 1, `${page}: expected one main landmark`);
+  assert.equal(tags(html, "h1").length, 1, `${page}: expected one h1`);
+  assert.equal(tags(html, "a").length, 1, `${page}: expected only the official-site fallback link`);
+  assert.equal(tags(html, "script").length, 1, `${page}: expected one inline redirect script`);
   assert.match(html, /<meta\s+name=["']description["'][^>]+content=["'][^"']+["']/i, `${page}: missing description`);
 
-  const canonicalTags = [...html.matchAll(/<link\b[^>]*rel=["']canonical["'][^>]*>/gi)];
+  const canonicalTags = tags(html, "link")
+    .filter((tag) => attributes(tag).get("rel")?.toLowerCase() === "canonical");
   assert.equal(canonicalTags.length, 1, `${page}: expected one canonical link`);
-  assert.equal(
-    attributes(canonicalTags[0][0]).get("href"),
-    canonicalUrls.get(page),
-    `${page}: incorrect canonical URL`,
+  assert.equal(attributes(canonicalTags[0]).get("href"), officialSiteUrl, `${page}: incorrect canonical URL`);
+
+  const stylesheetTags = tags(html, "link")
+    .filter((tag) => attributes(tag).get("rel")?.toLowerCase() === "stylesheet");
+  assert.equal(stylesheetTags.length, 1, `${page}: expected only redirect.css`);
+  assert.equal(attributes(stylesheetTags[0]).get("href"), "redirect.css", `${page}: incorrect stylesheet`);
+
+  const robotsTag = tagWithAttribute(html, "meta", "name", "robots");
+  assert.ok(robotsTag, `${page}: missing robots directive`);
+  assert.equal(attributes(robotsTag).get("content"), "noindex,follow");
+
+  const referrerTag = tagWithAttribute(html, "meta", "name", "referrer");
+  assert.ok(referrerTag, `${page}: missing referrer policy`);
+  assert.equal(attributes(referrerTag).get("content"), "no-referrer");
+
+  const refreshTag = tagWithAttribute(html, "meta", "http-equiv", "refresh");
+  assert.ok(refreshTag, `${page}: missing redirect fallback`);
+  assert.equal(attributes(refreshTag).get("content"), `0; url=${officialSiteUrl}`);
+
+  assert.match(
+    html,
+    /window\.location\.replace\(["']https:\/\/jazcryptoeducation\.com\/["']\)/,
+    `${page}: redirect must replace the legacy history entry`,
   );
 
-  const headingLevels = [...html.matchAll(/<h([1-6])\b/gi)].map((match) => Number(match[1]));
-  for (let index = 1; index < headingLevels.length; index += 1) {
-    assert.ok(
-      headingLevels[index] <= headingLevels[index - 1] + 1,
-      `${page}: heading level skips from h${headingLevels[index - 1]} to h${headingLevels[index]}`,
-    );
-  }
+  const fallbackLink = tags(html, "a")[0];
+  assert.equal(attributes(fallbackLink).get("href"), officialSiteUrl, `${page}: incorrect fallback destination`);
+  assert.match(fallbackLink, /legacy-redirect__link/, `${page}: fallback link must retain accessible styling`);
 
-  for (const match of html.matchAll(/<img\b[^>]*>/gi)) {
-    const attrs = attributes(match[0]);
-    assert.ok(attrs.has("alt"), `${page}: image is missing alt text`);
-  }
-
-  const labels = new Set(
-    [...html.matchAll(/<label\b[^>]*>/gi)]
-      .map((match) => attributes(match[0]).get("for"))
-      .filter(Boolean),
+  assert.doesNotMatch(html, /jaztrades\.github\.io|contract-education-site/i, `${page}: legacy host reference remains`);
+  assert.doesNotMatch(
+    html,
+    /\b(?:index|contract|schedule|manage-booking|pay|complete|thank-you)\.html\b/i,
+    `${page}: legacy internal page reference remains`,
   );
-  for (const match of html.matchAll(/<(?:input|select|textarea)\b[^>]*>/gi)) {
-    const attrs = attributes(match[0]);
-    if ((attrs.get("type") ?? "").toLowerCase() === "hidden") continue;
-    const id = attrs.get("id");
-    assert.ok(
-      attrs.has("aria-label") || attrs.has("aria-labelledby") || (id && labels.has(id)),
-      `${page}: form control ${id ?? "without id"} is missing an accessible label`,
-    );
-  }
-
-  for (const match of html.matchAll(/<a\b[^>]*>/gi)) {
-    const attrs = attributes(match[0]);
-    if ((attrs.get("target") ?? "").toLowerCase() === "_blank") {
-      assert.match(attrs.get("rel") ?? "", /(?:^|\s)noopener(?:\s|$)/i, `${page}: new-tab link lacks noopener`);
-    }
-  }
-
-  for (const match of html.matchAll(/<(?:a|img|link|script)\b[^>]*>/gi)) {
-    const attrs = attributes(match[0]);
-    const reference = attrs.get("href") ?? attrs.get("src");
-    const target = localTarget(page, reference);
-    if (!target) continue;
-    assert.ok(existsSync(target.path), `${page}: missing local target ${reference}`);
-    if (target.fragment && target.path.endsWith(".html")) {
-      const targetHtml = readFileSync(target.path, "utf8");
-      const targetIds = new Set(
-        [...targetHtml.matchAll(/\sid\s*=\s*(["'])(.*?)\1/gs)].map((idMatch) => idMatch[2]),
-      );
-      assert.ok(targetIds.has(target.fragment), `${page}: missing fragment ${reference}`);
-    }
-  }
-
-  assert.doesNotMatch(html, /web3forms|http:\/\//i, `${page}: obsolete or insecure integration reference`);
+  assert.doesNotMatch(html, /<(?:form|img|nav|header|footer)\b/i, `${page}: retired site content remains`);
 }
 
-for (const page of pages) assertPage(page);
+for (const page of pages) assertRedirectPage(page);
 
-const sharedStyles = readFileSync(resolve(root, "styles.css"), "utf8");
-const polishStyles = readFileSync(resolve(root, "carlsbad-polish.css"), "utf8");
-const homePage = readFileSync(resolve(root, "index.html"), "utf8");
-const bookingPage = readFileSync(resolve(root, "manage-booking.html"), "utf8");
+assert.equal(existsSync(resolve(root, "CNAME")), false, "legacy GitHub Pages repo must not claim the new domain");
 
-const portraitTag = [...homePage.matchAll(/<img\b[^>]*>/gi)]
-  .find((match) => attributes(match[0]).get("id") === "john-portrait")?.[0];
-assert.ok(portraitTag, "index.html: missing John portrait");
-const portraitAttributes = attributes(portraitTag);
-assert.equal(portraitAttributes.get("src"), "assets/john-photo-original.jpg?v=1");
-assert.equal(portraitAttributes.get("width"), "1122");
-assert.equal(portraitAttributes.get("height"), "1402");
-const portraitBytes = readFileSync(resolve(root, "assets/john-photo-original.jpg"));
-assert.ok(portraitBytes.length >= 400_000, "portrait source must remain high resolution");
-assert.deepEqual([...portraitBytes.subarray(0, 2)], [0xff, 0xd8], "portrait must start with JPEG SOI");
-assert.deepEqual([...portraitBytes.subarray(-2)], [0xff, 0xd9], "portrait must end with JPEG EOI");
+const redirectStyles = readFileSync(resolve(root, "redirect.css"), "utf8");
+assert.doesNotMatch(redirectStyles, /display:\s*none/i, "fallback must not rely on hiding retired content");
+assert.match(redirectStyles, /\.legacy-redirect__link:focus-visible\s*\{/);
 
-const controlBorder = sharedStyles.match(/--control-border:\s*(#[0-9a-f]{6})\s*;/i)?.[1];
-assert.ok(controlBorder, "styles.css: missing control border color");
-assert.ok(
-  contrastRatio(controlBorder, "#ffffff") >= 3,
-  "styles.css: control border must have at least 3:1 contrast against white",
-);
-assert.ok(
-  (sharedStyles.match(/border:\s*1px solid var\(--control-border\)/g) ?? []).length >= 2,
-  "styles.css: editable and fallback form controls must use the accessible border",
-);
-
-const formMessageBase = sharedStyles.match(/\.form-message\s*\{([^}]*)\}/s)?.[1] ?? "";
-assert.doesNotMatch(
-  formMessageBase,
-  /display:\s*none/i,
-  "styles.css: the empty status live region must remain in the accessibility tree",
-);
-assert.match(sharedStyles, /\.form-message:empty\s*\{[^}]*position:\s*absolute/s);
-assert.match(sharedStyles, /\.form-message\.success,\s*\.form-message\.error\s*\{[^}]*position:\s*static/s);
-
-assert.match(
-  polishStyles,
-  /@media\s*\(max-width:\s*640px\)[\s\S]*?\.nav-links a\s*\{[^}]*white-space:\s*normal;[^}]*overflow-wrap:\s*anywhere;/,
-  "carlsbad-polish.css: mobile navigation labels must wrap safely",
-);
-assert.match(
-  polishStyles,
-  /@media\s*\(max-width:\s*640px\)[\s\S]*?\.page-hero h1\s*\{[^}]*font-size:\s*clamp\(2rem,\s*11vw,\s*2\.5rem\);/,
-  "carlsbad-polish.css: long page headings must fit a 320px viewport",
-);
-assert.match(
-  polishStyles,
-  /@media\s*\(max-width:\s*360px\)[\s\S]*?\.nav-links\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\);/,
-  "carlsbad-polish.css: the narrowest navigation must use readable two-column labels",
-);
-assert.match(
-  polishStyles,
-  /@media\s*\(max-width:\s*360px\)[\s\S]*?\.nav-links \.nav-cta\s*\{[^}]*grid-column:\s*auto;/,
-  "carlsbad-polish.css: the two-column navigation must keep its final row balanced",
-);
-assert.match(polishStyles, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
-assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?scroll-behavior:\s*auto;/);
-assert.match(polishStyles, /prefers-reduced-motion:[\s\S]*?\.btn:hover,[\s\S]*?transform:\s*none;/);
-
-const requestTypeTag = [...bookingPage.matchAll(/<select\b[^>]*>/gi)]
-  .find((match) => attributes(match[0]).get("id") === "request-type")?.[0];
-assert.ok(requestTypeTag, "manage-booking.html: missing request type select");
-assert.equal(attributes(requestTypeTag).get("aria-expanded"), "false");
-assert.match(
-  bookingPage,
-  /requestType\.setAttribute\(['"]aria-expanded['"],\s*String\(isReschedule\)\)/,
-  "manage-booking.html: request type must expose the controlled field state",
-);
-
-const bookingForm = bookingPage.match(
-  /<form\b[^>]*id=["']booking-change-form["'][^>]*>([\s\S]*?)<\/form>/i,
-)?.[0];
-assert.ok(bookingForm, "manage-booking.html: missing booking change form");
-for (const match of bookingForm.matchAll(/<(?:input|select|textarea)\b[^>]*>/gi)) {
-  assert.equal(
-    attributes(match[0]).has("name"),
-    false,
-    "manage-booking.html: privacy-preserving controls must not serialize into a fallback request",
-  );
-}
-const bookingSubmitButton = [...bookingForm.matchAll(/<button\b[^>]*>/gi)]
-  .find((match) => attributes(match[0]).get("id") === "submit-button")?.[0];
-assert.ok(bookingSubmitButton, "manage-booking.html: missing email-preparation button");
-assert.equal(attributes(bookingSubmitButton).get("type"), "button");
-assert.match(bookingSubmitButton, /\sdisabled(?:\s|>)/i);
-assert.match(bookingPage, /requestForm\.addEventListener\(['"]submit['"][\s\S]*?event\.preventDefault\(\)/);
-assert.match(bookingPage, /submitButton\.addEventListener\(['"]click['"]/);
-assert.match(bookingPage, /if \(!requestForm\.reportValidity\(\)\) return;/);
-assert.match(bookingPage, /submitButton\.disabled = false;/);
-
-const publicCopy = pages.map((page) => readFileSync(resolve(root, page), "utf8")).join("\n");
-assert.match(publicCopy, /Private Cryptocurrency Education Session/);
-assert.match(publicCopy, /Complete Cryptocurrency Education Package/);
-assert.match(publicCopy, /Custom Cryptocurrency Education Service/);
-assert.match(publicCopy, /\$249/);
-assert.match(publicCopy, /\$799/);
-assert.match(publicCopy, /\$399\.50/);
-assert.doesNotMatch(publicCopy, /\$499|custom amount|subscription payment/i);
-assert.doesNotMatch(
-  publicCopy,
-  /(?:admin-payments|admin|calendar|dashboard|jaz-llc-test-site)\.html|portrait-loader\.js/i,
-);
-
-console.log(`Validated ${pages.length} public pages.`);
+console.log(`Validated ${pages.length} redirect-only pages.`);
